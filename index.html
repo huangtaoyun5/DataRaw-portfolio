@@ -32,7 +32,7 @@
 
   /* Rhythm */
   --page-pad-x: max(5vw, 2rem);
-  --page-pad-y: clamp(5rem, 10vh, 10rem);
+  --page-pad-y: clamp(6.5rem, 12vh, 13rem);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,7 +44,7 @@ body {
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -72,7 +72,7 @@ main { position: relative; z-index: 1; }
 
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.67rem;
   letter-spacing: 0.14em;
   color: var(--ink-muted);
   text-transform: uppercase;
@@ -80,7 +80,7 @@ main { position: relative; z-index: 1; }
 
 .mono-sm {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 0.2em;
   color: var(--ink-faint);
   text-transform: uppercase;
@@ -95,7 +95,7 @@ main { position: relative; z-index: 1; }
 
 em {
   font-style: normal;
-  color: var(--accent);
+  color: #444444;
   font-weight: 400;
 }
 
@@ -212,7 +212,7 @@ section {
   font-size: clamp(1.5rem, 2.6vw, 2.25rem);
   line-height: 1.45;
   letter-spacing: -0.01em;
-  max-width: 22ch;
+  max-width: 52ch;
 }
 
 .about-statement + p {
@@ -235,14 +235,24 @@ section {
 .stack-col h4 {
   font-family: var(--font-mono);
   font-weight: 400;
-  font-size: 0.7rem;
+  font-size: 0.63rem;
   letter-spacing: 0.2em;
   color: var(--ink-muted);
   text-transform: uppercase;
   margin-bottom: 1rem;
 }
 
-.stack-col ul { list-style: none; font-size: 0.85rem; line-height: 2; color: var(--ink-soft); }
+.stack-col .tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.7rem;
+}
+.stack-col .tag-row span {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  font-weight: 300;
+  line-height: 1.9;
+}
 
 .bg-timeline {
   margin-top: 6rem;
@@ -262,7 +272,7 @@ section {
 }
 .bg-item h5 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 300;
   font-size: 1.1rem;
   line-height: 1.3;
 }
@@ -335,7 +345,7 @@ section {
 
 .project-meta {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: var(--ink-muted);
   letter-spacing: 0.08em;
   line-height: 2;
@@ -344,7 +354,7 @@ section {
 
 .description {
   font-size: 1rem;
-  line-height: 1.85;
+  line-height: 1.8;
   color: var(--ink-soft);
   max-width: 52ch;
 }
@@ -354,7 +364,7 @@ section {
   font-weight: 300;
   font-size: 1.3rem;
   line-height: 1.5;
-  color: var(--ink);
+  color: #333333;
   letter-spacing: -0.01em;
 }
 
@@ -372,10 +382,10 @@ section {
   text-transform: uppercase;
 }
 .role-body {
-  font-size: 0.92rem;
-  line-height: 1.7;
-  color: var(--ink);
-  font-weight: 400;
+  font-size: 0.8rem;
+  line-height: 1.75;
+  color: #666666;
+  font-weight: 300;
   max-width: 48ch;
 }
 
@@ -393,7 +403,7 @@ section {
 
 .image-box {
   background: var(--bg-paper);
-  border: 1px solid var(--line);
+  border: none;
   aspect-ratio: 16 / 10;
   display: flex;
   align-items: center;
@@ -446,7 +456,7 @@ section {
   font-size: 1.75rem;
   line-height: 1.4;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: #333333;
 }
 
 /* D — three-column */
@@ -470,7 +480,7 @@ section {
 }
 .p-e .version h3 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 300;
   font-size: 1.3rem;
   margin-bottom: 1rem;
 }
@@ -584,6 +594,23 @@ footer {
   .cover-top, .cover-bottom { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
 }
 
+@media (max-width: 480px) {
+  :root { --page-pad-x: 1.25rem; }
+  section { padding: 4.5rem var(--page-pad-x); }
+  .cover-name { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+  .cover-tagline { font-size: 0.9rem; line-height: 1.7; }
+  .about-statement { font-size: 1.15rem; }
+  .cover-bottom { align-items: center; text-align: center; }
+  .contact-links { flex-direction: column; align-items: center; gap: 1.5rem; }
+  .contact h2 { font-size: clamp(1.5rem, 7vw, 2.2rem); text-align: center; }
+  .p-f .detail-row { grid-template-columns: 1fr 1fr; }
+  .p-b .gallery { grid-template-columns: 1fr; }
+  .p-b .gallery .image-box:nth-child(3) { grid-column: auto; }
+  .tag-row { gap: 0.2rem 0.55rem; }
+  .stack-line { font-size: 0.65rem; }
+  .contact-meta { font-size: 0.55rem; }
+}
+
 /* ═══════════════════ PRINT ═══════════════════ */
 @media print {
   #ambient-canvas { display: none; }
@@ -622,9 +649,7 @@ footer {
         <span class="cn">黄 韜 云</span>
       </h1>
       <p class="cover-tagline">
-        Creative technologist. Real-time systems for spatial audio,
-        machine learning, and live performance — on stage, in installation,
-        at scale.
+        Creative Technologist &amp; Interactive Developer
       </p>
     </div>
   </div>
@@ -649,19 +674,11 @@ footer {
 
       <div>
         <p class="about-statement">
-          Between engineering and live experience, I build
-          systems that have to work once —<br>
-          in front of an audience,<br>
-          <em>without a retry.</em>
-        </p>
-
-        <p>
-          My practice covers spatial audio, real-time machine
-          learning, and mixed reality. From hardware control and
-          sensor fusion, through neural audio synthesis and
-          multichannel rendering, to cross-engine AV pipelines —
-          I work across the full stack of systems that turn
-          technological possibility into physical presence.
+          My practice sits at the intersection of engineering and live
+          experience. Spatial audio, real-time machine learning, mixed reality —
+          from hardware control and sensor fusion, through neural audio synthesis
+          and multichannel rendering, to cross-engine AV pipelines. Systems that
+          turn technological possibility into physical presence.
         </p>
       </div>
     </div>
@@ -669,33 +686,29 @@ footer {
     <div class="stack-grid">
       <div class="stack-col">
         <h4>Audio &amp; ML</h4>
-        <ul>
-          <li>Spatial Audio · Ambisonics</li>
-          <li>Real-time Neural Synthesis</li>
-          <li>RAVE · Custom models</li>
-          <li>Max/MSP · Pure Data</li>
-          <li>Dante · multichannel routing</li>
-        </ul>
+        <div class="tag-row">
+          <span>Spatial Audio</span><span>Ambisonics</span>
+          <span>Neural Synthesis</span><span>RAVE</span>
+          <span>Max/MSP</span><span>Pure Data</span>
+          <span>Dante</span><span>Multichannel</span>
+        </div>
       </div>
       <div class="stack-col">
         <h4>XR &amp; Systems</h4>
-        <ul>
-          <li>Unity · ARKit · Swift</li>
-          <li>TouchDesigner</li>
-          <li>UWB sensor fusion</li>
-          <li>YOLO · Computer Vision</li>
-          <li>Adversarial ML</li>
-        </ul>
+        <div class="tag-row">
+          <span>Unity</span><span>ARKit</span><span>Swift</span>
+          <span>TouchDesigner</span><span>UWB</span>
+          <span>YOLO</span><span>Computer Vision</span>
+          <span>Adversarial ML</span>
+        </div>
       </div>
       <div class="stack-col">
         <h4>Hardware &amp; Code</h4>
-        <ul>
-          <li>Python · PyTorch · C++</li>
-          <li>Motor &amp; actuator control</li>
-          <li>Embedded systems</li>
-          <li>UDP / OSC protocols</li>
-          <li>Hardware prototyping</li>
-        </ul>
+        <div class="tag-row">
+          <span>Python</span><span>PyTorch</span><span>C++</span>
+          <span>Motor Control</span><span>Embedded</span>
+          <span>UDP / OSC</span><span>Prototyping</span>
+        </div>
       </div>
     </div>
 
@@ -1260,7 +1273,7 @@ footer {
     <div class="detail-row">
       <div>
         <h5>Status</h5>
-        <p>Residency proposal · ZKM Karlsruhe 2026/27 · Rauschenberg Residencies</p>
+        <p>Submitted · ZKM Karlsruhe 2026/27 · V2_Unstable Rotterdam</p>
       </div>
       <div>
         <h5>Stack</h5>
@@ -1284,8 +1297,7 @@ footer {
   <div class="content">
     <div class="mono" style="margin-bottom: 3rem; color: var(--ink-faint);">Get in touch</div>
     <h2>
-      Open to full relocation worldwide.<br>
-      <em>Available immediately.</em>
+      Open to full relocation worldwide.
     </h2>
 
     <a href="mailto:bernie5@dataraw.tech" class="email">bernie5@dataraw.tech</a>
