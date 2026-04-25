@@ -142,7 +142,7 @@ section {
 /* ═══════════════════ COVER ═══════════════════ */
 .cover {
   min-height: 100vh;
-  padding: 3rem var(--page-pad-x);
+  padding: 5.5rem var(--page-pad-x) 3rem;
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 2rem;
@@ -627,16 +627,93 @@ footer {
               transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ═══════════════════ SITE NAV ═══════════════════ */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+  padding: 0.75rem var(--page-pad-x);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.59rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: none !important;
+  padding: 0.2rem 0.85rem;
+  transition: color 0.3s ease;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--ink-soft);
+  border-bottom: none !important;
+}
+.nav-sep {
+  font-size: 0.5rem;
+  color: var(--line);
+  user-select: none;
+}
+
+/* ═══════════════════ ROS APP GALLERY ═══════════════════ */
+.ros-gallery {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+}
+.ros-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.ros-grid .image-box { aspect-ratio: 16/9; }
+
+@media (max-width: 900px) {
+  .ros-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .ros-grid { grid-template-columns: 1fr; }
+  .site-nav { padding: 0.55rem var(--page-pad-x); }
+  .nav-link { padding: 0 0.4rem; font-size: 0.5rem; letter-spacing: 0.1em; }
+  .nav-sep { display: none; }
+}
 </style>
 </head>
 <body>
 
 <canvas id="ambient-canvas"></canvas>
 
+<nav class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a href="#cover" class="nav-link">Cover</a>
+    <span class="nav-sep">·</span>
+    <a href="#about" class="nav-link">About</a>
+    <span class="nav-sep">·</span>
+    <a href="#commercial" class="nav-link">Commercial</a>
+    <span class="nav-sep">·</span>
+    <a href="#research" class="nav-link">Research</a>
+    <span class="nav-sep">·</span>
+    <a href="#current" class="nav-link">Current</a>
+    <span class="nav-sep">·</span>
+    <a href="#contact" class="nav-link">Contact</a>
+  </div>
+</nav>
+
 <main>
 
 <!-- ═══════════════════ COVER ═══════════════════ -->
-<section class="cover">
+<section class="cover" id="cover">
   <div class="cover-top">
     <div class="mono">Selected Works · 2021 — 2026</div>
     <div class="mono">Portfolio Issue 01</div>
@@ -662,7 +739,7 @@ footer {
 
 
 <!-- ═══════════════════ ABOUT ═══════════════════ -->
-<section>
+<section id="about">
   <span class="corner tl">02 — About</span>
   <span class="corner tr">Index · I</span>
 
@@ -737,7 +814,7 @@ footer {
 
 
 <!-- ═══════════════════ MARKER — COMMERCIAL ═══════════════════ -->
-<section class="marker">
+<section class="marker" id="commercial">
   <div class="marker-num">Part · One</div>
   <h2 class="marker-title">Commercial Work</h2>
   <div class="marker-cjk">商 業 製 作</div>
@@ -1043,7 +1120,7 @@ footer {
 
 
 <!-- ═══════════════════ MARKER — RESEARCH ═══════════════════ -->
-<section class="marker">
+<section class="marker" id="research">
   <div class="marker-num">Part · Two</div>
   <h2 class="marker-title">Research &amp; Practice</h2>
   <div class="marker-cjk">研 究 與 創 作</div>
@@ -1232,13 +1309,91 @@ footer {
         </div>
       </div>
     </div>
+
+    <div class="ros-gallery">
+      <div class="mono" style="color: var(--ink-faint);">App Capture — In Performance</div>
+      <div class="ros-grid">
+        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/09 River of Shadows13.jpg" alt="Navigation cube, corridor"></div>
+        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/09 River of Shadows116.jpg" alt="Shadow-dappled navigation cube, daytime"></div>
+        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/09 River of Shadows115.jpg" alt="Botanical garden AR overlay"></div>
+      </div>
+    </div>
   </div>
 </section>
 
 
-<!-- ═══════════════════ 10 · LATENT BREACH (special) ═══════════════════ -->
-<section class="latent p-f">
-  <span class="corner tl">10 — Current · In Development</span>
+<!-- ═══════════════════ 10 · 13-VOICE CV SYNTHESIZER (Layout A) ═══════════════════ -->
+<section class="p-a">
+  <span class="corner tl">10 — Research · 04</span>
+  <span class="corner tr">Solo build · Analog hardware</span>
+
+  <div class="content">
+    <div class="project-num">Research · 04</div>
+    <h2 class="project-title">13-Voice CV Synthesizer</h2>
+    <div class="project-title-cn">十三聲部電壓控制合成器 · Analog Circuit Design</div>
+
+    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);">
+      <div class="project-meta">
+        <div><span class="key">TYPE</span> &nbsp; Solo hardware instrument</div>
+        <div><span class="key">ARCHITECTURE</span> &nbsp; 1 master board · 12 sub-boards</div>
+        <div><span class="key">CONTROL</span> &nbsp; Full CV — voltage-controlled</div>
+      </div>
+      <div class="project-meta">
+        <div><span class="key">VOICES</span> &nbsp; 13</div>
+        <div><span class="key">PCB</span> &nbsp; Self-designed · hand-fabricated</div>
+      </div>
+    </div>
+
+    <div class="image-box" style="padding: 0; overflow: hidden; aspect-ratio: 4/1;">
+      <img src="images/11image5.png" alt="13-voice CV synthesizer, assembled" style="object-fit: contain; background: var(--bg-paper);">
+    </div>
+    <div class="image-caption">Fig. 01 — Assembled · master board and 12 sub-boards</div>
+
+    <div class="split" style="margin-top: 5rem;">
+      <div class="description">
+        <p class="lead">
+          A fully self-designed, self-fabricated analog synthesizer.
+          One master voice and twelve sub-voices, each independently
+          CV-controlled through a shared voltage bus.
+        </p>
+        <p>
+          PCB layouts designed from scratch and hand-etched. The
+          architecture separates a master board from twelve identical
+          sub-boards, enabling full polyphonic or multitimbral control
+          from a single CV source. Built as a proof of analog circuit
+          design capability at system scale.
+        </p>
+      </div>
+
+      <div>
+        <div class="image-box" style="padding: 0; overflow: hidden; aspect-ratio: 2/3;">
+          <img src="images/11image19.png" alt="Hand-etched copper PCB — master and sub-board" style="object-fit: contain; background: var(--bg-paper);">
+        </div>
+        <div class="image-caption">Fig. 02 — Hand-etched PCB · master board (top) · sub-board (bottom)</div>
+
+        <div class="role">
+          <div class="role-label">My role — solo</div>
+          <p class="role-body">
+            Circuit schematic design · PCB layout &amp; hand etching ·
+            analog assembly · 13-voice system architecture.
+          </p>
+        </div>
+
+        <div class="stack-line">
+          Analog electronics <span class="divider">·</span>
+          PCB design <span class="divider">·</span>
+          CV control <span class="divider">·</span>
+          Hand fabrication
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ 11 · LATENT BREACH (special) ═══════════════════ -->
+<section class="latent p-f" id="current">
+  <span class="corner tl">11 — Current · In Development</span>
   <span class="corner tr">Submitted · ZKM Karlsruhe 2026/27</span>
 
   <div class="content">
@@ -1293,7 +1448,7 @@ footer {
 
 
 <!-- ═══════════════════ CONTACT ═══════════════════ -->
-<section class="contact">
+<section class="contact" id="contact">
   <div class="content">
     <div class="mono" style="margin-bottom: 3rem; color: var(--ink-faint);">Get in touch</div>
     <h2>
@@ -1506,6 +1661,20 @@ document.querySelectorAll('section').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });
+
+// Nav active section highlight
+const navLinks = document.querySelectorAll('.nav-link');
+const navSections = document.querySelectorAll('section[id]');
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.35 });
+navSections.forEach(s => navObserver.observe(s));
 </script>
 
 </body>
