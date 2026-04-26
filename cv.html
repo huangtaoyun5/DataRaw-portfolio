@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Tao Yun Huang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=Inter+Tight:wght@300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFFFFF;
+  --bg-paper: #F7F5F0;
+  --ink: #1A1A1A;
+  --ink-soft: #2E2E2E;
+  --ink-muted: #757575;
+  --ink-faint: #BDBDBD;
+  --line: #E5E5E5;
+  --line-soft: #EEEEEE;
+  --accent: #B85C38;
+  --font-display: 'Noto Serif JP', serif;
+  --font-body: 'Inter Tight', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --page-pad-x: max(5vw, 2rem);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+a:hover { color: var(--accent); border-bottom-color: rgba(184,92,56,0.3); }
+
+/* ── NAV ── */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line-soft);
+  padding: 0.75rem var(--page-pad-x);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 0;
+}
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.59rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: none !important;
+  padding: 0.2rem 0.85rem;
+  transition: color 0.3s ease;
+}
+.nav-link:hover { color: var(--ink-soft); border-bottom: none !important; }
+.nav-sep { font-size: 0.5rem; color: var(--line); user-select: none; }
+.nav-cv { color: var(--accent) !important; margin-left: auto; padding-right: 0; }
+
+/* ── PAGE ── */
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 9rem var(--page-pad-x) 6rem;
+}
+
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-muted);
+  margin-top: 1rem;
+}
+
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 4rem 0;
+}
+
+/* ── CV CARDS ── */
+.cv-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-top: 4rem;
+}
+
+.cv-card {
+  padding: 2.5rem;
+  background: var(--bg-paper);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cv-card-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.cv-card-title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.cv-card-desc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  flex: 1;
+}
+
+.cv-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.btn-dl {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--ink);
+  border: none;
+  border-bottom: none !important;
+  padding: 0.85rem 1.5rem;
+  text-align: center;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+.btn-dl:hover { background: var(--accent); color: var(--bg); border-bottom: none !important; }
+
+.btn-view {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-align: center;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid var(--line);
+  border-bottom: 1px solid var(--line) !important;
+  transition: all 0.3s ease;
+}
+.btn-view:hover { border-color: var(--accent); color: var(--accent); }
+
+.cv-note {
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--line);
+}
+
+footer {
+  padding: 3rem var(--page-pad-x);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.2em;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 640px) {
+  .cv-cards { grid-template-columns: 1fr; gap: 2rem; }
+  .nav-link { font-size: 0.5rem; padding: 0 0.45rem; }
+  .nav-sep { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-link">← Portfolio</a>
+    <span class="nav-sep">·</span>
+    <a href="index.html#about" class="nav-link">About</a>
+    <span class="nav-sep">·</span>
+    <a href="index.html#commercial" class="nav-link">Commercial</a>
+    <span class="nav-sep">·</span>
+    <a href="index.html#research" class="nav-link">Research</a>
+    <span class="nav-sep">·</span>
+    <a href="index.html#contact" class="nav-link">Contact</a>
+    <a href="cv.html" class="nav-link nav-cv" style="margin-left:auto;color:var(--accent)!important;">CV</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="page-eyebrow">Curriculum Vitae</div>
+  <h1 class="page-title">Tao Yun Huang</h1>
+  <div class="page-subtitle">黃韜云 &nbsp;·&nbsp; Creative Technologist &amp; Interactive Developer &nbsp;·&nbsp; Taipei</div>
+
+  <div class="divider"></div>
+
+  <div class="cv-cards">
+
+    <div class="cv-card">
+      <div class="cv-card-label">Version A</div>
+      <div class="cv-card-title">General CV</div>
+      <p class="cv-card-desc">
+        Full profile including research, artistic practice, academic background,
+        and technical skills. Suitable for arts organisations, residencies,
+        festivals, and academic institutions.
+      </p>
+      <div class="cv-card-actions">
+        <a href="Tao_Yun_Huang_CV.pdf" download class="btn-dl">Download PDF</a>
+      </div>
+    </div>
+
+    <div class="cv-card">
+      <div class="cv-card-label">Version B</div>
+      <div class="cv-card-title">Experiential &amp;<br>Brand Focus</div>
+      <p class="cv-card-desc">
+        Reframed for commercial, immersive, and brand experience roles.
+        Highlights government activations, retail environments, and
+        large-scale interactive exhibitions.
+      </p>
+      <div class="cv-card-actions">
+        <a href="Tao_Yun_Huang_CV_Experiential.pdf" download class="btn-dl">Download PDF</a>
+        <a href="cv-experiential.html" target="_blank" class="btn-view">View in browser</a>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="cv-note">
+    Last updated April 2026 &nbsp;·&nbsp; bernie5@dataraw.tech &nbsp;·&nbsp;
+    <a href="https://www.linkedin.com/in/tao-yun-huang-9953b5322" target="_blank">LinkedIn</a>
+  </p>
+
+</div>
+
+<footer>
+  © 2026 · Tao Yun Huang <span style="font-family:'Noto Serif JP',serif;margin-left:0.5rem;">黃韜云</span>
+</footer>
+
+</body>
+</html>

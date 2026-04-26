@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Tao Yun Huang · Experiential & Brand Focus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A1A;
+  --ink-soft: #333333;
+  --ink-muted: #666666;
+  --ink-faint: #999999;
+  --line: #DDDDDD;
+  --line-soft: #EEEEEE;
+  --accent: #B85C38;
+  --font-display: 'Noto Serif JP', serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 10pt;
+  line-height: 1.6;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 3rem 5rem;
+}
+
+/* ── HEADER ── */
+.cv-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  padding-bottom: 1.4rem;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 2rem;
+}
+
+.cv-name {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 24pt;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.cv-name-cn {
+  font-family: var(--font-display);
+  font-size: 9pt;
+  color: var(--ink-muted);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  margin-top: 0.35rem;
+}
+
+.cv-title {
+  font-size: 9.5pt;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-top: 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.cv-contact {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 7.5pt;
+  color: var(--ink-muted);
+  line-height: 1.9;
+}
+.cv-contact a { color: var(--ink-muted); text-decoration: none; }
+
+/* ── SECTIONS ── */
+.cv-section {
+  margin-bottom: 1.8rem;
+  page-break-inside: avoid;
+}
+
+.cv-section-title {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+/* ── PROFILE ── */
+.cv-profile {
+  font-size: 9.5pt;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+/* ── EXPERIENCE HEADER ── */
+.exp-intro {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  margin-bottom: 1.2rem;
+}
+.exp-role { font-size: 10pt; font-weight: 400; }
+.exp-studio { font-size: 9pt; color: var(--ink-muted); margin-top: 0.15rem; }
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: 7.5pt;
+  color: var(--ink-faint);
+}
+
+/* ── PROJECT ROWS ── */
+.proj {
+  display: grid;
+  grid-template-columns: 0.5rem 12rem 1fr;
+  gap: 0 1.2rem;
+  margin-bottom: 1.1rem;
+  page-break-inside: avoid;
+}
+
+.proj-bar {
+  background: var(--accent);
+  width: 1px;
+  margin: 0 auto;
+  align-self: stretch;
+  margin-top: 0.2rem;
+}
+
+.proj-left {}
+
+.proj-name {
+  font-size: 9.5pt;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.proj-type {
+  font-family: var(--font-mono);
+  font-size: 6.5pt;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+.proj-client {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  color: var(--ink-faint);
+  margin-top: 0.15rem;
+  line-height: 1.5;
+}
+
+.proj-right {
+  font-size: 9pt;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.proj-role {
+  font-style: italic;
+  color: var(--ink-muted);
+  margin-top: 0.3rem;
+  font-size: 8.5pt;
+}
+
+.proj-stack {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  color: var(--ink-faint);
+  margin-top: 0.3rem;
+  letter-spacing: 0.06em;
+}
+
+/* ── RESEARCH ── */
+.res-row {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: 0 1.2rem;
+  margin-bottom: 0.6rem;
+  font-size: 9pt;
+  page-break-inside: avoid;
+}
+
+.res-name { font-weight: 400; color: var(--ink); }
+.res-year {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  color: var(--ink-faint);
+  margin-left: 0.4rem;
+}
+.res-desc { color: var(--ink-muted); line-height: 1.5; }
+
+/* ── EDUCATION ── */
+.edu-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+  page-break-inside: avoid;
+}
+.edu-degree { font-size: 9.5pt; font-weight: 400; color: var(--ink); }
+.edu-school { font-size: 8.5pt; color: var(--ink-muted); margin-top: 0.1rem; }
+.edu-year {
+  font-family: var(--font-mono);
+  font-size: 7.5pt;
+  color: var(--ink-faint);
+  text-align: right;
+  white-space: nowrap;
+  padding-top: 0.15rem;
+}
+
+/* ── SKILLS ── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 0.4rem 1rem;
+  font-size: 8.5pt;
+}
+.skill-cat {
+  font-family: var(--font-mono);
+  font-size: 7pt;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  padding-top: 0.1rem;
+}
+.skill-list { color: var(--ink-soft); line-height: 1.5; }
+
+/* ── AVAIL ── */
+.avail-line {
+  font-family: var(--font-mono);
+  font-size: 7.5pt;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-bottom: 0.3rem;
+}
+
+/* ── PRINT ── */
+@media print {
+  @page { size: A4; margin: 15mm 18mm 15mm 18mm; }
+  body { font-size: 9.5pt; }
+  .page { padding: 0; max-width: 100%; }
+  .no-print { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+  .cv-section { page-break-inside: avoid; }
+}
+
+/* ── SCREEN CONTROLS ── */
+.print-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 99;
+}
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-print { background: var(--ink); color: #fff; }
+.btn-print:hover { background: var(--accent); }
+.btn-back { background: #eee; color: var(--ink-soft); }
+.btn-back:hover { background: #ddd; }
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <a href="cv.html" class="btn btn-back">← Back</a>
+  <button class="btn btn-print" onclick="window.print()">Save as PDF</button>
+</div>
+
+<div class="page">
+
+<!-- ══ HEADER ══ -->
+<div class="cv-header">
+  <div>
+    <div class="cv-name">Tao Yun Huang</div>
+    <div class="cv-name-cn">黃 韜 云</div>
+    <div class="cv-title">Creative Technologist &amp; Interactive Developer</div>
+  </div>
+  <div class="cv-contact">
+    bernie5@dataraw.tech<br>
+    +886 983 717 444 · Taipei, Taiwan<br>
+    <a href="https://dataraw.tech">dataraw.tech</a> &nbsp;·&nbsp;
+    <a href="https://linkedin.com/in/tao-yun-huang-9953b5322">LinkedIn</a>
+  </div>
+</div>
+
+<!-- ══ PROFILE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Profile</div>
+  <p class="cv-profile">
+    Practice at the intersection of engineering and live experience. Spatial audio, real-time
+    machine learning, mixed reality — from hardware control and sensor fusion, through neural
+    audio synthesis and multichannel rendering, to cross-engine AV pipelines. Commercial
+    experience spans government-commissioned activations, retail immersive installations, and
+    large-scale interactive exhibitions reaching 1,000+ visitors.
+  </p>
+</div>
+
+<!-- ══ COMMERCIAL EXPERIENCE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Commercial Experience</div>
+
+  <div class="exp-intro">
+    <div>
+      <div class="exp-role">Interactive Developer — IF Plus Art</div>
+      <div class="exp-studio">Immersive digital experience production studio, Taipei</div>
+    </div>
+    <div class="exp-period">2024 — 2025</div>
+  </div>
+
+  <!-- AI Living Lab -->
+  <div class="proj">
+    <div class="proj-bar"></div>
+    <div class="proj-left">
+      <div class="proj-name">AI Living Lab</div>
+      <div class="proj-type">Government digital affairs activation</div>
+      <div class="proj-client">Ministry of Digital Affairs (MODA)<br>Taipei Computer Festival 2025<br>1,000+ participants · 4 days</div>
+    </div>
+    <div class="proj-right">
+      Pedal, choose a route, answer a prompt — the system generates a one-of-a-kind cassette
+      postcard audio souvenir from each rider's physical and semantic input.
+      <div class="proj-role">AI music model development &amp; training · pedaling sensor data acquisition
+      · real-time program integration · custom bike hardware design.</div>
+      <div class="proj-stack">Python · Generative Audio ML · Real-time synthesis · Hardware sensors · Cassette print system</div>
+    </div>
+  </div>
+
+  <!-- Diesel-Electric Workshop -->
+  <div class="proj">
+    <div class="proj-bar"></div>
+    <div class="proj-left">
+      <div class="proj-name">Diesel-Electric Workshop</div>
+      <div class="proj-type">Permanent brand experience installation</div>
+      <div class="proj-client">National Railway Museum, Taipei<br>Permanent exhibition · 2025</div>
+    </div>
+    <div class="proj-right">
+      A permanent exhibition staging the invisible — how energy flows through a 100-year-old
+      locomotive repair hall. Transparent screen X-ray overlay on live machinery;
+      60 kg armature choreographed with overhead crane.
+      <div class="proj-role">Hardware engineering — armature &amp; overhead crane motion control
+      · transparent display control · multi-system timing synchronization.</div>
+      <div class="proj-stack">Motor control · Transparent LED · Crane kinematics · Animation sync · Hardware timing</div>
+    </div>
+  </div>
+
+  <!-- Moss Floating Layer -->
+  <div class="proj">
+    <div class="proj-bar"></div>
+    <div class="proj-left">
+      <div class="proj-name">Moss Floating Layer</div>
+      <div class="proj-type">Retail immersive environment</div>
+      <div class="proj-client">SCOPE TECH<br>Shin Kong Mitsukoshi A9, Taipei · 2025</div>
+    </div>
+    <div class="proj-right">
+      Immersive moss ecosystem terrarium in one of Taipei's busiest commercial districts.
+      A quiet counterpoint to retail velocity — visitors stop, look up, and listen.
+      <div class="proj-role">Sound design — multichannel spatial music composition and system
+      design for the installation's audio environment.</div>
+      <div class="proj-stack">Multichannel audio · Spatial composition · Retail AV integration</div>
+    </div>
+  </div>
+
+  <!-- TTXC -->
+  <div class="proj">
+    <div class="proj-bar"></div>
+    <div class="proj-left">
+      <div class="proj-name">Culture-Tech Exchange</div>
+      <div class="proj-type">Live audience engagement platform</div>
+      <div class="proj-client">TAICCA<br>Pier-2 Art Center, Kaohsiung<br>NT$4.7B virtual investment · 4 days</div>
+    </div>
+    <div class="proj-right">
+      An exhibition turned into a live investment game — every visitor gets NT$10M virtual
+      seed capital via LINE OA. Live ticker and top-10 leaderboard refreshing every 3 minutes.
+      <div class="proj-role">Unity-based real-time software development · cross-platform interaction
+      integration (mobile ↔ venue display) · live-data visualization sync.</div>
+      <div class="proj-stack">Unity · LINE OA · Real-time networking · Live data viz</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESEARCH & PRACTICE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Research &amp; Practice — Selected</div>
+
+  <div class="res-row">
+    <div><span class="res-name">Threshold</span><span class="res-year">2022 — 2024</span></div>
+    <div class="res-desc">Three-version series; real-time RAVE model deployed at 49.4-channel Ambisonics scale — first deployment of real-time neural audio at this scale in Taiwan's institutional context.</div>
+  </div>
+  <div class="res-row">
+    <div><span class="res-name">Circle of Confusion</span><span class="res-year">2024</span></div>
+    <div class="res-desc">VR installation — custom 3D-printed haptic interface, deliberately incomplete Ambisonics array, CO₂ / O₂ gas system. Digital Art Center, Taipei.</div>
+  </div>
+  <div class="res-row">
+    <div><span class="res-name">River of Shadows</span><span class="res-year">2024</span></div>
+    <div class="res-desc">Site &amp; time-specific iOS AR performance. Area Target spatial recognition; moving white cube as navigation score directing audience through the space.</div>
+  </div>
+  <div class="res-row">
+    <div><span class="res-name">13-Voice CV Synthesizer</span><span class="res-year">—</span></div>
+    <div class="res-desc">Self-designed, self-fabricated analog synthesizer. 1 master + 12 sub-boards, fully CV-controlled. PCB layouts designed from scratch and hand-etched.</div>
+  </div>
+  <div class="res-row">
+    <div><span class="res-name">LATENT BREACH</span><span class="res-year">In development</span></div>
+    <div class="res-desc">20-min live performance using PGD adversarial perturbation, UWB centimeter-level positioning, and iOS / Android AR. Submitted — ZKM Karlsruhe 2026/27 · V2_Unstable Rotterdam.</div>
+  </div>
+</div>
+
+<!-- ══ EDUCATION ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Education</div>
+
+  <div class="edu-row">
+    <div>
+      <div class="edu-degree">MFA Multimedia Music (New Music Theatre)</div>
+      <div class="edu-school">NYCU — National Yang Ming Chiao Tung University · Institute of Music · 國立陽明交通大學</div>
+    </div>
+    <div class="edu-year">2020 — 2024</div>
+  </div>
+  <div class="edu-row">
+    <div>
+      <div class="edu-degree">B.A. Drama &amp; Theatre Arts</div>
+      <div class="edu-school">National Taiwan University of Arts · 國立臺灣藝術大學</div>
+    </div>
+    <div class="edu-year">2014 — 2019</div>
+  </div>
+  <div class="edu-row">
+    <div>
+      <div class="edu-degree">B.Eng. Electrical Engineering</div>
+      <div class="edu-school">Feng Chia University · 逢甲大學 · Signal processing, embedded systems, control theory</div>
+    </div>
+    <div class="edu-year">2010 — 2013</div>
+  </div>
+</div>
+
+<!-- ══ SKILLS ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Technical Skills</div>
+  <div class="skills-grid">
+    <div class="skill-cat">Audio &amp; ML</div>
+    <div class="skill-list">Spatial Audio · Ambisonics · Neural Synthesis · RAVE · Max/MSP · Pure Data · Dante · Multichannel</div>
+    <div class="skill-cat">XR &amp; Systems</div>
+    <div class="skill-list">Unity · ARKit · Swift · TouchDesigner · UWB · YOLO · Computer Vision · Adversarial ML</div>
+    <div class="skill-cat">Hardware &amp; Code</div>
+    <div class="skill-list">Python · PyTorch · C++ · Motor Control · Embedded · UDP / OSC · PCB Design · Prototyping</div>
+  </div>
+</div>
+
+<!-- ══ AVAILABILITY ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Availability</div>
+  <div class="avail-line">Open to full relocation worldwide</div>
+  <div class="avail-line">EU Blue Card eligible &nbsp;·&nbsp; Canada Global Talent Stream eligible</div>
+  <div class="avail-line" style="color:#aaa; margin-top:0.3rem;">Mandarin Chinese (native) &nbsp;·&nbsp; English (professional) &nbsp;·&nbsp; Japanese (basic)</div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>
