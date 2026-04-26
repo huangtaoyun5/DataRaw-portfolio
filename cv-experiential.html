@@ -23,29 +23,31 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { font-size: 16px; }
+
 body {
   font-family: var(--font-body);
   font-weight: 300;
-  font-size: 10pt;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  line-height: 1.65;
   color: var(--ink);
   background: #fff;
   -webkit-font-smoothing: antialiased;
 }
 
 .page {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
-  padding: 3rem 3rem 5rem;
+  padding: 3.5rem 3rem 5rem;
 }
 
 /* ── HEADER ── */
 .cv-header {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
   gap: 2rem;
-  align-items: end;
-  padding-bottom: 1.4rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1.5px solid var(--ink);
   margin-bottom: 2rem;
 }
@@ -53,46 +55,46 @@ body {
 .cv-name {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: 24pt;
+  font-size: 2rem;
   line-height: 1;
   letter-spacing: -0.02em;
 }
 
 .cv-name-cn {
   font-family: var(--font-display);
-  font-size: 9pt;
+  font-size: 0.75rem;
   color: var(--ink-muted);
   font-weight: 300;
   letter-spacing: 0.3em;
-  margin-top: 0.35rem;
+  margin-top: 0.3rem;
 }
 
 .cv-title {
-  font-size: 9.5pt;
+  font-size: 0.8rem;
   font-weight: 400;
   color: var(--ink-soft);
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   letter-spacing: 0.01em;
 }
 
 .cv-contact {
   text-align: right;
   font-family: var(--font-mono);
-  font-size: 7.5pt;
+  font-size: 0.65rem;
   color: var(--ink-muted);
   line-height: 1.9;
+  flex-shrink: 0;
 }
 .cv-contact a { color: var(--ink-muted); text-decoration: none; }
 
 /* ── SECTIONS ── */
 .cv-section {
-  margin-bottom: 1.8rem;
-  page-break-inside: avoid;
+  margin-bottom: 1.75rem;
 }
 
 .cv-section-title {
   font-family: var(--font-mono);
-  font-size: 7pt;
+  font-size: 0.6rem;
   font-weight: 400;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -104,47 +106,45 @@ body {
 
 /* ── PROFILE ── */
 .cv-profile {
-  font-size: 9.5pt;
-  line-height: 1.65;
+  font-size: 0.825rem;
+  line-height: 1.7;
   color: var(--ink-soft);
 }
 
 /* ── EXPERIENCE HEADER ── */
 .exp-intro {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 1.2rem;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
 }
-.exp-role { font-size: 10pt; font-weight: 400; }
-.exp-studio { font-size: 9pt; color: var(--ink-muted); margin-top: 0.15rem; }
+.exp-role { font-size: 0.875rem; font-weight: 400; }
+.exp-studio { font-size: 0.775rem; color: var(--ink-muted); margin-top: 0.1rem; }
 .exp-period {
   font-family: var(--font-mono);
-  font-size: 7.5pt;
+  font-size: 0.65rem;
   color: var(--ink-faint);
+  flex-shrink: 0;
 }
 
 /* ── PROJECT ROWS ── */
 .proj {
   display: grid;
-  grid-template-columns: 0.5rem 12rem 1fr;
-  gap: 0 1.2rem;
+  grid-template-columns: 11.5rem 1fr;
+  gap: 0 1.5rem;
   margin-bottom: 1.1rem;
   page-break-inside: avoid;
 }
 
-.proj-bar {
-  background: var(--accent);
-  width: 1px;
-  margin: 0 auto;
-  align-self: stretch;
-  margin-top: 0.2rem;
+.proj-left {
+  border-left: 1.5px solid var(--accent);
+  padding-left: 0.75rem;
+  padding-top: 0.05rem;
 }
 
-.proj-left {}
-
 .proj-name {
-  font-size: 9.5pt;
+  font-size: 0.825rem;
   font-weight: 400;
   color: var(--ink);
   line-height: 1.3;
@@ -152,7 +152,7 @@ body {
 
 .proj-type {
   font-family: var(--font-mono);
-  font-size: 6.5pt;
+  font-size: 0.575rem;
   letter-spacing: 0.1em;
   color: var(--accent);
   text-transform: uppercase;
@@ -161,15 +161,15 @@ body {
 
 .proj-client {
   font-family: var(--font-mono);
-  font-size: 7pt;
+  font-size: 0.625rem;
   color: var(--ink-faint);
-  margin-top: 0.15rem;
-  line-height: 1.5;
+  margin-top: 0.2rem;
+  line-height: 1.55;
 }
 
 .proj-right {
-  font-size: 9pt;
-  line-height: 1.55;
+  font-size: 0.8rem;
+  line-height: 1.6;
   color: var(--ink-soft);
 }
 
@@ -177,12 +177,12 @@ body {
   font-style: italic;
   color: var(--ink-muted);
   margin-top: 0.3rem;
-  font-size: 8.5pt;
+  font-size: 0.75rem;
 }
 
 .proj-stack {
   font-family: var(--font-mono);
-  font-size: 7pt;
+  font-size: 0.615rem;
   color: var(--ink-faint);
   margin-top: 0.3rem;
   letter-spacing: 0.06em;
@@ -191,51 +191,51 @@ body {
 /* ── RESEARCH ── */
 .res-row {
   display: grid;
-  grid-template-columns: 13rem 1fr;
-  gap: 0 1.2rem;
-  margin-bottom: 0.6rem;
-  font-size: 9pt;
+  grid-template-columns: 12rem 1fr;
+  gap: 0 1.5rem;
+  margin-bottom: 0.55rem;
   page-break-inside: avoid;
 }
 
-.res-name { font-weight: 400; color: var(--ink); }
+.res-name { font-size: 0.8rem; font-weight: 400; color: var(--ink); }
 .res-year {
   font-family: var(--font-mono);
-  font-size: 7pt;
+  font-size: 0.615rem;
   color: var(--ink-faint);
   margin-left: 0.4rem;
 }
-.res-desc { color: var(--ink-muted); line-height: 1.5; }
+.res-desc { font-size: 0.775rem; color: var(--ink-muted); line-height: 1.55; }
 
 /* ── EDUCATION ── */
 .edu-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.5rem;
-  margin-bottom: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
   page-break-inside: avoid;
 }
-.edu-degree { font-size: 9.5pt; font-weight: 400; color: var(--ink); }
-.edu-school { font-size: 8.5pt; color: var(--ink-muted); margin-top: 0.1rem; }
+.edu-left { flex: 1; }
+.edu-degree { font-size: 0.825rem; font-weight: 400; color: var(--ink); }
+.edu-school { font-size: 0.75rem; color: var(--ink-muted); margin-top: 0.1rem; }
 .edu-year {
   font-family: var(--font-mono);
-  font-size: 7.5pt;
+  font-size: 0.65rem;
   color: var(--ink-faint);
-  text-align: right;
   white-space: nowrap;
-  padding-top: 0.15rem;
+  flex-shrink: 0;
 }
 
 /* ── SKILLS ── */
 .skills-grid {
   display: grid;
-  grid-template-columns: 8rem 1fr;
+  grid-template-columns: 7.5rem 1fr;
   gap: 0.4rem 1rem;
-  font-size: 8.5pt;
+  font-size: 0.775rem;
 }
 .skill-cat {
   font-family: var(--font-mono);
-  font-size: 7pt;
+  font-size: 0.6rem;
   letter-spacing: 0.1em;
   color: var(--ink-muted);
   text-transform: uppercase;
@@ -243,23 +243,27 @@ body {
 }
 .skill-list { color: var(--ink-soft); line-height: 1.5; }
 
-/* ── AVAIL ── */
+/* ── AVAILABILITY ── */
 .avail-line {
   font-family: var(--font-mono);
-  font-size: 7.5pt;
-  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
   color: var(--ink-muted);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 /* ── PRINT ── */
 @media print {
   @page { size: A4; margin: 15mm 18mm 15mm 18mm; }
-  body { font-size: 9.5pt; }
+  html { font-size: 14px; }
+  body { font-size: 0.8rem; }
   .page { padding: 0; max-width: 100%; }
   .no-print { display: none !important; }
   a { color: inherit; text-decoration: none; }
   .cv-section { page-break-inside: avoid; }
+  .proj { page-break-inside: avoid; }
+  .res-row { page-break-inside: avoid; }
+  .edu-row { page-break-inside: avoid; }
 }
 
 /* ── SCREEN CONTROLS ── */
@@ -339,7 +343,6 @@ body {
 
   <!-- AI Living Lab -->
   <div class="proj">
-    <div class="proj-bar"></div>
     <div class="proj-left">
       <div class="proj-name">AI Living Lab</div>
       <div class="proj-type">Government digital affairs activation</div>
@@ -356,7 +359,6 @@ body {
 
   <!-- Diesel-Electric Workshop -->
   <div class="proj">
-    <div class="proj-bar"></div>
     <div class="proj-left">
       <div class="proj-name">Diesel-Electric Workshop</div>
       <div class="proj-type">Permanent brand experience installation</div>
@@ -374,7 +376,6 @@ body {
 
   <!-- Moss Floating Layer -->
   <div class="proj">
-    <div class="proj-bar"></div>
     <div class="proj-left">
       <div class="proj-name">Moss Floating Layer</div>
       <div class="proj-type">Retail immersive environment</div>
@@ -391,7 +392,6 @@ body {
 
   <!-- TTXC -->
   <div class="proj">
-    <div class="proj-bar"></div>
     <div class="proj-left">
       <div class="proj-name">Culture-Tech Exchange</div>
       <div class="proj-type">Live audience engagement platform</div>
@@ -438,21 +438,21 @@ body {
   <div class="cv-section-title">Education</div>
 
   <div class="edu-row">
-    <div>
+    <div class="edu-left">
       <div class="edu-degree">MFA Multimedia Music (New Music Theatre)</div>
       <div class="edu-school">NYCU — National Yang Ming Chiao Tung University · Institute of Music · 國立陽明交通大學</div>
     </div>
     <div class="edu-year">2020 — 2024</div>
   </div>
   <div class="edu-row">
-    <div>
+    <div class="edu-left">
       <div class="edu-degree">B.A. Drama &amp; Theatre Arts</div>
       <div class="edu-school">National Taiwan University of Arts · 國立臺灣藝術大學</div>
     </div>
     <div class="edu-year">2014 — 2019</div>
   </div>
   <div class="edu-row">
-    <div>
+    <div class="edu-left">
       <div class="edu-degree">B.Eng. Electrical Engineering</div>
       <div class="edu-school">Feng Chia University · 逢甲大學 · Signal processing, embedded systems, control theory</div>
     </div>
