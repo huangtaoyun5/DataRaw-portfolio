@@ -4,39 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tao Yun Huang — Creative Technologist</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Serif+TC:wght@300;400;500;600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  /* Pure white base */
   --bg: #FFFFFF;
-  --bg-paper: #F7F5F0;
+  --bg-tile: #F2F2F2;
   --ink: #0A0A0A;
-  --ink-soft: #2E2E2E;
-  --ink-muted: #757575;
-  --ink-faint: #BDBDBD;
-  --line: #E5E5E5;
-  --line-soft: #EEEEEE;
+  --ink-soft: #1A1A1A;
+  --ink-muted: #6B6B6B;
+  --ink-faint: #B5B5B5;
+  --line: #E8E8E8;
+  --line-soft: #F0F0F0;
+  --accent: #0A0A0A;
 
-  /* Accent — 土朱 earthen cinnabar */
-  --accent: #B85C38;
-  --accent-soft: rgba(184, 92, 56, 0.08);
-  --accent-line: rgba(184, 92, 56, 0.3);
-
-  /* Typography */
-  --font-display: 'Noto Serif JP', 'Noto Serif TC', serif;
+  --font-display: 'Inter Tight', system-ui, sans-serif;
   --font-body: 'Inter Tight', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-cjk: 'Noto Serif TC', 'Noto Serif JP', serif;
+  --font-cjk: 'Noto Sans TC', system-ui, sans-serif;
 
-  /* Rhythm */
-  --page-pad-x: max(5vw, 2rem);
-  --page-pad-y: clamp(6.5rem, 12vh, 13rem);
+  --pad-x: max(5vw, 1.75rem);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -44,1653 +36,980 @@ body {
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 300;
-  line-height: 1.75;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* ═══════════════════ WEBGL AMBIENT BACKGROUND ═══════════════════ */
-#ambient-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.45;
+img { display: block; max-width: 100%; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s, border-color 0.3s;
 }
+a:hover { color: var(--ink); border-bottom-color: currentColor; }
+
+::selection { background: var(--ink); color: var(--bg); }
 
 main { position: relative; z-index: 1; }
 
-/* ═══════════════════ TYPOGRAPHY ═══════════════════ */
-.jp-title {
-  font-family: var(--font-display);
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+/* ── nav ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.1rem var(--pad-x);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
+.nav .brand { color: var(--ink); }
+.nav .right { display: flex; gap: 1.6rem; }
+.nav a { color: var(--ink-muted); }
+.nav a.cv { color: var(--ink); }
+.nav a:hover { color: var(--ink); border: none; }
 
+/* ── typography utilities ── */
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.67rem;
-  letter-spacing: 0.14em;
-  color: var(--ink-muted);
-  text-transform: uppercase;
-}
-
-.mono-sm {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  color: var(--ink-faint);
-  text-transform: uppercase;
-}
-
-.cjk {
-  font-family: var(--font-cjk);
-  font-weight: 300;
-}
-
-.text-faint { color: var(--ink-muted); font-weight: 300; }
-
-em {
-  font-style: normal;
-  color: #444444;
-  font-weight: 400;
-}
-
-a {
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all 0.4s ease;
-}
-a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent-line);
-}
-
-/* ═══════════════════ PAGE STRUCTURE ═══════════════════ */
-section {
-  padding: var(--page-pad-y) var(--page-pad-x);
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.content {
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.corner {
-  position: absolute;
-  font-family: var(--font-mono);
   font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--ink-faint);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: var(--ink-muted);
 }
-.corner.tl { top: 2rem; left: 2rem; }
-.corner.tr { top: 2rem; right: 2rem; }
-.corner.bl { bottom: 2rem; left: 2rem; }
-.corner.br { bottom: 2rem; right: 2rem; }
+.mono-xs {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
 
-/* ═══════════════════ COVER ═══════════════════ */
+/* ── sections ── */
+section { position: relative; padding: 8rem var(--pad-x); }
+
+/* ── COVER ── */
 .cover {
   min-height: 100vh;
-  padding: 5.5rem var(--page-pad-x) 3rem;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 2rem;
+  padding: 6rem var(--pad-x) 2.5rem;
 }
-
-.cover-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.cover-center {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
+.cover-top { display: flex; justify-content: space-between; }
+.cover-mid { display: flex; align-items: center; padding: 2rem 0; }
 .cover-name {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(3.5rem, 10vw, 9rem);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  font-weight: 500;
+  font-size: clamp(4rem, 14vw, 13rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
 }
 .cover-name .cn {
   display: block;
-  font-size: 0.25em;
+  font-size: 0.16em;
   color: var(--ink-muted);
-  font-weight: 200;
-  letter-spacing: 0.3em;
-  margin-top: 1.5rem;
-  padding-left: 0.3rem;
+  letter-spacing: 0.4em;
+  margin-top: 1.6rem;
+  padding-left: 0.4rem;
 }
-
-.cover-tagline {
-  margin-top: 3rem;
-  max-width: 34ch;
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--ink-soft);
-  font-weight: 300;
-}
-
-.cover-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-top: 3rem;
-  border-top: 1px solid var(--line);
-}
-
-/* ═══════════════════ ABOUT ═══════════════════ */
-.about-layout {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 6rem;
-  align-items: start;
-}
-
-.about-eyebrow {
-  margin-bottom: 2rem;
-}
-
-.about-statement {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-  max-width: 52ch;
-}
-
-.about-statement + p {
-  margin-top: 3rem;
-  font-size: 1rem;
-  line-height: 1.85;
-  color: var(--ink-soft);
-  max-width: 42ch;
-}
-
-.stack-grid {
-  margin-top: 5rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--line);
+.cover-bot {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  align-items: end;
   gap: 2rem;
-}
-
-.stack-col h4 {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: 0.63rem;
-  letter-spacing: 0.2em;
-  color: var(--ink-muted);
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.stack-col .tag-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.7rem;
-}
-.stack-col .tag-row span {
-  font-size: 0.75rem;
-  color: var(--ink-muted);
-  font-weight: 300;
-  line-height: 1.9;
-}
-
-.bg-timeline {
-  margin-top: 6rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-}
-
-.bg-item .year {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--accent);
-  letter-spacing: 0.15em;
-  margin-bottom: 0.8rem;
-}
-.bg-item h5 {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 1.1rem;
-  line-height: 1.3;
-}
-.bg-item .cn {
-  font-family: var(--font-cjk);
-  font-size: 0.8rem;
-  color: var(--ink-muted);
-  font-weight: 300;
-  margin: 0.3rem 0 0.7rem;
-}
-.bg-item p {
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-  line-height: 1.7;
-}
-
-/* ═══════════════════ SECTION MARKER ═══════════════════ */
-.marker {
-  min-height: 60vh;
-  text-align: center;
-  padding: 10rem var(--page-pad-x);
-}
-.marker-num {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--ink-faint);
-  letter-spacing: 0.3em;
-  margin-bottom: 3rem;
-}
-.marker-title {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.marker-cjk {
-  font-family: var(--font-cjk);
-  font-weight: 200;
-  color: var(--ink-muted);
-  letter-spacing: 0.5em;
-  font-size: 0.9rem;
-  margin-top: 3rem;
-}
-
-/* ═══════════════════ PROJECT SHARED ═══════════════════ */
-.project-num {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--ink-faint);
-  letter-spacing: 0.2em;
-  margin-bottom: 1.5rem;
-}
-
-.project-title {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-}
-.project-title-cn {
-  font-family: var(--font-cjk);
-  font-weight: 300;
-  color: var(--ink-muted);
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
-  margin-top: 0.8rem;
-}
-
-.project-meta {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--ink-muted);
-  letter-spacing: 0.08em;
-  line-height: 2;
-}
-.project-meta .key { color: var(--ink-faint); }
-
-.description {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--ink-soft);
-  max-width: 52ch;
-}
-.description p + p { margin-top: 1.3rem; }
-.description .lead {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 1.3rem;
-  line-height: 1.5;
-  color: #333333;
-  letter-spacing: -0.01em;
-}
-
-.role {
-  margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--line);
 }
-.role-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--accent);
-  letter-spacing: 0.3em;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-}
-.role-body {
-  font-size: 0.8rem;
-  line-height: 1.75;
-  color: #666666;
-  font-weight: 300;
-  max-width: 48ch;
-}
-
-.stack-line {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line-soft);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--ink-muted);
-  letter-spacing: 0.08em;
-  line-height: 2;
-}
-.stack-line .divider { color: var(--ink-faint); margin: 0 0.5rem; }
-
-.image-box {
-  background: var(--bg-paper);
-  border: none;
-  aspect-ratio: 16 / 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--ink-faint);
-  letter-spacing: 0.15em;
-  text-align: center;
-  padding: 2rem;
-}
-.image-box.portrait { aspect-ratio: 3/4; }
-.image-box.square { aspect-ratio: 1/1; }
-.image-box.wide { aspect-ratio: 21/9; }
-
-.image-caption {
-  margin-top: 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--ink-faint);
-  letter-spacing: 0.15em;
-}
-
-.image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ═══════ Project Layouts — each different ═══════ */
-
-/* A — hero top, two columns */
-.p-a .image-box { aspect-ratio: 21/9; margin-bottom: 4rem; }
-.p-a .split { display: grid; grid-template-columns: 1.3fr 1fr; gap: 5rem; }
-
-/* B — 50-50 split with gallery */
-.p-b .split { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
-.p-b .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.p-b .gallery .image-box:nth-child(3) { grid-column: 1/-1; aspect-ratio: 16/9; }
-.p-b .gallery .image-box:nth-child(1),
-.p-b .gallery .image-box:nth-child(2) { aspect-ratio: 3/4; }
-
-/* C — wide image + quote block */
-.p-c .image-box { aspect-ratio: 21/9; margin-bottom: 4rem; }
-.p-c .quote-section { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; }
-.p-c .quote {
+.cover-bot .role {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 1.75rem;
-  line-height: 1.4;
+  font-weight: 400;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  color: var(--ink);
   letter-spacing: -0.01em;
-  color: #333333;
 }
+.cover-bot .right { text-align: right; }
 
-/* D — three-column */
-.p-d .tri { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
-.p-d .image-box { aspect-ratio: 4/3; }
-
-/* E — Threshold horizontal timeline */
-.p-e .versions {
+/* ── STATEMENT ── */
+.statement {
+  padding: 14rem var(--pad-x);
+}
+.statement-inner { max-width: 1200px; margin: 0 auto; }
+.statement h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3.6vw, 3.3rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  max-width: 22ch;
+}
+.statement h2 em { font-style: normal; color: var(--ink); font-weight: 500; }
+.statement-stack {
+  margin-top: 6rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-  margin-top: 5rem;
-}
-.p-e .version .image-box { aspect-ratio: 3/4; margin-bottom: 1.5rem; }
-.p-e .version h4 {
+  grid-template-columns: 9rem 1fr;
+  gap: 2rem 3rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  color: var(--accent);
-  letter-spacing: 0.15em;
-  margin-bottom: 0.5rem;
 }
-.p-e .version h3 {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+.statement-stack dt {
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.6rem;
+  padding-top: 0.2rem;
 }
-.p-e .version p {
-  font-size: 0.85rem;
-  line-height: 1.7;
+.statement-stack dd {
   color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  line-height: 1.9;
 }
 
-/* F — centered editorial */
-.p-f { text-align: center; }
-.p-f .content { max-width: 900px; }
-.p-f .image-box { aspect-ratio: 16/10; max-width: 800px; margin: 4rem auto; }
-.p-f .description { margin: 0 auto; text-align: left; }
-.p-f .detail-row {
+/* ── INDEX (hover preview list) ── */
+.index { padding: 10rem var(--pad-x); }
+.index-head {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  margin-top: 5rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--line);
-  text-align: left;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  margin-bottom: 4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
 }
-.p-f .detail-row h5 {
+.index-head h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  letter-spacing: -0.025em;
+}
+
+.index-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.index-list { }
+.index-group {
+  display: block;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
   color: var(--ink-muted);
-  letter-spacing: 0.2em;
-  margin-bottom: 0.7rem;
+  padding: 1.5rem 0 1rem;
+  border-top: 1px solid var(--line);
+}
+.index-group:first-child { border-top: none; padding-top: 0; }
+
+.index-row {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--line-soft);
+  cursor: pointer;
+  transition: padding 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s;
+}
+.index-row:hover { padding-left: 1rem; }
+.index-list:hover .index-row:not(:hover) { color: var(--ink-faint); }
+
+.index-row .n {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.15em;
+}
+.index-row .t {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.6vw, 1.55rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.index-row .t .cn {
+  font-family: var(--font-cjk);
+  font-weight: 400;
+  font-size: 0.65em;
+  color: var(--ink-muted);
+  margin-left: 0.6rem;
+  letter-spacing: 0.04em;
+}
+.index-row .y {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.15em;
+}
+
+.index-preview {
+  position: sticky;
+  top: 8rem;
+  aspect-ratio: 4/5;
+  background: var(--bg-tile);
+  overflow: hidden;
+}
+.index-preview .slot {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.55s ease;
+}
+.index-preview .slot.on { opacity: 1; }
+.index-preview .slot img,
+.index-preview .slot video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.index-preview .label {
+  position: absolute;
+  bottom: 1.25rem; left: 1.25rem; right: 1.25rem;
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.92);
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.45);
+  pointer-events: none;
+}
+
+/* ── PROJECT (detail) ── */
+.work { padding: 7rem var(--pad-x); }
+.work-inner { max-width: 1400px; margin: 0 auto; }
+
+.work-meta {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  align-items: baseline;
+  margin-bottom: 2.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.work-num { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.22em; color: var(--ink); text-transform: uppercase; }
+.work-tag { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.18em; color: var(--ink-faint); text-transform: uppercase; }
+
+.work-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+.work-title-cn {
+  font-family: var(--font-cjk);
+  font-weight: 400;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+  color: var(--ink-muted);
+  letter-spacing: 0.06em;
+  margin-top: 1.1rem;
+}
+
+.media {
+  margin-top: 3rem;
+  background: var(--bg-tile);
+  overflow: hidden;
+}
+.media.hero { aspect-ratio: 16/9; }
+.media.wide { aspect-ratio: 16/9; }
+.media.portrait { aspect-ratio: 3/4; }
+.media img, .media video { width: 100%; height: 100%; object-fit: cover; }
+
+.media-caption {
+  margin-top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
   text-transform: uppercase;
 }
-.p-f .detail-row p { font-size: 0.8rem; line-height: 1.6; color: var(--ink-soft); }
 
-/* G — asymmetric offset */
-.p-g .offset { display: grid; grid-template-columns: 5fr 6fr; gap: 5rem; align-items: center; }
-.p-g .image-box { aspect-ratio: 3/4; }
-
-/* ═══════════════════ LATENT BREACH (special page) ═══════════════════ */
-.latent {
-  background: var(--bg-paper);
-  position: relative;
+.work-foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 4rem;
 }
-.latent .content { text-align: center; max-width: 900px; }
-.latent .image-box { aspect-ratio: 16/10; margin: 4rem auto; background: var(--bg); border-color: var(--accent-line); }
+.work-lead {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.6vw, 1.55rem);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  max-width: 36ch;
+  color: var(--ink);
+}
+.work-lead em { font-style: normal; color: var(--ink); font-weight: 500; }
 
-/* ═══════════════════ CONTACT ═══════════════════ */
+.work-side {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.work-side dl {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.5rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+}
+.work-side dt {
+  color: var(--ink-faint);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.work-side dd { color: var(--ink-soft); letter-spacing: 0.04em; line-height: 1.9; }
+.work-side .role {
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line-soft);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 42ch;
+}
+
+/* media grid for multi-image works */
+.media-grid {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+.media-grid.three { grid-template-columns: repeat(3, 1fr); }
+.media-grid.two { grid-template-columns: 1fr 1fr; }
+.media-grid .media { margin-top: 0; aspect-ratio: 4/5; }
+
+/* ── CONTACT ── */
 .contact {
+  padding: 12rem var(--pad-x) 4rem;
   text-align: center;
-  min-height: 90vh;
 }
-.contact .content { max-width: 700px; }
 .contact h2 {
   font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-bottom: 4rem;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 2rem 0 3rem;
 }
 .contact .email {
   font-family: var(--font-mono);
   font-size: 1rem;
-  display: inline-block;
-  padding-bottom: 0.4rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 0.2rem;
 }
-.contact-links {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
+.contact .links {
   margin-top: 3rem;
+  display: flex; gap: 2.5rem; justify-content: center;
   flex-wrap: wrap;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
-.contact-meta {
-  margin-top: 5rem;
+.contact .meta {
+  margin-top: 4rem;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--ink-muted);
-  letter-spacing: 0.25em;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--ink-faint);
   text-transform: uppercase;
 }
 
 footer {
-  padding: 3rem var(--page-pad-x);
+  padding: 2.5rem var(--pad-x);
   text-align: center;
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
   color: var(--ink-faint);
-  letter-spacing: 0.2em;
-  border-top: 1px solid var(--line);
-}
-
-/* ═══════════════════ RESPONSIVE ═══════════════════ */
-@media (max-width: 900px) {
-  section { padding: 6rem 6vw; }
-  .about-layout, .p-a .split, .p-b .split, .p-c .quote-section,
-  .p-d .tri, .p-g .offset {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  .p-e .versions, .stack-grid, .bg-timeline {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-  .p-f .detail-row { grid-template-columns: repeat(2, 1fr); }
-  .corner { display: none; }
-  .cover-top, .cover-bottom { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
-}
-
-@media (max-width: 480px) {
-  :root { --page-pad-x: 1.25rem; }
-  section { padding: 4.5rem var(--page-pad-x); }
-  .cover-name { font-size: clamp(2.8rem, 14vw, 4.5rem); }
-  .cover-tagline { font-size: 0.9rem; line-height: 1.7; }
-  .about-statement { font-size: 1.15rem; }
-  .cover-bottom { align-items: center; text-align: center; }
-  .contact-links { flex-direction: column; align-items: center; gap: 1.5rem; }
-  .contact h2 { font-size: clamp(1.5rem, 7vw, 2.2rem); text-align: center; }
-  .p-f .detail-row { grid-template-columns: 1fr 1fr; }
-  .p-b .gallery { grid-template-columns: 1fr; }
-  .p-b .gallery .image-box:nth-child(3) { grid-column: auto; }
-  .tag-row { gap: 0.2rem 0.55rem; }
-  .stack-line { font-size: 0.65rem; }
-  .contact-meta { font-size: 0.55rem; }
-}
-
-/* ═══════════════════ PRINT ═══════════════════ */
-@media print {
-  #ambient-canvas { display: none; }
-  body { background: #fff; }
-  section { page-break-after: always; min-height: auto; }
-  .cover { min-height: auto; }
-}
-
-/* ═══════════════════ REVEAL ═══════════════════ */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 1.2s cubic-bezier(0.2, 0.8, 0.2, 1),
-              transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ═══════════════════ SITE NAV ═══════════════════ */
-.site-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  background: rgba(255,255,255,0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line-soft);
-  padding: 0.75rem var(--page-pad-x);
-}
-.nav-inner {
-  display: flex;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.nav-link {
-  font-family: var(--font-mono);
-  font-size: 0.59rem;
-  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--ink-faint);
-  border-bottom: none !important;
-  padding: 0.2rem 0.85rem;
-  transition: color 0.3s ease;
-}
-.nav-link:hover, .nav-link.active {
-  color: var(--ink-soft);
-  border-bottom: none !important;
-}
-.nav-sep {
-  font-size: 0.5rem;
-  color: var(--line);
-  user-select: none;
-}
-.nav-cv {
-  color: var(--accent) !important;
-  margin-left: 0.5rem;
-}
-.nav-cv:hover {
-  color: var(--accent) !important;
-  opacity: 0.7;
-}
-
-/* ═══════════════════ ROS APP GALLERY ═══════════════════ */
-.ros-gallery {
-  margin-top: 5rem;
-  padding-top: 3rem;
   border-top: 1px solid var(--line);
 }
-.ros-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-.ros-grid .image-box { aspect-ratio: 16/9; }
 
-@media (max-width: 900px) {
-  .ros-grid { grid-template-columns: 1fr 1fr; }
+/* ── reveal ── */
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ── responsive ── */
+@media (max-width: 960px) {
+  section, .index, .work, .statement { padding: 6rem var(--pad-x); }
+  .cover { padding: 5rem var(--pad-x) 2rem; }
+  .cover-bot { grid-template-columns: 1fr; gap: 1rem; }
+  .cover-bot .right { text-align: left; }
+  .index-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .index-preview { position: relative; top: 0; aspect-ratio: 16/10; order: -1; }
+  .work-foot { grid-template-columns: 1fr; gap: 2rem; }
+  .statement-stack { grid-template-columns: 1fr; gap: 0.4rem 0; }
+  .statement-stack dt { padding-top: 1.2rem; }
+  .media-grid.three { grid-template-columns: 1fr 1fr; }
+  .nav .brand { display: none; }
 }
 @media (max-width: 480px) {
-  .ros-grid { grid-template-columns: 1fr; }
-  .site-nav { padding: 0.55rem var(--page-pad-x); }
-  .nav-link { padding: 0 0.4rem; font-size: 0.5rem; letter-spacing: 0.1em; }
-  .nav-sep { display: none; }
+  :root { --pad-x: 1.25rem; }
+  .nav .right { gap: 1rem; }
+  .index-row { grid-template-columns: 1.8rem 1fr; }
+  .index-row .y { grid-column: 2; padding-top: 0.3rem; }
+  .work-meta { grid-template-columns: 1fr; gap: 0.4rem; }
+  .media-grid.three { grid-template-columns: 1fr; }
+  .contact .links { flex-direction: column; gap: 1rem; }
+}
+
+@media print {
+  .nav { display: none; }
 }
 </style>
 </head>
 <body>
 
-<canvas id="ambient-canvas"></canvas>
-
-<nav class="site-nav" id="site-nav">
-  <div class="nav-inner">
-    <a href="#cover" class="nav-link">Cover</a>
-    <span class="nav-sep">·</span>
-    <a href="#about" class="nav-link">About</a>
-    <span class="nav-sep">·</span>
-    <a href="#commercial" class="nav-link">Commercial</a>
-    <span class="nav-sep">·</span>
-    <a href="#research" class="nav-link">Research</a>
-    <span class="nav-sep">·</span>
-    <a href="#current" class="nav-link">Current</a>
-    <span class="nav-sep">·</span>
-    <a href="#contact" class="nav-link">Contact</a>
-    <span class="nav-sep" style="margin-left: auto;">·</span>
-    <a href="cv.html" class="nav-link nav-cv">CV</a>
+<nav class="nav">
+  <a href="#" class="brand">Tao Yun Huang · 黃韜云</a>
+  <div class="right">
+    <a href="#index">Works</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="cv.html" class="cv">CV</a>
   </div>
 </nav>
 
 <main>
 
-<!-- ═══════════════════ COVER ═══════════════════ -->
-<section class="cover" id="cover">
+<!-- ─────── COVER ─────── -->
+<section class="cover">
   <div class="cover-top">
-    <div class="mono">Selected Works · 2021 — 2026</div>
-    <div class="mono">Portfolio Issue 01</div>
+    <div class="mono-xs">Selected Works · 2021 — 2026</div>
+    <div class="mono-xs">Portfolio · Issue 02</div>
   </div>
 
-  <div class="cover-center">
-    <div>
-      <h1 class="cover-name">
-        Tao Yun<br>Huang
-        <span class="cn">黄 韜 云</span>
-      </h1>
-      <p class="cover-tagline">
-        Creative Technologist &amp; Interactive Developer
-      </p>
-    </div>
+  <div class="cover-mid">
+    <h1 class="cover-name">
+      Tao Yun<br>Huang<span class="cn">黃 韜 云</span>
+    </h1>
   </div>
 
-  <div class="cover-bottom">
-    <div class="mono-sm">Taipei · Available worldwide</div>
-    <div class="mono-sm">bernie5@dataraw.tech</div>
+  <div class="cover-bot">
+    <div class="role">Creative Technologist<br>&amp; Interactive Developer</div>
+    <div class="mono-xs" style="text-align:center;">Taipei · Available worldwide</div>
+    <div class="mono-xs right">bernie5@dataraw.tech</div>
   </div>
 </section>
 
 
-<!-- ═══════════════════ ABOUT ═══════════════════ -->
-<section id="about">
-  <span class="corner tl">02 — About</span>
-  <span class="corner tr">Index · I</span>
-
-  <div class="content">
-    <div class="about-layout">
-      <div>
-        <div class="mono about-eyebrow">Practice</div>
-      </div>
-
-      <div>
-        <p class="about-statement">
-          My practice sits at the intersection of engineering and live
-          experience. Spatial audio, real-time machine learning, mixed reality —
-          from hardware control and sensor fusion, through neural audio synthesis
-          and multichannel rendering, to cross-engine AV pipelines. Commercial
-          experience spans government-commissioned activations, retail immersive
-          installations, and large-scale interactive exhibitions reaching
-          1,000+ visitors.
-        </p>
-      </div>
-    </div>
-
-    <div class="stack-grid">
-      <div class="stack-col">
-        <h4>Audio &amp; ML</h4>
-        <div class="tag-row">
-          <span>Spatial Audio</span><span>Ambisonics</span>
-          <span>Neural Synthesis</span><span>RAVE</span>
-          <span>Max/MSP</span><span>Pure Data</span>
-          <span>Dante</span><span>Multichannel</span>
-        </div>
-      </div>
-      <div class="stack-col">
-        <h4>XR &amp; Systems</h4>
-        <div class="tag-row">
-          <span>Unity</span><span>ARKit</span><span>Swift</span>
-          <span>TouchDesigner</span><span>UWB</span>
-          <span>YOLO</span><span>Computer Vision</span>
-          <span>Adversarial ML</span>
-        </div>
-      </div>
-      <div class="stack-col">
-        <h4>Hardware &amp; Code</h4>
-        <div class="tag-row">
-          <span>Python</span><span>PyTorch</span><span>C++</span>
-          <span>Motor Control</span><span>Embedded</span>
-          <span>UDP / OSC</span><span>Prototyping</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="bg-timeline">
-      <div class="bg-item">
-        <div class="year">2010 — 2013</div>
-        <h5>Feng Chia University</h5>
-        <div class="cn">逢甲大學</div>
-        <p>B.Eng. Electrical Engineering. Signal processing, embedded systems, control theory.</p>
-      </div>
-      <div class="bg-item">
-        <div class="year">2014 — 2019</div>
-        <h5>Nat'l Taiwan University of Arts</h5>
-        <div class="cn">國立臺灣藝術大學</div>
-        <p>B.A. Drama &amp; Theatre Arts. Performance, dramaturgy, staging.</p>
-      </div>
-      <div class="bg-item">
-        <div class="year">2020 — 2024</div>
-        <h5>NYCU — Institute of Music</h5>
-        <div class="cn">國立陽明交通大學</div>
-        <p>MFA Multimedia Music (New Music Theatre). Advisor: Prof. Chao-Ming Tung.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ MARKER — COMMERCIAL ═══════════════════ -->
-<section class="marker" id="commercial">
-  <div class="marker-num">Part · One</div>
-  <h2 class="marker-title">Commercial Work</h2>
-  <div class="marker-cjk">商 業 製 作</div>
-</section>
-
-
-<!-- ═══════════════════ 03 · RAILWAY MUSEUM (Layout B) ═══════════════════ -->
-<section class="p-b">
-  <span class="corner tl">03 — Commercial · 01</span>
-  <span class="corner tr">if.plus / work / 209</span>
-
-  <div class="content">
-    <div class="project-num">Commercial · 01</div>
-    <h2 class="project-title">Diesel-Electric Workshop</h2>
-    <div class="project-title-cn">國家鐵道博物館 柴電工場</div>
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);">
-      <div class="project-meta">
-        <div><span class="key">CLIENT</span> &nbsp; National Railway Museum, Taipei</div>
-        <div><span class="key">EXHIBITION DESIGN</span> &nbsp; archicake</div>
-        <div><span class="key">DIGITAL</span> &nbsp; IF Plus Art</div>
-      </div>
-      <div class="project-meta">
-        <div><span class="key">YEAR</span> &nbsp; 2025</div>
-        <div><span class="key">TYPE</span> &nbsp; Permanent exhibition</div>
-        <div><span class="key">FORMAT</span> &nbsp; Permanent brand experience installation</div>
-      </div>
-    </div>
-
-    <div class="split">
-      <div>
-        <p class="description lead">
-          A permanent exhibition staging the invisible: how
-          energy flows through a 100-year-old locomotive
-          repair hall.
-        </p>
-        <br>
-        <div class="description">
-          <p>
-            For the S212 Diesel-Electric locomotive, a large-format
-            transparent screen sits in front of the actual machinery,
-            animating the flow of electric power while keeping the
-            physical mechanisms visible behind — an X-ray overlay
-            aligning virtual animation to real hardware.
-          </p>
-          <p>
-            For the armature maintenance area, a full-scale 60 kg
-            armature model is choreographed with the overhead crane,
-            replaying the actual motion sequence of factory workflow.
-          </p>
-        </div>
-
-        <div class="role">
-          <div class="role-label">My role</div>
-          <p class="role-body">
-            Hardware engineering — armature &amp; overhead crane
-            motion control · transparent display control ·
-            multi-system timing synchronization between animation
-            playback and physical actuation.
-          </p>
-        </div>
-
-        <div class="stack-line">
-          Motor control <span class="divider">·</span>
-          Transparent LED <span class="divider">·</span>
-          Crane kinematics <span class="divider">·</span>
-          Animation sync <span class="divider">·</span>
-          Hardware timing
-        </div>
-        <div class="stack-line">
-          <span class="key">VIDEO</span> &nbsp;
-          <a href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank">Documentation</a>
-        </div>
-      </div>
-
-      <div class="gallery">
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/04 Railway Museum.jpg" alt="S212 transparent screen"></div>
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/04 Railway Museum (2).jpg" alt="Armature and crane"></div>
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/04 Railway Museum (3).png" alt="Workshop floor"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 04 · MOSS FLOATING LAYER (Layout C) ═══════════════════ -->
-<section class="p-c">
-  <span class="corner tl">04 — Commercial · 02</span>
-  <span class="corner tr">if.plus / work / 199</span>
-
-  <div class="content">
-    <div class="project-num">Commercial · 02</div>
-    <h2 class="project-title">Moss Floating Layer</h2>
-    <div class="project-title-cn">苔域浮層 · Shin Kong Mitsukoshi A9 · 台北</div>
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; margin-bottom: 5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);">
-      <div class="project-meta">
-        <div><span class="key">CLIENT</span> &nbsp; SCOPE TECH</div>
-        <div><span class="key">VENUE</span> &nbsp; Shin Kong Mitsukoshi A9, Taipei</div>
-      </div>
-      <div class="project-meta">
-        <div><span class="key">STUDIO</span> &nbsp; IF Plus Art</div>
-        <div><span class="key">YEAR</span> &nbsp; 2025</div>
-        <div><span class="key">TYPE</span> &nbsp; Retail immersive environment</div>
-      </div>
-    </div>
-
-    <div class="image-box" style="padding: 0; overflow: hidden;">
-      <img src="images/05 Moss Floating Layer.jpg" alt="Moss terrarium installation, Xinyi district">
-    </div>
-    <div class="image-caption">Fig. 01 — Moss terrarium installation, Xinyi district</div>
-
-    <div class="quote-section" style="margin-top: 5rem;">
-      <div>
-        <div class="mono">Concept</div>
-      </div>
-      <div>
-        <p class="quote">
-          Against the acceleration of the city,<br>
-          a small terrarium breathing<br>
-          <em>at its own pace.</em>
-        </p>
-        <br>
-        <p class="description">
-          In the middle of one of Taipei's busiest commercial
-          districts — an immersive moss ecosystem terrarium.
-          A quiet counterpoint to retail velocity. Visitors stop,
-          look up, and listen.
-        </p>
-
-        <div class="role">
-          <div class="role-label">My role — sound design</div>
-          <p class="role-body">
-            Multichannel spatial music composition and system
-            design for the installation's audio environment.
-          </p>
-        </div>
-
-        <div class="stack-line">
-          Multichannel audio <span class="divider">·</span>
-          Spatial composition <span class="divider">·</span>
-          Retail AV integration
-        </div>
-        <div class="stack-line">
-          <span class="key">VIDEO</span> &nbsp;
-          <a href="https://www.youtube.com/watch?v=3qMWraIEPbc" target="_blank">Documentation</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 05 · TTXC (Layout D) ═══════════════════ -->
-<section class="p-d">
-  <span class="corner tl">05 — Commercial · 03</span>
-  <span class="corner tr">if.plus / work / 206</span>
-
-  <div class="content">
-    <div class="project-num">Commercial · 03</div>
-    <h2 class="project-title">Culture-Tech Exchange</h2>
-    <div class="project-title-cn">文化科技交易所 · TTXC INNOVATIONS 2025 · 高雄</div>
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);">
-      <div class="project-meta">
-        <div><span class="key">CLIENT</span> &nbsp; TAICCA (Taiwan Creative Content Agency)</div>
-        <div><span class="key">VENUE</span> &nbsp; Pier-2 Art Center, Kaohsiung</div>
-        <div><span class="key">STUDIO</span> &nbsp; IF Plus Art</div>
-      </div>
-      <div class="project-meta">
-        <div><span class="key">TOTAL VIRTUAL INVESTMENT</span> &nbsp; NT$4.7 billion</div>
-        <div><span class="key">DURATION</span> &nbsp; 4 days</div>
-        <div><span class="key">TYPE</span> &nbsp; Live audience engagement platform</div>
-      </div>
-    </div>
-
-    <div class="tri">
-      <div>
-        <p class="description lead">
-          An exhibition turned into a live investment game.
-          Every visitor gets NT$10M virtual seed capital.
-        </p>
-        <br>
-        <div class="description">
-          <p>
-            Via a LINE OA app, visitors invest in culture-tech works
-            on display; the aggregated behavior reveals real market
-            signal back to the cultural agency. Phone-based
-            investments sync instantly to venue screens — a live
-            investment ticker, and a top-10 leaderboard refreshing
-            every 3 minutes.
-          </p>
-          <p>
-            Over four days, total virtual investment hit <em>NT$4.7
-            billion</em> — a behavioral dataset reflecting the
-            public's appetite for emerging creative-tech works.
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/06 TTXC.jpg" alt="LINE OA venue leaderboard"></div>
-
-        <div class="role">
-          <div class="role-label">My role</div>
-          <p class="role-body">
-            Unity-based real-time software development ·
-            cross-platform interaction integration (mobile ↔
-            venue display) · live-data visualization sync.
-          </p>
-        </div>
-
-        <div class="stack-line">
-          Unity <span class="divider">·</span>
-          LINE OA <span class="divider">·</span>
-          Real-time networking <span class="divider">·</span>
-          Live data viz
-        </div>
-        <div class="stack-line">
-          <span class="key">VIDEO</span> &nbsp;
-          <a href="https://www.youtube.com/watch?v=KtusLH4ttM0" target="_blank">Documentation</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 06 · MODA AI LIVING LAB (Layout A) ═══════════════════ -->
-<section class="p-a">
-  <span class="corner tl">06 — Commercial · 04</span>
-  <span class="corner tr">if.plus / work / 208</span>
-
-  <div class="content">
-    <div class="project-num">Commercial · 04</div>
-    <h2 class="project-title">AI Living Lab</h2>
-    <div class="project-title-cn">MODA · 2025 資訊月 · 台北</div>
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);">
-      <div class="project-meta">
-        <div><span class="key">CLIENT</span> &nbsp; Ministry of Digital Affairs (MODA)</div>
-        <div><span class="key">VENUE</span> &nbsp; Taipei Computer Festival 2025</div>
-        <div><span class="key">STUDIO</span> &nbsp; IF Plus Art</div>
-      </div>
-      <div class="project-meta">
-        <div><span class="key">AUDIENCE</span> &nbsp; 1,000+ participants</div>
-        <div><span class="key">DURATION</span> &nbsp; 4 days</div>
-        <div><span class="key">YEAR</span> &nbsp; 2025</div>
-        <div><span class="key">TYPE</span> &nbsp; Government digital affairs activation</div>
-      </div>
-    </div>
-
-    <div class="image-box" style="padding: 0; overflow: hidden;">
-      <img src="images/03 AI Living Lab.png" alt="Interactive cycling station, MODA booth">
-    </div>
-    <div class="image-caption">Fig. 01 — Interactive cycling station, MODA booth</div>
-
-    <div class="split" style="margin-top: 5rem;">
-      <div class="description">
-        <p class="lead">
-          Pedal, choose a route, answer a prompt. The system
-          generates a one-of-a-kind audio souvenir — cassette postcard —
-          from your ride.
-        </p>
-        <p>
-          Visitors mounted a custom-built stationary bike and
-          turned the handlebars to choose a virtual route, answering
-          short prompts about how AI shows up in daily life.
-          Pedaling speed, route choices, and prompt responses streamed
-          in real time to an AI music-generation model I developed
-          and trained specifically for this project.
-        </p>
-        <p>
-          At the end of each ride, the system printed a one-of-a-kind
-          cassette postcard — an audio souvenir generated uniquely
-          by the rider's physical and semantic input. Over four days,
-          more than 1,000 visitors rode the bike, producing everything
-          from aggressive electronic tracks to ambient loops.
-        </p>
-      </div>
-
-      <div>
-        <div class="role">
-          <div class="role-label">My role</div>
-          <p class="role-body">
-            AI music model development &amp; training · pedaling
-            sensor data acquisition &amp; processing · real-time
-            program integration · custom bike hardware design.
-          </p>
-        </div>
-
-        <div class="stack-line">
-          Python <span class="divider">·</span>
-          Generative Audio ML <span class="divider">·</span>
-          Real-time synthesis <span class="divider">·</span>
-          Hardware sensors <span class="divider">·</span>
-          Cassette print system
-        </div>
-        <div class="stack-line">
-          <span class="key">VIDEO</span> &nbsp;
-          <a href="https://www.youtube.com/watch?v=mWuq7uki4DQ" target="_blank">Documentation</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ MARKER — RESEARCH ═══════════════════ -->
-<section class="marker" id="research">
-  <div class="marker-num">Part · Two</div>
-  <h2 class="marker-title">Research &amp; Practice</h2>
-  <div class="marker-cjk">研 究 與 創 作</div>
-</section>
-
-
-<!-- ═══════════════════ 07 · THRESHOLD (Layout E) ═══════════════════ -->
-<section class="p-e">
-  <span class="corner tl">07 — Research · 01</span>
-  <span class="corner tr">Series · 3 Versions · 2022 — 2024</span>
-
-  <div class="content">
-    <div class="project-num">Research · 01</div>
-    <h2 class="project-title">Threshold</h2>
-    <div class="project-title-cn">闁 · Electromechanical Neural Audio Series</div>
-
-    <div style="margin-top: 4rem; max-width: 55ch;">
-      <p class="description lead">
-        A three-version series examining recursive feedback between
-        real-time neural audio synthesis and physical resonance
-        systems.
-      </p>
-    </div>
-
-    <div class="versions">
-      <div class="version">
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/07 Threshold v1.jpg" alt="Threshold v1, Taichung 2022"></div>
-        <h4>v1 · Taichung 2022</h4>
-        <h3>Site-specific</h3>
-        <p>
-          Collected and algorithmically transformed physical space
-          vibration and environmental audio in real time.
-        </p>
-      </div>
-
-      <div class="version">
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/07 Threshold v2.jfif" alt="Threshold v2, C-LAB Taipei 2023"></div>
-        <h4>v2 · C-LAB Taipei 2023</h4>
-        <h3>Latent Space</h3>
-        <p>
-          Modified RAVE model for real-time latent-space audio
-          reconstruction across a <em>49.4-channel Ambisonics system</em> —
-          first deployment of real-time neural audio at this scale
-          in Taiwan's institutional sound-art context.
-        </p>
-      </div>
-
-      <div class="version">
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/07 Threshold v3.JPG" alt="Threshold v3, electromechanical apparatus 2024"></div>
-        <h4>v3 · NYCU 2024</h4>
-        <h3>Electromechanical</h3>
-        <p>
-          Gate-shaped apparatus: brass plate driven by stepper
-          motors, solenoids, and pneumatics forms a continuous
-          feedback loop with RAVE synthesis; k-means redistributes
-          output into a five-voice generative score.
-        </p>
-      </div>
-    </div>
-
-    <div class="role">
-      <div class="role-label">My role — solo</div>
-      <p class="role-body">
-        Composition · modified RAVE pipeline · electromechanical
-        apparatus design · Ambisonics mapping · feedback-loop
-        engineering across all three versions.
-      </p>
-    </div>
-
-    <div class="stack-line">
-      <span class="key">DOCUMENTATION</span> &nbsp;
-      <a href="https://youtu.be/YVT2q0_gJyA" target="_blank">youtu.be/YVT2q0_gJyA</a>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 08 · CIRCLE OF CONFUSION (Layout F) ═══════════════════ -->
-<section class="p-f">
-  <span class="corner tl">08 — Research · 02</span>
-  <span class="corner tr">Digital Art Center Taipei</span>
-
-  <div class="content">
-    <div class="project-num">Research · 02</div>
-    <h2 class="project-title">Circle of Confusion — Reaction</h2>
-    <div class="project-title-cn">彌散圈反應 · VR Installation · 2024</div>
-
-    <div class="image-box" style="padding: 0; overflow: hidden;">
-      <img src="images/08 Circle of Confusion.png" alt="Viewer wearing custom 3D-printed haptic VR rig">
-    </div>
-
-    <div class="description">
-      <p class="lead">
-        A VR installation exploring the photographic notion of the
-        "circle of confusion" — mediation, diffusion, blur, process.
-      </p>
-      <p>
-        Music triggers cascading algorithmic transformations inside
-        a non-representational VR environment. A custom 3D-printed
-        sculpture attached to the VR headset translates virtual
-        image into tactile sensation.
-      </p>
-      <p>
-        The spatial audio uses a <em>deliberately incomplete</em>
-        Ambisonics array — speaker absences become bidirectional
-        "channels," thresholds through which the viewer becomes
-        self-aware of their body against the technical field.
-        A CO₂ / O₂ gas system gives the installation a respiratory
-        rhythm.
-      </p>
-    </div>
-
-    <div class="detail-row">
-      <div>
-        <h5>Medium</h5>
-        <p>VR · generative algorithm · Ambisonics · haptic · gas</p>
-      </div>
-      <div>
-        <h5>Role</h5>
-        <p>Solo — concept · system · composition · 3D print</p>
-      </div>
-      <div>
-        <h5>Venue</h5>
-        <p>Digital Art Center, Taipei · 2024</p>
-      </div>
-      <div>
-        <h5>Documentation</h5>
-        <p><a href="https://www.youtube.com/watch?v=YpsZ0EtSozE" target="_blank">youtube · YpsZ0EtSozE</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 09 · RIVER OF SHADOWS (Layout G) ═══════════════════ -->
-<section class="p-g">
-  <span class="corner tl">09 — Research · 03</span>
-  <span class="corner tr">NYCU · iOS AR</span>
-
-  <div class="content">
-    <div class="project-num">Research · 03</div>
-    <h2 class="project-title">River of Shadows</h2>
-    <div class="project-title-cn">川影 · Site &amp; Time-Specific iOS AR · 2024</div>
-
-    <div class="offset" style="margin-top: 5rem;">
-      <div class="image-box" style="padding: 0; overflow: hidden;">
-        <img src="images/09 River of Shadows.png" alt="AR overlay, botanical garden fragment on corridor">
-      </div>
-
-      <div>
-        <p class="description lead">
-          A site-specific, time-specific iOS AR performance.
-          At a designated moment, audiences open the app inside
-          the ground floor of the university's administrative
-          building.
-        </p>
-        <br>
-        <p class="description">
-          Area Target spatial recognition activates the performance
-          from a first-person perspective. The work superimposes
-          two absent spaces onto the physical corridor — the
-          artist's private room and the desert pavilion of Taichung
-          Botanical Garden. The room functions as a <em>negative
-          space</em> — a chroma-key cut-out subtracted from the
-          visible field, producing a ruptured scene. A moving white
-          cube becomes a navigation score, directing each viewer's
-          physical movement through the corridor in sync with
-          spatial electroacoustic composition.
-        </p>
-
-        <div class="role">
-          <div class="role-label">My role — solo</div>
-          <p class="role-body">
-            iOS AR app development · Area Target spatial
-            recognition · spatial electroacoustic composition ·
-            audience navigation choreography.
-          </p>
-        </div>
-
-        <div class="stack-line">
-          Swift <span class="divider">·</span>
-          ARKit <span class="divider">·</span>
-          Area Target <span class="divider">·</span>
-          Spatial audio <span class="divider">·</span>
-          <a href="https://youtu.be/FejVzhDx3Ls" target="_blank">Doc</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="ros-gallery">
-      <div class="mono" style="color: var(--ink-faint);">App Capture — In Performance</div>
-      <div class="ros-grid">
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/09 River of Shadows13.jpg" alt="Navigation cube, corridor"></div>
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/09 River of Shadows116.jpg" alt="Shadow-dappled navigation cube, daytime"></div>
-        <div class="image-box" style="padding: 0; overflow: hidden;"><img src="images/09 River of Shadows115.jpg" alt="Botanical garden AR overlay"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 10 · 13-VOICE CV SYNTHESIZER (Layout A) ═══════════════════ -->
-<section class="p-a">
-  <span class="corner tl">10 — Research · 04</span>
-  <span class="corner tr">Solo build · Analog hardware</span>
-
-  <div class="content">
-    <div class="project-num">Research · 04</div>
-    <h2 class="project-title">13-Voice CV Synthesizer</h2>
-    <div class="project-title-cn">十三聲部電壓控制合成器 · Analog Circuit Design</div>
-
-    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-top: 3rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line);">
-      <div class="project-meta">
-        <div><span class="key">TYPE</span> &nbsp; Solo hardware instrument</div>
-        <div><span class="key">ARCHITECTURE</span> &nbsp; 1 master board · 12 sub-boards</div>
-        <div><span class="key">CONTROL</span> &nbsp; Full CV — voltage-controlled</div>
-      </div>
-      <div class="project-meta">
-        <div><span class="key">VOICES</span> &nbsp; 13</div>
-        <div><span class="key">PCB</span> &nbsp; Self-designed · hand-fabricated</div>
-      </div>
-    </div>
-
-    <div class="image-box" style="padding: 0; overflow: hidden; aspect-ratio: 4/1;">
-      <img src="images/11image5.png" alt="13-voice CV synthesizer, assembled" style="object-fit: contain; background: var(--bg-paper);">
-    </div>
-    <div class="image-caption">Fig. 01 — Assembled · master board and 12 sub-boards</div>
-
-    <div class="split" style="margin-top: 5rem;">
-      <div class="description">
-        <p class="lead">
-          A fully self-designed, self-fabricated analog synthesizer.
-          One master voice and twelve sub-voices, each independently
-          CV-controlled through a shared voltage bus.
-        </p>
-        <p>
-          PCB layouts designed from scratch and hand-etched. The
-          architecture separates a master board from twelve identical
-          sub-boards, enabling full polyphonic or multitimbral control
-          from a single CV source. Built as a proof of analog circuit
-          design capability at system scale.
-        </p>
-      </div>
-
-      <div>
-        <div class="image-box" style="padding: 0; overflow: hidden; aspect-ratio: 2/3;">
-          <img src="images/11image19.png" alt="Hand-etched copper PCB — master and sub-board" style="object-fit: contain; background: var(--bg-paper);">
-        </div>
-        <div class="image-caption">Fig. 02 — Hand-etched PCB · master board (top) · sub-board (bottom)</div>
-
-        <div class="role">
-          <div class="role-label">My role — solo</div>
-          <p class="role-body">
-            Circuit schematic design · PCB layout &amp; hand etching ·
-            analog assembly · 13-voice system architecture.
-          </p>
-        </div>
-
-        <div class="stack-line">
-          Analog electronics <span class="divider">·</span>
-          PCB design <span class="divider">·</span>
-          CV control <span class="divider">·</span>
-          Hand fabrication
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ 11 · LATENT BREACH (special) ═══════════════════ -->
-<section class="latent p-f" id="current">
-  <span class="corner tl">11 — Current · In Development</span>
-  <span class="corner tr">Submitted · ZKM Karlsruhe 2026/27</span>
-
-  <div class="content">
-    <div class="project-num" style="color: var(--accent);">Current · In Development</div>
-    <h2 class="project-title">LATENT BREACH</h2>
-    <div class="project-title-cn">Adversarial Subspaces as Performative Resistance</div>
-
-    <div class="image-box" style="padding: 0; overflow: hidden;">
-      <img src="images/10 Latent Breach.png" alt="Concept visualization, adversarial AR entity in shared airspace">
-    </div>
-
-    <div class="description">
-      <p class="lead">
-        A 20-minute live performance in which every audience
-        member's smartphone becomes a sensing instrument.
-      </p>
-      <p>
-        An iOS / Android AR app runs real-time YOLO26 object
-        detection while six UWB beacons track each device to
-        centimeter-level precision. For the first ten minutes,
-        the system classifies the room accurately — building trust.
-      </p>
-      <p>
-        At minute ten, PGD adversarial perturbation collapses
-        the detection confidence, and an AR entity materializes
-        in the shared airspace. Object labels are replaced by
-        site-specific narrative text authored from archival research.
-        <em>The machine does not malfunction. It narrates.</em>
-      </p>
-    </div>
-
-    <div class="detail-row">
-      <div>
-        <h5>Status</h5>
-        <p>Submitted · ZKM Karlsruhe 2026/27 · V2_Unstable Rotterdam</p>
-      </div>
-      <div>
-        <h5>Stack</h5>
-        <p>YOLO26 · UWB · ARKit · PGD · PyTorch · 8-ch audio</p>
-      </div>
-      <div>
-        <h5>Role</h5>
-        <p>Solo — system · narrative · adversarial pipeline</p>
-      </div>
-      <div>
-        <h5>Full document</h5>
-        <p><a href="https://drive.google.com/file/d/1gMGg3BsSbI9zvNbmy1ClPpu3ItoEWgaL/view?usp=sharing" target="_blank">View PDF</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════ CONTACT ═══════════════════ -->
-<section class="contact" id="contact">
-  <div class="content">
-    <div class="mono" style="margin-bottom: 3rem; color: var(--ink-faint);">Get in touch</div>
+<!-- ─────── STATEMENT ─────── -->
+<section class="statement" id="about">
+  <div class="statement-inner">
     <h2>
-      Open to full relocation worldwide.
+      Engineering at the edge of <em>live experience</em> — spatial audio, real-time machine
+      learning, mixed reality.
     </h2>
 
-    <a href="mailto:bernie5@dataraw.tech" class="email">bernie5@dataraw.tech</a>
-    <div class="mono-sm" style="margin-top: 1rem;">+886 983 717 444 · Taipei</div>
+    <dl class="statement-stack">
+      <dt>Audio · ML</dt>
+      <dd>Spatial Audio · Ambisonics · Neural Synthesis · RAVE · Max/MSP · Pure Data · Multichannel</dd>
+      <dt>XR · Systems</dt>
+      <dd>Unity · ARKit · Swift · TouchDesigner · UWB · YOLO · Adversarial ML</dd>
+      <dt>Hardware</dt>
+      <dd>Python · PyTorch · C++ · Motor Control · Embedded · UDP/OSC · PCB</dd>
+    </dl>
+  </div>
+</section>
 
-    <div class="contact-links">
-      <a href="https://www.linkedin.com/in/tao-yun-huang-9953b5322" target="_blank">LinkedIn</a>
-      <a href="https://github.com/huangtaoyun5" target="_blank">GitHub</a>
-      <a href="https://www.youtube.com/playlist?list=PLylutyPegvY4wChHpog73qfLT1bpKypIe" target="_blank">Works</a>
+
+<!-- ─────── INDEX ─────── -->
+<section class="index" id="index">
+  <div class="index-head">
+    <h3>Selected Works</h3>
+    <div class="mono-xs">11 projects · 2022 — 2026</div>
+  </div>
+
+  <div class="index-grid">
+    <div class="index-list" id="indexList">
+      <div class="index-group">Commercial</div>
+
+      <a class="index-row" href="#w-railway" data-key="w-railway">
+        <span class="n">01</span>
+        <span class="t">Diesel-Electric Workshop<span class="cn">柴電工場</span></span>
+        <span class="y">2025</span>
+      </a>
+      <a class="index-row" href="#w-moss" data-key="w-moss">
+        <span class="n">02</span>
+        <span class="t">Moss Floating Layer<span class="cn">苔域浮層</span></span>
+        <span class="y">2025</span>
+      </a>
+      <a class="index-row" href="#w-ttxc" data-key="w-ttxc">
+        <span class="n">03</span>
+        <span class="t">Culture-Tech Exchange<span class="cn">文化科技交易所</span></span>
+        <span class="y">2025</span>
+      </a>
+      <a class="index-row" href="#w-moda" data-key="w-moda">
+        <span class="n">04</span>
+        <span class="t">AI Living Lab<span class="cn">資訊月</span></span>
+        <span class="y">2025</span>
+      </a>
+
+      <div class="index-group">Research &amp; Practice</div>
+
+      <a class="index-row" href="#w-threshold" data-key="w-threshold">
+        <span class="n">05</span>
+        <span class="t">Threshold<span class="cn">闁 · 三部曲</span></span>
+        <span class="y">2022 — 24</span>
+      </a>
+      <a class="index-row" href="#w-circle" data-key="w-circle">
+        <span class="n">06</span>
+        <span class="t">Circle of Confusion<span class="cn">彌散圈反應</span></span>
+        <span class="y">2024</span>
+      </a>
+      <a class="index-row" href="#w-ros" data-key="w-ros">
+        <span class="n">07</span>
+        <span class="t">River of Shadows<span class="cn">川影</span></span>
+        <span class="y">2024</span>
+      </a>
+      <a class="index-row" href="#w-cv" data-key="w-cv">
+        <span class="n">08</span>
+        <span class="t">13-Voice CV Synthesizer<span class="cn">十三聲部</span></span>
+        <span class="y">2023</span>
+      </a>
+
+      <div class="index-group">Current</div>
+
+      <a class="index-row" href="#w-latent" data-key="w-latent">
+        <span class="n">09</span>
+        <span class="t">Latent Breach<span class="cn">在開發中</span></span>
+        <span class="y">2026/27</span>
+      </a>
     </div>
 
-    <div class="contact-meta">
-      EU Blue Card eligible &nbsp; · &nbsp; Canada Global Talent Stream eligible
+    <div class="index-preview" id="indexPreview">
+      <div class="slot on" data-key="w-railway"><img src="images/04 Railway Museum.jpg" alt=""></div>
+      <div class="slot" data-key="w-moss"><img src="images/05 Moss Floating Layer.jpg" alt=""></div>
+      <div class="slot" data-key="w-ttxc"><img src="images/06 TTXC.jpg" alt=""></div>
+      <div class="slot" data-key="w-moda"><img src="images/03 AI Living Lab.png" alt=""></div>
+      <div class="slot" data-key="w-threshold"><img src="images/07 Threshold v2.jfif" alt=""></div>
+      <div class="slot" data-key="w-circle"><img src="images/08 Circle of Confusion.png" alt=""></div>
+      <div class="slot" data-key="w-ros"><img src="images/09 River of Shadows1.png" alt=""></div>
+      <div class="slot" data-key="w-cv"><img src="images/11image5.png" alt=""></div>
+      <div class="slot" data-key="w-latent"><img src="images/10 Latent Breach.png" alt=""></div>
+      <div class="label">
+        <span id="previewName">Diesel-Electric Workshop</span>
+        <span id="previewMeta">2025 · National Railway Museum</span>
+      </div>
     </div>
   </div>
 </section>
 
-<footer>
-  © 2026 · Tao Yun Huang <span class="cjk" style="margin-left: 0.5rem;">黃韜云</span> · Portfolio Issue 01
-</footer>
+
+<!-- ─────── 01 RAILWAY ─────── -->
+<section class="work" id="w-railway">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 01 · Commercial</span>
+      <span class="work-tag">Permanent exhibition · National Railway Museum</span>
+      <span class="work-tag">2025</span>
+    </div>
+    <h2 class="work-title">Diesel-Electric Workshop</h2>
+    <div class="work-title-cn">國家鐵道博物館 · 柴電工場</div>
+
+    <div class="media hero">
+      <img src="images/04 Railway Museum.jpg" alt="S212 transparent screen, Railway Museum">
+    </div>
+
+    <div class="media-grid two">
+      <div class="media wide"><img src="images/04 Railway Museum (2).jpg" alt="Armature and crane"></div>
+      <div class="media wide"><img src="images/04 Railway Museum (3).png" alt="Workshop floor"></div>
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        Energy made <em>visible</em> inside a 100-year-old locomotive hall: a transparent screen
+        animates electric flow over the machine; a 60 kg armature is choreographed with the
+        overhead crane.
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Client</dt><dd>National Railway Museum, Taipei</dd>
+          <dt>Studio</dt><dd>IF Plus Art</dd>
+          <dt>Stack</dt><dd>Motor control · Transparent LED · Crane kinematics · Animation sync</dd>
+          <dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role —</strong> hardware engineering: armature &amp;
+          overhead crane motion control · transparent display control · multi-system timing sync
+          between animation playback and physical actuation.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 02 MOSS ─────── -->
+<section class="work" id="w-moss">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 02 · Commercial</span>
+      <span class="work-tag">Retail immersive · Shin Kong Mitsukoshi A9</span>
+      <span class="work-tag">2025</span>
+    </div>
+    <h2 class="work-title">Moss Floating Layer</h2>
+    <div class="work-title-cn">苔域浮層 · 信義區</div>
+
+    <div class="media hero">
+      <img src="images/05 Moss Floating Layer.jpg" alt="Moss terrarium installation, Xinyi">
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        Against the velocity of Taipei's busiest commercial district — a small terrarium
+        breathing <em>at its own pace.</em>
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Client</dt><dd>SCOPE TECH</dd>
+          <dt>Venue</dt><dd>Shin Kong Mitsukoshi A9, Taipei</dd>
+          <dt>Stack</dt><dd>Multichannel audio · Spatial composition · Retail AV integration</dd>
+          <dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=3qMWraIEPbc" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role —</strong> sound design. Multichannel spatial
+          music composition and system design for the installation's audio environment.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 03 TTXC ─────── -->
+<section class="work" id="w-ttxc">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 03 · Commercial</span>
+      <span class="work-tag">Live engagement · TTXC INNOVATIONS · Pier-2 Kaohsiung</span>
+      <span class="work-tag">2025</span>
+    </div>
+    <h2 class="work-title">Culture-Tech Exchange</h2>
+    <div class="work-title-cn">文化科技交易所 · TAICCA</div>
+
+    <div class="media hero">
+      <img src="images/06 TTXC.jpg" alt="TTXC venue leaderboard, LINE OA">
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        An exhibition turned live investment game. Over four days, audience phone-based
+        investments hit <em>NT$4.7 billion</em> virtual capital.
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Client</dt><dd>TAICCA</dd>
+          <dt>Studio</dt><dd>IF Plus Art</dd>
+          <dt>Stack</dt><dd>Unity · LINE OA · Real-time networking · Live data viz</dd>
+          <dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=KtusLH4ttM0" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role —</strong> Unity-based real-time software ·
+          cross-platform interaction (mobile ↔ venue display) · live-data viz sync (3-min
+          leaderboard refresh).
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 04 MODA ─────── -->
+<section class="work" id="w-moda">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 04 · Commercial</span>
+      <span class="work-tag">Government activation · MODA · Taipei Computer Festival</span>
+      <span class="work-tag">2025</span>
+    </div>
+    <h2 class="work-title">AI Living Lab</h2>
+    <div class="work-title-cn">資訊月 · 數位發展部</div>
+
+    <div class="media hero">
+      <img src="images/03 AI Living Lab.png" alt="Interactive cycling station, MODA booth">
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        Pedal, choose a route, answer a prompt. The system generates a <em>one-of-a-kind audio
+        souvenir</em> — printed as a cassette postcard from your ride.
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Client</dt><dd>Ministry of Digital Affairs (MODA)</dd>
+          <dt>Audience</dt><dd>1,000+ riders · 4 days</dd>
+          <dt>Stack</dt><dd>Python · Generative Audio ML · Real-time synthesis · Custom bike hardware</dd>
+          <dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=mWuq7uki4DQ" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role —</strong> AI music model development &amp;
+          training · pedaling sensor data acquisition · real-time integration · custom bike
+          hardware design.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 05 THRESHOLD ─────── -->
+<section class="work" id="w-threshold">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 05 · Research</span>
+      <span class="work-tag">Series · 3 versions · Electromechanical neural audio</span>
+      <span class="work-tag">2022 — 2024</span>
+    </div>
+    <h2 class="work-title">Threshold</h2>
+    <div class="work-title-cn">闁 · 真實與潛在空間的回授</div>
+
+    <div class="media-grid three">
+      <div class="media portrait"><img src="images/07 Threshold v1.jpg" alt="Threshold v1, Taichung 2022"></div>
+      <div class="media portrait"><img src="images/07 Threshold v2.jfif" alt="Threshold v2, C-LAB Taipei 2023"></div>
+      <div class="media portrait"><img src="images/07 Threshold v3.JPG" alt="Threshold v3, NYCU 2024"></div>
+    </div>
+    <div class="media-caption">v1 · Taichung 2022 &nbsp; / &nbsp; v2 · C-LAB Taipei 2023 &nbsp; / &nbsp; v3 · NYCU 2024</div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        Recursive feedback between real-time neural audio synthesis and physical resonance.
+        v2 deployed RAVE across a <em>49.4-channel Ambisonics system</em> — first at this
+        scale in Taiwan.
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Stack</dt><dd>RAVE · Max/MSP · Ambisonics · Stepper motors · Solenoids · Pneumatics · k-means</dd>
+          <dt>Venues</dt><dd>Taichung · C-LAB · NYCU</dd>
+          <dt>Doc</dt><dd><a href="https://youtu.be/YVT2q0_gJyA" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role — solo.</strong> Composition · modified RAVE
+          pipeline · electromechanical apparatus design · Ambisonics mapping · feedback-loop
+          engineering across all three versions.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 06 CIRCLE ─────── -->
+<section class="work" id="w-circle">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 06 · Research</span>
+      <span class="work-tag">VR installation · Digital Art Center, Taipei</span>
+      <span class="work-tag">2024</span>
+    </div>
+    <h2 class="work-title">Circle of Confusion — Reaction</h2>
+    <div class="work-title-cn">彌散圈反應</div>
+
+    <div class="media hero">
+      <img src="images/08 Circle of Confusion.png" alt="Custom 3D-printed haptic VR rig">
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        VR with a deliberately incomplete Ambisonics array — the speaker absences become
+        <em>bidirectional thresholds</em>. A CO₂ / O₂ system gives the work respiratory rhythm.
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Medium</dt><dd>VR · generative algorithm · Ambisonics · haptic · gas system</dd>
+          <dt>Venue</dt><dd>Digital Art Center, Taipei</dd>
+          <dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=YpsZ0EtSozE" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role — solo.</strong> Concept · system · composition ·
+          custom 3D-printed haptic sculpture attached to the VR headset.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 07 ROS ─────── -->
+<section class="work" id="w-ros">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 07 · Research</span>
+      <span class="work-tag">Site &amp; time-specific iOS AR · NYCU</span>
+      <span class="work-tag">2024</span>
+    </div>
+    <h2 class="work-title">River of Shadows</h2>
+    <div class="work-title-cn">川影</div>
+
+    <div class="media hero">
+      <img src="images/09 River of Shadows1.png" alt="AR overlay, botanical garden fragment on corridor">
+    </div>
+
+    <div class="media-grid three">
+      <div class="media portrait"><img src="images/09 River of Shadows13.jpg" alt=""></div>
+      <div class="media portrait"><img src="images/09 River of Shadows116.jpg" alt=""></div>
+      <div class="media portrait"><img src="images/09 River of Shadows115.jpg" alt=""></div>
+    </div>
+    <div class="media-caption">App capture · in performance</div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        Two absent spaces overlaid on a university corridor. A moving white cube becomes a
+        <em>navigation score</em> — directing each viewer in sync with spatial electroacoustic
+        composition.
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Stack</dt><dd>Swift · ARKit · Area Target · Spatial audio</dd>
+          <dt>Venue</dt><dd>NYCU Administrative Building, Hsinchu</dd>
+          <dt>Doc</dt><dd><a href="https://youtu.be/FejVzhDx3Ls" target="_blank">Video ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role — solo.</strong> iOS AR app development · Area
+          Target spatial recognition · spatial electroacoustic composition · audience navigation
+          choreography.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 08 CV SYNTH ─────── -->
+<section class="work" id="w-cv">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Work 08 · Research</span>
+      <span class="work-tag">Solo build · Analog hardware</span>
+      <span class="work-tag">2023</span>
+    </div>
+    <h2 class="work-title">13-Voice CV Synthesizer</h2>
+    <div class="work-title-cn">十三聲部電壓控制合成器</div>
+
+    <div class="media wide" style="aspect-ratio: 4/1;">
+      <img src="images/11image5.png" alt="13-voice CV synthesizer, assembled" style="object-fit:contain; background:var(--bg-tile);">
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        One master and twelve sub-voices, each independently CV-controlled through a shared
+        voltage bus. PCBs <em>designed and hand-etched</em> from scratch.
+      </p>
+      <div class="work-side">
+        <div class="media portrait" style="margin-bottom: 1.2rem;">
+          <img src="images/11image19.png" alt="Hand-etched copper PCB" style="object-fit:contain; background:var(--bg-tile);">
+        </div>
+        <dl>
+          <dt>Architecture</dt><dd>1 master · 12 sub-boards</dd>
+          <dt>Stack</dt><dd>Analog electronics · PCB design · CV control · Hand fabrication</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── 09 LATENT BREACH ─────── -->
+<section class="work" id="w-latent">
+  <div class="work-inner">
+    <div class="work-meta">
+      <span class="work-num">Current · In Development</span>
+      <span class="work-tag">Submitted · ZKM Karlsruhe 2026/27 · V2_Unstable Rotterdam</span>
+      <span class="work-tag">2026/27</span>
+    </div>
+    <h2 class="work-title">LATENT BREACH</h2>
+    <div class="work-title-cn">Adversarial Subspaces as Performative Resistance</div>
+
+    <div class="media hero">
+      <img src="images/10 Latent Breach.png" alt="Concept visualization, adversarial AR entity">
+    </div>
+
+    <div class="work-foot">
+      <p class="work-lead">
+        20 minutes. Every audience phone is a sensing instrument. At minute ten, PGD adversarial
+        perturbation collapses detection — and an AR entity materializes.
+        <em>The machine does not malfunction. It narrates.</em>
+      </p>
+      <div class="work-side">
+        <dl>
+          <dt>Stack</dt><dd>YOLO26 · UWB · ARKit · PGD · PyTorch · 8-ch audio</dd>
+          <dt>Status</dt><dd>Submitted · ZKM Karlsruhe 2026/27 · V2_Unstable Rotterdam</dd>
+          <dt>Doc</dt><dd><a href="https://drive.google.com/file/d/1gMGg3BsSbI9zvNbmy1ClPpu3ItoEWgaL/view?usp=sharing" target="_blank">Full proposal ↗</a></dd>
+        </dl>
+        <p class="role">
+          <strong style="font-weight:500;">My role — solo.</strong> System · narrative ·
+          adversarial pipeline. iOS / Android AR app running real-time YOLO26 with six UWB
+          beacons tracking each device to centimeter-level precision.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────── CONTACT ─────── -->
+<section class="contact" id="contact">
+  <div class="mono">Get in touch</div>
+  <h2>Open to full relocation worldwide.</h2>
+  <a href="mailto:bernie5@dataraw.tech" class="email">bernie5@dataraw.tech</a>
+  <div class="mono-xs" style="margin-top: 1rem;">+886 983 717 444 · Taipei</div>
+
+  <div class="links">
+    <a href="https://www.linkedin.com/in/tao-yun-huang-9953b5322" target="_blank">LinkedIn</a>
+    <a href="https://github.com/huangtaoyun5" target="_blank">GitHub</a>
+    <a href="https://www.youtube.com/playlist?list=PLylutyPegvY4wChHpog73qfLT1bpKypIe" target="_blank">Works</a>
+    <a href="cv.html">CV</a>
+  </div>
+
+  <div class="meta">EU Blue Card eligible · Canada Global Talent Stream eligible</div>
+</section>
+
+<footer>© 2026 · Tao Yun Huang · Portfolio Issue 02</footer>
 
 </main>
 
 
 <script>
-// ═══════════════════ AMBIENT WEBGL BACKGROUND ═══════════════════
-// Subtle flow-field shader — near-invisible grey noise on white
-// Inspired by ink bleeding on rice paper
-
-(function() {
-  const canvas = document.getElementById('ambient-canvas');
-  const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-
-  if (!gl) {
-    canvas.style.display = 'none';
-    return;
-  }
-
-  // Resize
-  function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  // Shader sources — fragment shader uses simplex-like noise
-  const vertSrc = `
-    attribute vec2 position;
-    void main() {
-      gl_Position = vec4(position, 0.0, 1.0);
-    }
-  `;
-
-  const fragSrc = `
-    precision highp float;
-    uniform vec2 u_resolution;
-    uniform float u_time;
-    uniform vec2 u_mouse;
-
-    // Simple hash + value noise
-    float hash(vec2 p) {
-      return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-    }
-
-    float noise(vec2 p) {
-      vec2 i = floor(p);
-      vec2 f = fract(p);
-      f = f * f * (3.0 - 2.0 * f);
-      return mix(
-        mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-        mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x),
-        f.y
-      );
-    }
-
-    float fbm(vec2 p) {
-      float v = 0.0;
-      float a = 0.5;
-      for (int i = 0; i < 5; i++) {
-        v += a * noise(p);
-        p *= 2.0;
-        a *= 0.5;
-      }
-      return v;
-    }
-
-    void main() {
-      vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-      vec2 p = uv;
-      p.x *= u_resolution.x / u_resolution.y;
-
-      // Slow moving flow field — ink bleeding on paper
-      float t = u_time * 0.04;
-      vec2 q = vec2(
-        fbm(p * 1.5 + vec2(t, 0.0)),
-        fbm(p * 1.5 + vec2(0.0, t * 1.2))
-      );
-
-      vec2 r = vec2(
-        fbm(p * 1.5 + 2.5 * q + vec2(1.7, 9.2) + 0.15 * t),
-        fbm(p * 1.5 + 2.5 * q + vec2(8.3, 2.8) + 0.126 * t)
-      );
-
-      float f = fbm(p * 1.5 + 3.5 * r);
-
-      // Mouse influence — very subtle
-      vec2 m = u_mouse / u_resolution.xy;
-      m.x *= u_resolution.x / u_resolution.y;
-      float md = distance(p, m);
-      float mouseInfluence = smoothstep(0.6, 0.0, md) * 0.15;
-
-      // Result — warm grey ink tones on pure white paper
-      float ink = f * 0.5 + mouseInfluence;
-      ink = smoothstep(0.3, 0.8, ink);
-
-      // Pure white base
-      vec3 paper = vec3(1.0, 1.0, 1.0);
-      vec3 inkColor = vec3(0.68, 0.66, 0.64);  // warm grey
-      vec3 accent = vec3(0.72, 0.36, 0.22);    // cinnabar
-
-      // Very rare accent specks
-      float accentMask = smoothstep(0.92, 0.96, ink) * 0.12;
-
-      vec3 color = mix(paper, inkColor, ink * 0.15);
-      color = mix(color, accent, accentMask);
-
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `;
-
-  function createShader(type, source) {
-    const s = gl.createShader(type);
-    gl.shaderSource(s, source);
-    gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      console.error('Shader error:', gl.getShaderInfoLog(s));
-      return null;
-    }
-    return s;
-  }
-
-  const vert = createShader(gl.VERTEX_SHADER, vertSrc);
-  const frag = createShader(gl.FRAGMENT_SHADER, fragSrc);
-  if (!vert || !frag) {
-    canvas.style.display = 'none';
-    return;
-  }
-
-  const program = gl.createProgram();
-  gl.attachShader(program, vert);
-  gl.attachShader(program, frag);
-  gl.linkProgram(program);
-  gl.useProgram(program);
-
-  // Fullscreen triangle
-  const posBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-    -1, -1,   3, -1,   -1, 3
-  ]), gl.STATIC_DRAW);
-
-  const posLoc = gl.getAttribLocation(program, 'position');
-  gl.enableVertexAttribArray(posLoc);
-  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-  const uRes = gl.getUniformLocation(program, 'u_resolution');
-  const uTime = gl.getUniformLocation(program, 'u_time');
-  const uMouse = gl.getUniformLocation(program, 'u_mouse');
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let targetX = mouseX, targetY = mouseY;
-
-  window.addEventListener('mousemove', (e) => {
-    targetX = e.clientX * (window.devicePixelRatio || 1);
-    targetY = (window.innerHeight - e.clientY) * (window.devicePixelRatio || 1);
+// ───── index hover preview ─────
+(function(){
+  const list = document.getElementById('indexList');
+  const slots = document.querySelectorAll('#indexPreview .slot');
+  const name = document.getElementById('previewName');
+  const meta = document.getElementById('previewMeta');
+  const labels = {
+    'w-railway':   ['Diesel-Electric Workshop',  '2025 · National Railway Museum'],
+    'w-moss':      ['Moss Floating Layer',       '2025 · Shin Kong Mitsukoshi A9'],
+    'w-ttxc':      ['Culture-Tech Exchange',     '2025 · TAICCA · Pier-2 Kaohsiung'],
+    'w-moda':      ['AI Living Lab',             '2025 · MODA · Taipei Computer Festival'],
+    'w-threshold': ['Threshold',                 '2022—24 · Series · 3 versions'],
+    'w-circle':    ['Circle of Confusion',       '2024 · VR · Digital Art Center'],
+    'w-ros':       ['River of Shadows',          '2024 · iOS AR · NYCU'],
+    'w-cv':        ['13-Voice CV Synthesizer',   '2023 · Solo analog hardware'],
+    'w-latent':    ['LATENT BREACH',             '2026/27 · ZKM submitted · in development'],
+  };
+  list.querySelectorAll('.index-row').forEach(row => {
+    row.addEventListener('mouseenter', () => {
+      const k = row.dataset.key;
+      slots.forEach(s => s.classList.toggle('on', s.dataset.key === k));
+      if (labels[k]) { name.textContent = labels[k][0]; meta.textContent = labels[k][1]; }
+    });
   });
-
-  const start = performance.now();
-  function render() {
-    const t = (performance.now() - start) / 1000;
-    mouseX += (targetX - mouseX) * 0.02;
-    mouseY += (targetY - mouseY) * 0.02;
-
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.uniform1f(uTime, t);
-    gl.uniform2f(uMouse, mouseX, mouseY);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-    requestAnimationFrame(render);
-  }
-  render();
 })();
 
-
-// ═══════════════════ REVEAL ON SCROLL ═══════════════════
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('section').forEach(el => {
-  el.classList.add('reveal');
-  observer.observe(el);
-});
-
-// Nav active section highlight
-const navLinks = document.querySelectorAll('.nav-link');
-const navSections = document.querySelectorAll('section[id]');
-const navObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      const a = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
-      if (a) a.classList.add('active');
-    }
-  });
-}, { threshold: 0.35 });
-navSections.forEach(s => navObserver.observe(s));
+// ───── reveal on scroll ─────
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.08 });
+document.querySelectorAll('section').forEach(s => { s.classList.add('reveal'); io.observe(s); });
 </script>
 
 </body>
