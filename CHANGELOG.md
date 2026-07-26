@@ -1,5 +1,15 @@
 # Changelog — dataraw.tech
 
+## 2026-07-26 · Hardware CV PDF 上線
+
+### cv.html
+- Version A（Primary）加入 `Tao_Yun_Huang_CV_Hardware_Engineer.pdf` 下載按鈕，並保留線上檢視
+- Version B 移除失效連結（`Tao_Yun_Huang_CV_Experiential.pdf` 檔案不存在，原本按下去是 404），改為線上檢視／另存 PDF
+- 頁尾更新日期 April 2026 → July 2026
+
+### Assets
+- 新增 `Tao_Yun_Huang_CV_Hardware_Engineer.pdf`（由 cv-general.html 匯出，檔名改為 URL 安全格式）
+
 ## 2026-07-25 · Reposition site → Systems & Hardware Engineer
 
 ### Positioning
