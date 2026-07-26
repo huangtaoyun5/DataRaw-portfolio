@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CV — Tao Yun Huang · Customer Engineer / Field Service</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=Inter+Tight:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1A1A;
+  --ink-soft: #333333;
+  --ink-muted: #666666;
+  --ink-faint: #999999;
+  --line: #DDDDDD;
+  --line-soft: #EEEEEE;
+  --accent: #B85C38;
+  --font-display: 'Noto Serif JP', serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 3.5rem 3rem 5rem;
+}
+
+/* ── HEADER ── */
+.cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1.5px solid var(--ink);
+  margin-bottom: 2rem;
+}
+
+.cv-name {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.cv-name-cn {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  margin-top: 0.3rem;
+}
+
+.cv-title {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  margin-top: 0.4rem;
+  letter-spacing: 0.01em;
+}
+
+.cv-keywords {
+  font-family: var(--font-mono);
+  font-size: 0.575rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 0.45rem;
+}
+
+.cv-contact {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+  line-height: 1.9;
+  flex-shrink: 0;
+}
+.cv-contact a { color: var(--ink-muted); text-decoration: none; }
+
+/* ── SECTIONS ── */
+.cv-section { margin-bottom: 1.75rem; }
+
+.cv-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+/* ── PROFILE ── */
+.cv-profile {
+  font-size: 0.825rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+/* ── READINESS BAND ── */
+.readiness {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem 1.75rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--line);
+  background: #FAFAF9;
+  page-break-inside: avoid;
+}
+.readiness div {
+  font-size: 0.775rem;
+  color: var(--ink-soft);
+  position: relative;
+  padding-left: 1rem;
+  line-height: 1.5;
+}
+.readiness div::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.7rem;
+}
+
+/* ── BULLETS ── */
+.exp-bullets { list-style: none; margin: 0.85rem 0 1.2rem; }
+.exp-bullets li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  page-break-inside: avoid;
+}
+.exp-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink-faint);
+}
+.exp-bullets strong { font-weight: 500; color: var(--ink); }
+
+/* ── SYSTEMS MATRIX ── */
+.sys-grid {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 0.45rem 1.25rem;
+  font-size: 0.775rem;
+}
+.sys-cat {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.09em;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  padding-top: 0.1rem;
+}
+.sys-list { color: var(--ink-soft); line-height: 1.55; }
+
+/* ── COMPACT ROWS ── */
+.comm-row {
+  display: grid;
+  grid-template-columns: 11.5rem 1fr;
+  gap: 0 1.5rem;
+  margin-bottom: 0.75rem;
+  page-break-inside: avoid;
+}
+.comm-title { font-size: 0.8rem; font-weight: 400; color: var(--ink); }
+.comm-sub {
+  font-family: var(--font-mono);
+  font-size: 0.575rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+.comm-client {
+  font-family: var(--font-mono);
+  font-size: 0.615rem;
+  color: var(--ink-faint);
+  margin-top: 0.1rem;
+}
+.comm-right {
+  font-size: 0.775rem;
+  color: var(--ink-muted);
+  line-height: 1.55;
+}
+.comm-role {
+  font-style: italic;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  margin-top: 0.2rem;
+}
+
+/* ── EDUCATION ── */
+.edu-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.65rem;
+  page-break-inside: avoid;
+}
+.edu-left { flex: 1; }
+.edu-degree { font-size: 0.825rem; font-weight: 400; color: var(--ink); }
+.edu-school { font-size: 0.75rem; color: var(--ink-muted); margin-top: 0.1rem; }
+.edu-year {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── AVAILABILITY ── */
+.avail-line {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+  margin-bottom: 0.25rem;
+}
+
+/* ── PRINT ── */
+@media print {
+  @page { size: A4; margin: 15mm 18mm 15mm 18mm; }
+  html { font-size: 14px; }
+  body { font-size: 0.8rem; }
+  .page { padding: 0; max-width: 100%; }
+  .no-print { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+  .cv-section { page-break-inside: avoid; }
+  .comm-row { page-break-inside: avoid; }
+  .edu-row { page-break-inside: avoid; }
+  .readiness { background: none; }
+}
+
+/* ── SCREEN CONTROLS ── */
+.print-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 99;
+}
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-print { background: var(--ink); color: #fff; }
+.btn-print:hover { background: var(--accent); }
+.btn-back { background: #eee; color: var(--ink-soft); }
+.btn-back:hover { background: #ddd; }
+
+@media (max-width: 640px) {
+  .page { padding: 2rem 1.25rem 3rem; }
+  .cv-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .cv-contact { text-align: left; }
+  .readiness { grid-template-columns: 1fr; }
+  .sys-grid, .comm-row { grid-template-columns: 1fr; gap: 0.2rem; }
+  .comm-row { margin-bottom: 1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <a href="cv.html" class="btn btn-back">← Back</a>
+  <button class="btn btn-print" onclick="window.print()">Save as PDF</button>
+</div>
+
+<div class="page">
+
+<!-- ══ HEADER ══ -->
+<div class="cv-header">
+  <div>
+    <div class="cv-name">Tao Yun Huang</div>
+    <div class="cv-name-cn">黃 韜 云</div>
+    <div class="cv-title">Customer Engineer · Field Service</div>
+    <div class="cv-keywords">Equipment Maintenance · Fault Diagnosis · On-Site Customer Support</div>
+  </div>
+  <div class="cv-contact">
+    bernie5@dataraw.tech<br>
+    +886 983 717 444 · Taiwan<br>
+    <a href="https://dataraw.tech">dataraw.tech</a> &nbsp;·&nbsp;
+    <a href="https://linkedin.com/in/tao-yun-huang-9953b5322">LinkedIn</a>
+  </div>
+</div>
+
+<!-- ══ PROFILE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Profile</div>
+  <p class="cv-profile">
+    Hardware engineer trained in electrical engineering, with two and a half years across two
+    production studios delivering systems into the field — deadline-fixed public deployments for
+    government agencies, a national museum, and major retail, where the equipment had to run on
+    opening day with no second attempt. Owned installed systems end to
+    end: mechanical and electrical installation, commissioning, scheduled preventive maintenance,
+    on-site fault diagnosis and downtime recovery, remote monitoring, and direct accountability to
+    the customer through handover and the warranty period. Strongest at the physical-signal layer —
+    isolating noise, grounding, EMI, and bus or communication faults with instruments rather than by
+    swapping parts. Available for shift work including nights, on-call rotation, cleanroom PPE, and
+    travel including overseas assignment.
+  </p>
+</div>
+
+<!-- ══ FIELD READINESS ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Field Readiness</div>
+  <div class="readiness">
+    <div>Shift work including night shift</div>
+    <div>24/7 on-call rotation</div>
+    <div>Cleanroom work — full PPE</div>
+    <div>Travel 25%+, including overseas</div>
+    <div>Extended standing, confined-space and at-height work, lifting to 16&nbsp;kg</div>
+    <div>Immediate start · relocation anywhere in Taiwan or abroad</div>
+  </div>
+</div>
+
+<!-- ══ PROFESSIONAL EXPERIENCE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Hardware Engineer · IF Plus Art 當若科技藝術 · Dec 2024 – Apr 2026</div>
+
+  <ul class="exp-bullets">
+    <li><strong>Preventive &amp; corrective maintenance.</strong> Owned permanently installed
+      electromechanical systems after handover — scheduled PM cycles, on-site fault diagnosis,
+      downtime recovery, and remote monitoring and diagnostics over the network. Sole engineer
+      accountable through the warranty period.</li>
+    <li><strong>Fault isolation at the physical layer.</strong> Diagnosed noise coupling, grounding
+      problems, EMI, and bus / communication conflicts using oscilloscope, multimeter, and logic
+      analysis — separating mechanical, electrical, and firmware root causes instead of swapping
+      parts. Ran electromagnetic-compatibility (EMC) testing on custom hardware and closed out the
+      interference paths it exposed.</li>
+    <li><strong>Production support &amp; quality.</strong> Resolved technical issues arising in
+      production, ran product verification with the manufacturing team, and took part in quality
+      control.</li>
+    <li><strong>Documentation &amp; specifications.</strong> Wrote technical documentation and design
+      specifications, compiled test reports, and maintained schematics and design drawings as the
+      controlled reference for build and service.</li>
+    <li><strong>Installation &amp; commissioning.</strong> Installed and commissioned systems on
+      customer sites against fixed opening dates: mechanical assembly and alignment, wiring, sensor
+      mounting and calibration, and acceptance testing with the customer present.</li>
+    <li><strong>Motion control &amp; tuning.</strong> Designed and tuned closed-loop PID position and
+      velocity control with encoder feedback for a 60&nbsp;kg armature on an overhead-crane axis,
+      over an inner torque / speed loop tuned against varying inertia — eliminating overshoot,
+      oscillation, and settling error at end positions.</li>
+    <li><strong>Actuation &amp; timing.</strong> Integrated solenoid valves and pneumatic actuators
+      with embedded control, and synchronized mechanical motion with display and audio subsystems on
+      a shared timing reference through continuous daily operation.</li>
+    <li><strong>Customer interface.</strong> Direct point of contact for government agencies, a
+      national museum, and retail clients — scheduling site access, reporting equipment status, and
+      coordinating fixes while the venue stayed open to the public.</li>
+    <li><strong>Electronics build &amp; rework.</strong> Custom PCB schematic and layout, circuit
+      simulation and analysis, component selection and BOM management, hand-etched boards, analog
+      assembly, soldering and rework, wiring and power distribution, sensor-to-controller signal
+      conditioning. Design iterations targeted lower cost and power draw and higher reliability.</li>
+  </ul>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Diesel-Electric Workshop</div>
+      <div class="comm-sub">Permanent install · under maintenance</div>
+      <div class="comm-client">National Railway Museum, Taipei · 2025</div>
+    </div>
+    <div class="comm-right">
+      60&nbsp;kg locomotive armature on an overhead-crane axis under closed-loop PID control,
+      synchronized to a transparent-display overlay. Maintained on a scheduled PM cycle since
+      handover, with on-site diagnosis and remote monitoring.
+      <div class="comm-role">PID motion control · multi-axis synchronization · preventive maintenance &amp; troubleshooting</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">AI Living Lab</div>
+      <div class="comm-sub">Sensor hardware · continuous duty</div>
+      <div class="comm-client">MODA · Taipei Computer Festival 2025<br>1,000+ users · 4 days</div>
+    </div>
+    <div class="comm-right">
+      Custom instrumented-bicycle hardware: sensor acquisition, signal conditioning, and data
+      normalization into a real-time processing chain. Ran continuous public duty for four days
+      across 1,000+ users without intervention.
+      <div class="comm-role">Sensor hardware · signal conditioning · continuous-duty reliability</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Culture-Tech Exchange</div>
+      <div class="comm-sub">Networked system · on-site operation</div>
+      <div class="comm-client">TAICCA · Pier-2, Kaohsiung · 4 days</div>
+    </div>
+    <div class="comm-right">
+      Real-time networked system synchronizing mobile inputs to a venue display on a fixed 3-minute
+      cycle; deployed, operated, and supported on site across the full run.
+      <div class="comm-role">Cross-platform data sync · on-site deployment &amp; live support</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Moss Floating Layer</div>
+      <div class="comm-sub">Multichannel AV · permanent install</div>
+      <div class="comm-client">SCOPE TECH · Shin Kong Mitsukoshi A9 · 2025</div>
+    </div>
+    <div class="comm-right">
+      Multichannel audio system specified, installed, and commissioned into a permanent retail
+      environment in Taipei's busiest commercial district.
+      <div class="comm-role">System design · installation &amp; commissioning</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KING ONE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Technical Project Manager · King One Interactive 王一互動科技 · Jan – Dec 2024</div>
+  <ul class="exp-bullets">
+    <li><strong>End-to-end technical delivery.</strong> Led technical delivery of experiential
+      technology projects across exhibitions, corporate showrooms, and trade shows — scope
+      definition, schedule, on-site installation, and client acceptance.</li>
+    <li><strong>Cross-functional coordination.</strong> Coordinated mechanical, electrical, AV, and
+      software scopes with internal teams and outside contractors against fixed, non-movable
+      show-open dates.</li>
+    <li><strong>Technical risk ownership.</strong> Assessed technical risk during build and resolved
+      integration and equipment failures on site while the show was running.</li>
+    <li><strong>Delivery process.</strong> Short iterative cycles on a Scrum-style backlog with task
+      and issue tracking in Odoo.</li>
+  </ul>
+</div>
+
+<!-- ══ EARLIER ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Earlier</div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Lecturer — Electronic Programming</div>
+      <div class="comm-sub">Part-time · teaching</div>
+      <div class="comm-client">National Hsinchu Senior High School<br>Jul 2023 – Jun 2024</div>
+    </div>
+    <div class="comm-right">
+      Designed and delivered an electronic-programming curriculum to a class of 13+ students —
+      breaking technical material down for an audience with no prior background.
+      <div class="comm-role">Technical instruction · curriculum design</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Research Assistant</div>
+      <div class="comm-sub">Contract · NSTC-funded project</div>
+      <div class="comm-client">Institute of Music, NYCU<br>Apr 2022 – Jan 2023</div>
+    </div>
+    <div class="comm-right">
+      Technical support on a government-funded research project: proposal drafting and laboratory
+      build-out, within an international collaboration with Kunsthochschule für Medien Köln (KHM).
+      NT$500,000–800,000 per phase.
+      <div class="comm-role">Laboratory build-out · research support · international coordination</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HANDS-ON SYSTEMS ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Hands-On Systems Experience</div>
+  <div class="sys-grid">
+    <div class="sys-cat">Electrical</div>
+    <div class="sys-list">PCB schematic &amp; layout · hand etching · analog circuit design · soldering &amp; rework · wiring and harnessing · power distribution · sensor signal conditioning</div>
+    <div class="sys-cat">Mechanical</div>
+    <div class="sys-list">Assembly and alignment · overhead-crane axis · load handling to 60&nbsp;kg · 3D-printed mechanism design · bench fabrication</div>
+    <div class="sys-cat">Motion &amp; Control</div>
+    <div class="sys-list">PID tuning · closed-loop position / velocity / torque · stepper &amp; servo · encoder feedback · multi-axis synchronization</div>
+    <div class="sys-cat">Pneumatic &amp; Gas</div>
+    <div class="sys-list">Solenoid valves · pneumatic actuators · CO₂ / O₂ delivery with controlled flow and valve control</div>
+    <div class="sys-cat">Instrumentation</div>
+    <div class="sys-list">Oscilloscope · multimeter · logic analysis · EMI and noise isolation · grounding · root-cause analysis</div>
+    <div class="sys-cat">Controls &amp; Network</div>
+    <div class="sys-list">Embedded systems · C++ · Python · UDP / OSC · network protocols · remote monitoring · Ubiquiti UniFi</div>
+  </div>
+</div>
+
+<!-- ══ SELECTED HARDWARE PROJECTS ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Selected Hardware Projects</div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Threshold · 闁</div>
+      <div class="comm-sub">Electromechanical apparatus · 3 versions</div>
+      <div class="comm-client">Taichung 2022 · C-LAB 2023 · NYCU 2024</div>
+    </div>
+    <div class="comm-right">
+      Closed-loop apparatus driving a brass plate with coordinated stepper motors, solenoid valves,
+      and pneumatic actuators. Built and rebuilt across three deployments — actuator sequencing,
+      mechanical settling time, and the latency budget between sensing and actuation.
+      <div class="comm-role">Solo — actuator control · pneumatic integration · closed-loop stability</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">13-Voice CV Synthesizer</div>
+      <div class="comm-sub">Analog design · PCB fabrication</div>
+      <div class="comm-client">1 master · 12 sub-boards · 2023</div>
+    </div>
+    <div class="comm-right">
+      Thirteen self-designed, hand-etched boards sharing a common control-voltage bus and power
+      distribution. The engineering problem was holding voltages accurate across all boards — bus
+      loading, crosstalk between adjacent channels, supply decoupling — diagnosed board by board on
+      the bench.
+      <div class="comm-role">Solo — circuit design · PCB layout &amp; etching · signal-integrity debugging</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Circle of Confusion</div>
+      <div class="comm-sub">Gas delivery · mechanical design</div>
+      <div class="comm-client">Digital Art Center, Taipei · 2024</div>
+    </div>
+    <div class="comm-right">
+      CO₂ / O₂ delivery system running a controlled cyclic flow, plus a 3D-printed mechanism designed
+      to mount on a head-worn assembly within its weight and balance limits.
+      <div class="comm-role">Solo — gas delivery &amp; valve control · mechanical design for additive manufacturing</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ EDUCATION ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Education</div>
+
+  <div class="edu-row">
+    <div class="edu-left">
+      <div class="edu-degree">M.F.A. — Institute of Music, NYCU</div>
+      <div class="edu-school">國立陽明交通大學 — Research-methodology training: applying scientific method to
+        human–machine collaboration. Thesis centered on machine-learning system design and implementation.</div>
+    </div>
+    <div class="edu-year">2020 — 2024</div>
+  </div>
+  <div class="edu-row">
+    <div class="edu-left">
+      <div class="edu-degree">Electrical Engineering</div>
+      <div class="edu-school">Feng Chia University · 逢甲大學 — Control theory, circuit design, signal processing,
+        embedded systems</div>
+    </div>
+    <div class="edu-year">2012 — 2015</div>
+  </div>
+</div>
+
+<!-- ══ CERTIFICATIONS ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Certifications</div>
+
+  <div class="edu-row">
+    <div class="edu-left">
+      <div class="edu-degree">UniFi Full Stack Professional (UFSP)</div>
+      <div class="edu-school">Ubiquiti · enterprise network design, routing &amp; switching</div>
+    </div>
+    <div class="edu-year">2025</div>
+  </div>
+  <div class="edu-row">
+    <div class="edu-left">
+      <div class="edu-degree">UniFi Wireless Admin (UWA)</div>
+      <div class="edu-school">Ubiquiti · wireless deployment &amp; administration</div>
+    </div>
+    <div class="edu-year">2025</div>
+  </div>
+</div>
+
+<!-- ══ AVAILABILITY ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Availability</div>
+  <div class="avail-line">Immediate start · full-time · shift and on-call rotation accepted</div>
+  <div class="avail-line">Open to relocation — Hsinchu · Taichung · Tainan · Taipei · overseas</div>
+  <div class="avail-line" style="color:#aaa; margin-top:0.3rem;">Mandarin Chinese (native) &nbsp;·&nbsp; English (professional) &nbsp;·&nbsp; Japanese (basic)</div>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

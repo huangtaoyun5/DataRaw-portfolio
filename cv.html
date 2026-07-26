@@ -119,13 +119,17 @@ a:hover { color: var(--accent); border-bottom-color: rgba(184,92,56,0.3); }
 /* ── CV CARDS ── */
 .cv-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   margin-top: 4rem;
 }
 
+@media (max-width: 900px) {
+  .cv-cards { grid-template-columns: 1fr; }
+}
+
 .cv-card {
-  padding: 2.5rem;
+  padding: 2rem;
   background: var(--bg-paper);
   display: flex;
   flex-direction: column;
@@ -215,6 +219,7 @@ footer {
 
 @media (max-width: 640px) {
   .cv-cards { grid-template-columns: 1fr; gap: 2rem; }
+  .cv-card { padding: 2rem; }
   .nav-link { font-size: 0.5rem; padding: 0 0.45rem; }
   .nav-sep { display: none; }
 }
@@ -226,11 +231,9 @@ footer {
   <div class="nav-inner">
     <a href="index.html" class="nav-link">← Portfolio</a>
     <span class="nav-sep">·</span>
+    <a href="index.html#index" class="nav-link">Works</a>
+    <span class="nav-sep">·</span>
     <a href="index.html#about" class="nav-link">About</a>
-    <span class="nav-sep">·</span>
-    <a href="index.html#commercial" class="nav-link">Commercial</a>
-    <span class="nav-sep">·</span>
-    <a href="index.html#research" class="nav-link">Research</a>
     <span class="nav-sep">·</span>
     <a href="index.html#contact" class="nav-link">Contact</a>
     <a href="cv.html" class="nav-link nav-cv" style="margin-left:auto;color:var(--accent)!important;">CV</a>
@@ -248,21 +251,33 @@ footer {
   <div class="cv-cards">
 
     <div class="cv-card">
-      <div class="cv-card-label">Version A · Primary</div>
-      <div class="cv-card-title">Hardware &amp;<br>Systems Engineer</div>
+      <div class="cv-card-label">Version A · Field Service</div>
+      <div class="cv-card-title">Customer Engineer<br>Field Service</div>
       <p class="cv-card-desc">
-        Engineering-focused profile: electromechanical hardware, PCB design and hand-etching,
-        motor / solenoid / pneumatic control, embedded systems and networking, and real-time
-        machine learning. Suited to hardware, systems, and semiconductor precision-equipment roles.
+        Maintenance-first profile: preventive and corrective maintenance, on-site fault diagnosis
+        and downtime recovery, installation and commissioning, and direct customer accountability.
+        Shift, on-call, cleanroom, and travel ready. Suited to semiconductor equipment CE / FSE roles.
       </p>
       <div class="cv-card-actions">
-        <a href="Tao_Yun_Huang_CV_Hardware_Engineer.pdf" download class="btn-dl">Download PDF</a>
-        <a href="cv-general.html" target="_blank" class="btn-view">View in browser</a>
+        <a href="cv-field-service.html" target="_blank" class="btn-dl">View / Save as PDF</a>
       </div>
     </div>
 
     <div class="cv-card">
-      <div class="cv-card-label">Version B</div>
+      <div class="cv-card-label">Version B · Engineering</div>
+      <div class="cv-card-title">Hardware &amp;<br>Systems Engineer</div>
+      <p class="cv-card-desc">
+        Design-focused profile: closed-loop motion control, PCB design and hand-etching, analog
+        circuits, embedded systems and networking, machine vision and real-time ML. Suited to
+        equipment, controls, automation, and R&amp;D hardware roles.
+      </p>
+      <div class="cv-card-actions">
+        <a href="cv-general.html" target="_blank" class="btn-dl">View / Save as PDF</a>
+      </div>
+    </div>
+
+    <div class="cv-card">
+      <div class="cv-card-label">Version C</div>
       <div class="cv-card-title">Experiential &amp;<br>Brand Focus</div>
       <p class="cv-card-desc">
         Reframed for commercial, immersive, and brand experience roles.

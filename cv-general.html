@@ -105,11 +105,45 @@ body {
   margin-bottom: 1rem;
 }
 
+.cv-keywords {
+  font-family: var(--font-mono);
+  font-size: 0.575rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-top: 0.45rem;
+}
+
 /* ── PROFILE ── */
 .cv-profile {
   font-size: 0.825rem;
   line-height: 1.7;
   color: var(--ink-soft);
+}
+
+/* ── EXPERIENCE BULLETS ── */
+.exp-bullets {
+  list-style: none;
+  margin: 0.85rem 0 1.2rem;
+}
+.exp-bullets li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  page-break-inside: avoid;
+}
+.exp-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink-faint);
+}
+.exp-bullets strong {
+  font-weight: 500;
+  color: var(--ink);
 }
 
 /* ── RESEARCH WORKS ── */
@@ -316,6 +350,7 @@ body {
     <div class="cv-name">Tao Yun Huang</div>
     <div class="cv-name-cn">黃 韜 云</div>
     <div class="cv-title">Systems &amp; Hardware Engineer</div>
+    <div class="cv-keywords">Motion Control · Closed-Loop Systems · Equipment Maintenance</div>
   </div>
   <div class="cv-contact">
     bernie5@dataraw.tech<br>
@@ -329,29 +364,45 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Profile</div>
   <p class="cv-profile">
-    Systems &amp; hardware engineer with a solid electrical-engineering foundation and cross-domain
-    integration experience. Hands-on across the full stack of electromechanical hardware: PCB design
-    and hand-etching from scratch, analog assembly, and precise control of stepper motors, solenoids,
-    and pneumatic systems. Proficient in Python, PyTorch, and C++, with embedded-systems and network
-    protocol development, plus real-time and adversarial machine learning applied to automatic
-    control. This span — from low-level electromechanics and embedded communication up to high-level
-    AI algorithms and spatial sensing — lets me read the operating logic of complex systems, isolate
-    faults precisely at the physical-signal layer under live pressure, and I aim to bring that
-    cross-system problem-solving to precision semiconductor equipment.
+    Hardware engineer trained in electrical engineering, with two and a half years taking
+    electromechanical systems into deadline-fixed field deployments — government agencies, a national
+    museum, major retail. Owned those systems end to end: schematic and
+    hand-etched PCB, closed-loop motion control, on-site commissioning, and long-term maintenance of
+    permanent installations. Core work has been
+    PID tuning of position, velocity, and torque loops under varying inertia; multi-axis timing
+    synchronization across mechanical, display, and audio subsystems; and instrument-level isolation
+    of noise, EMI, and communication faults at the physical-signal layer. Equally fluent in software —
+    Python, C++, and PyTorch for sensor data normalization, real-time inference, and vision-based
+    localization. Seeking to bring this cross-layer troubleshooting to precision semiconductor
+    equipment, where control-loop stability, signal integrity, and uptime are the whole job.
   </p>
 </div>
 
 <!-- ══ PROFESSIONAL EXPERIENCE ══ -->
 <div class="cv-section">
-  <div class="cv-section-title">Professional Experience — Hardware Engineer · IF Plus Art · 2024 – 2026</div>
-  <p class="cv-profile" style="margin-bottom:1.1rem;">
-    Led end-to-end development and on-site integration of complex electromechanical systems: custom
-    PCB design and hand-etching, analog component soldering, and precise coupling of physical sensors
-    with embedded systems. Owned motion control and hardware/software timing synchronization for a
-    60&nbsp;kg overhead-crane armature, and routinely used instruments to isolate noise interference
-    and communication conflicts at the physical-signal level — keeping precision equipment stable and
-    deployable under first-line, high-pressure conditions.
-  </p>
+  <div class="cv-section-title">Hardware Engineer · IF Plus Art 當若科技藝術 · Dec 2024 – Apr 2026</div>
+  <ul class="exp-bullets">
+    <li><strong>Closed-loop motion control.</strong> Designed and tuned PID position and velocity loops
+      with encoder feedback for a 60&nbsp;kg armature driven on an overhead-crane axis, over an inner
+      torque / speed loop tuned against varying inertia — eliminating overshoot, oscillation, and
+      settling error at end positions.</li>
+    <li><strong>Multi-axis synchronization.</strong> Aligned mechanical motion with display, audio, and
+      lighting subsystems on a shared timing reference, compensating following error and pipeline
+      latency so independently clocked systems held step through continuous daily operation.</li>
+    <li><strong>Hardware design &amp; fabrication.</strong> Custom PCB schematic and layout, hand-etched
+      boards, analog assembly and rework; coupled physical sensors to embedded controllers, including
+      signal conditioning and normalization of raw sensor data before it entered the control and
+      inference path.</li>
+    <li><strong>Field maintenance &amp; uptime.</strong> Owned permanently installed systems after
+      handover — scheduled preventive maintenance, on-site fault diagnosis and downtime recovery,
+      remote monitoring and remote diagnostics over the network, and warranty-period support.</li>
+    <li><strong>Physical-layer diagnostics.</strong> Isolated noise coupling, grounding problems, EMI,
+      and bus / communication conflicts by instrument — separating mechanical, electrical, and firmware
+      root causes instead of swapping parts.</li>
+    <li><strong>Delivery process.</strong> Ran projects in short iterative cycles on a Scrum-style
+      backlog, with task and issue tracking in Odoo, coordinating mechanical, electrical, and software
+      scopes to fixed on-site deadlines.</li>
+  </ul>
 
   <div class="comm-row">
     <div class="comm-left">
@@ -360,8 +411,10 @@ body {
       <div class="comm-client">National Railway Museum, Taipei · 2025</div>
     </div>
     <div class="comm-right">
-      60&nbsp;kg armature choreographed with an overhead crane; transparent-screen overlay synced to live machinery.
-      <div class="comm-role">Motion control · display control · multi-system timing synchronization</div>
+      60&nbsp;kg locomotive armature moved on an overhead-crane axis under closed-loop PID control,
+      synchronized to a transparent-display overlay registered to the live machinery behind it.
+      Permanent install — maintained on a scheduled PM cycle since handover.
+      <div class="comm-role">PID motion control · multi-axis synchronization · preventive maintenance &amp; on-site troubleshooting</div>
     </div>
   </div>
 
@@ -372,8 +425,10 @@ body {
       <div class="comm-client">MODA · Taipei Computer Festival 2025<br>1,000+ participants · 4 days</div>
     </div>
     <div class="comm-right">
-      Custom interactive-bike hardware; pedaling sensor data feeding a real-time generative-audio model I developed and trained.
-      <div class="comm-role">Sensor hardware · embedded integration · AI model development &amp; real-time integration</div>
+      Custom instrumented-bicycle hardware: pedaling sensors → signal conditioning and data
+      normalization → a real-time generative-audio model I developed and trained. Ran continuous
+      public duty for four days across 1,000+ users without intervention.
+      <div class="comm-role">Sensor hardware · data normalization · hardware–software integration · continuous-duty reliability</div>
     </div>
   </div>
 
@@ -384,8 +439,9 @@ body {
       <div class="comm-client">TAICCA · Pier-2, Kaohsiung<br>NT$4.7B virtual investment · 4 days</div>
     </div>
     <div class="comm-right">
-      Phone-based inputs synchronized to a venue leaderboard every 3 minutes across mobile ↔ venue.
-      <div class="comm-role">Unity real-time software · cross-platform networking · live-data sync</div>
+      Phone-based inputs synchronized to a venue leaderboard on a fixed 3-minute cycle across
+      mobile ↔ venue networks; deployed and operated on site for four days.
+      <div class="comm-role">Real-time networked system · cross-platform data sync · on-site deployment</div>
     </div>
   </div>
 
@@ -396,8 +452,52 @@ body {
       <div class="comm-client">SCOPE TECH · Shin Kong Mitsukoshi A9 · 2025</div>
     </div>
     <div class="comm-right">
-      Immersive terrarium environment in Taipei's busiest commercial district.
-      <div class="comm-role">Multichannel spatial audio system design &amp; integration</div>
+      Multichannel spatial-audio system specified, built, and commissioned into a permanent retail
+      installation in Taipei's busiest commercial district.
+      <div class="comm-role">Multichannel AV system design · installation &amp; commissioning</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KING ONE ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Technical Project Manager · King One Interactive 王一互動科技 · Jan – Dec 2024</div>
+  <ul class="exp-bullets">
+    <li><strong>End-to-end technical delivery.</strong> Led technical delivery of experiential
+      technology projects across exhibitions, corporate showrooms, and trade shows — scope
+      definition, schedule, on-site installation, and client acceptance.</li>
+    <li><strong>Cross-functional coordination.</strong> Coordinated mechanical, electrical, AV, and
+      software scopes with internal teams and outside contractors against fixed, non-movable
+      show-open dates.</li>
+    <li><strong>Technical risk ownership.</strong> Assessed technical risk during build and resolved
+      integration and equipment failures on site while the show was running.</li>
+  </ul>
+</div>
+
+<!-- ══ EARLIER ══ -->
+<div class="cv-section">
+  <div class="cv-section-title">Earlier</div>
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Lecturer — Electronic Programming</div>
+      <div class="comm-sub">Part-time</div>
+      <div class="comm-client">National Hsinchu Senior High School<br>Jul 2023 – Jun 2024</div>
+    </div>
+    <div class="comm-right">
+      Designed and delivered an electronic-programming curriculum to a class of 13+ students.
+      <div class="comm-role">Technical instruction · curriculum design</div>
+    </div>
+  </div>
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Research Assistant</div>
+      <div class="comm-sub">Contract · NSTC-funded</div>
+      <div class="comm-client">Institute of Music, NYCU<br>Apr 2022 – Jan 2023</div>
+    </div>
+    <div class="comm-right">
+      Proposal drafting and laboratory build-out on a government-funded project, within an
+      international collaboration with Kunsthochschule für Medien Köln (KHM).
+      <div class="comm-role">Laboratory build-out · research support</div>
     </div>
   </div>
 </div>
@@ -415,12 +515,13 @@ body {
     </div>
     <div class="work-right">
       A three-version electromechanical apparatus built around a closed feedback loop. v3 drives a
-      brass plate with stepper motors, solenoids, and pneumatics, coupled to a real-time neural-audio
-      engine; a k-means stage redistributes output into a five-voice generative score. v2 rendered
-      the system across a 49.4-channel Ambisonics array — the first real-time neural-audio deployment
-      at this scale in Taiwan.
-      <div class="work-role">Solo — actuator control · feedback-loop engineering · real-time DSP pipeline · multichannel rendering</div>
-      <div class="work-stack">Stepper motors · Solenoids · Pneumatics · k-means · RAVE · Max/MSP · Ambisonics</div>
+      brass plate with coordinated stepper motors, solenoids, and pneumatic actuators, coupled to a
+      real-time neural-audio engine; a k-means stage redistributes the output across five voices.
+      Design work centered on keeping the loop stable — actuator sequencing, mechanical settling time,
+      and latency budget between sensing and actuation. v2 rendered the system across a 49.4-channel
+      Ambisonics array, the first real-time neural-audio deployment at that scale in Taiwan.
+      <div class="work-role">Solo — actuator control &amp; sequencing · feedback-loop stability · real-time DSP pipeline</div>
+      <div class="work-stack">Stepper motors · Solenoids · Pneumatics · Closed-loop control · RAVE · k-means · Max/MSP</div>
     </div>
   </div>
 
@@ -432,12 +533,13 @@ body {
       <div class="work-meta">1 master · 12 sub-boards<br>Self-fabricated · 2023</div>
     </div>
     <div class="work-right">
-      A fully self-designed, self-fabricated analog synthesizer: one master voice and twelve
-      sub-voices, each independently CV-controlled through a shared voltage bus. PCB layouts designed
-      from scratch and hand-etched; the architecture supports full polyphonic or multitimbral control
-      from a single CV source.
-      <div class="work-role">Solo — circuit schematic · PCB layout &amp; hand etching · analog assembly · system architecture</div>
-      <div class="work-stack">Analog electronics · PCB design · CV control · Hand fabrication</div>
+      A fully self-designed, self-fabricated analog system: one master board and twelve sub-boards
+      sharing a common control-voltage bus and power distribution. Schematics and PCB layouts drawn
+      from scratch and hand-etched. The engineering problem was holding control voltages accurate
+      across thirteen boards — bus loading, crosstalk between adjacent voices, and supply decoupling
+      — diagnosed board by board on the bench.
+      <div class="work-role">Solo — circuit design · PCB layout &amp; hand etching · analog assembly · signal-integrity debugging</div>
+      <div class="work-stack">Analog electronics · PCB design · Hand etching · CV bus architecture · Power distribution</div>
     </div>
   </div>
 
@@ -449,11 +551,12 @@ body {
       <div class="work-meta">In development<br>Submitted — ZKM Karlsruhe 2026/27</div>
     </div>
     <div class="work-right">
-      A real-time sensing system in which every smartphone becomes an instrument. An iOS / Android AR
-      app runs on-device YOLO object detection while six UWB beacons track each device to
-      centimeter-level precision; a PGD adversarial-perturbation pipeline is applied to detection
-      inference as a controlled failure mode.
-      <div class="work-role">Solo — vision pipeline · UWB positioning system · adversarial ML · cross-platform AR</div>
+      A real-time distributed sensing system in which every smartphone is a networked node. An iOS /
+      Android application runs on-device YOLO object detection while six UWB beacons resolve each
+      device to centimeter-level position in a shared coordinate frame; a PGD adversarial-perturbation
+      pipeline is applied to inference as a controlled, reproducible failure mode for studying
+      detector behaviour at its limits.
+      <div class="work-role">Solo — vision pipeline · UWB positioning &amp; coordinate-frame calibration · adversarial ML · cross-platform deployment</div>
       <div class="work-stack">YOLO · UWB · ARKit · PGD · PyTorch · 8-ch audio</div>
     </div>
   </div>
@@ -462,15 +565,36 @@ body {
   <div class="work-row">
     <div class="work-left">
       <div class="work-title">River of Shadows · 川影</div>
-      <div class="work-sub">iOS AR · spatial recognition</div>
+      <div class="work-sub">Machine-vision localization · iOS</div>
       <div class="work-meta">NYCU Administrative Building<br>Hsinchu · 2024</div>
     </div>
     <div class="work-right">
-      A site-specific iOS AR application built on Area Target spatial recognition, aligning virtual
-      content to a physical corridor from a first-person view and driving a synchronized spatial-audio
-      playback layer.
-      <div class="work-role">Solo — iOS AR development · Area Target spatial recognition · spatial audio sync</div>
-      <div class="work-stack">Swift · ARKit · Area Target · Spatial audio</div>
+      A site-specific iOS application localized by machine vision rather than markers. I surveyed the
+      building corridor with a dense photographic capture and processed it into a 3D feature map
+      (Area Target); at runtime the device estimates 6-DoF pose by matching live camera frames against
+      that map, holding virtual geometry registered to the physical structure while the user walks.
+      Work focused on capture coverage and lighting consistency at survey time, and on drift and
+      re-localization behaviour in corridors with repeating, low-texture surfaces.
+      <div class="work-role">Solo — photogrammetric site survey · feature-map generation · 6-DoF pose estimation &amp; drift handling</div>
+      <div class="work-stack">Swift · ARKit · Area Target (visual SLAM) · Feature matching · Spatial audio</div>
+    </div>
+  </div>
+
+  <!-- CIRCLE OF CONFUSION -->
+  <div class="work-row">
+    <div class="work-left">
+      <div class="work-title">Circle of Confusion · 彌散圈反應</div>
+      <div class="work-sub">Gas-control system · mechanical design</div>
+      <div class="work-meta">Digital Art Center<br>Taipei · 2024</div>
+    </div>
+    <div class="work-right">
+      A VR installation carried by two custom hardware subsystems: a CO₂ / O₂ delivery system that
+      drives the environment on a controlled respiratory cycle, and a 3D-printed haptic mechanism
+      designed to mount directly onto the headset within its weight and balance limits. Built around
+      a deliberately incomplete Ambisonics array, with the gaps treated as a designed property of the
+      system rather than a defect.
+      <div class="work-role">Solo — gas delivery &amp; valve control · mechanical design for additive manufacturing · VR system integration</div>
+      <div class="work-stack">CO₂ / O₂ gas system · Valve control · 3D-printed mechanism · VR · Ambisonics</div>
     </div>
   </div>
 </div>
@@ -482,22 +606,18 @@ body {
   <div class="edu-row">
     <div class="edu-left">
       <div class="edu-degree">M.F.A. Multimedia Music</div>
-      <div class="edu-school">NYCU — National Yang Ming Chiao Tung University · Institute of Music · 國立陽明交通大學</div>
+      <div class="edu-school">NYCU · 國立陽明交通大學 — Research-methodology training: applying scientific method to
+        human–machine collaboration. Thesis centered on machine-learning system design and implementation detail.</div>
     </div>
     <div class="edu-year">2020 — 2024</div>
   </div>
   <div class="edu-row">
     <div class="edu-left">
-      <div class="edu-degree">B.Eng. Electrical Engineering</div>
-      <div class="edu-school">Feng Chia University · 逢甲大學 · Signal processing, embedded systems, control theory</div>
+      <div class="edu-degree">Electrical Engineering</div>
+      <div class="edu-school">Feng Chia University · 逢甲大學 — Control theory, circuit design, signal processing,
+        embedded systems</div>
     </div>
-    <div class="edu-year">2010 — 2013</div>
-  </div>
-  <div class="edu-row">
-    <div class="edu-left">
-      <div class="edu-degree" style="font-size:0.75rem;color:var(--ink-muted);">B.A. Drama &amp; Theatre Arts · National Taiwan University of Arts · 國立臺灣藝術大學</div>
-    </div>
-    <div class="edu-year">2014 — 2019</div>
+    <div class="edu-year">2012 — 2015</div>
   </div>
 </div>
 
@@ -525,14 +645,18 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Technical Skills</div>
   <div class="skills-grid">
-    <div class="skill-cat">Hardware &amp; Control</div>
-    <div class="skill-list">PCB Design · Hand Etching · Analog Electronics · Stepper / Solenoid / Pneumatic Control · Motor Motion Control · Sensor Fusion</div>
+    <div class="skill-cat">Motion &amp; Control</div>
+    <div class="skill-list">PID Tuning · Closed-Loop Position / Velocity / Torque Control · Stepper &amp; Servo Motion · Encoder Feedback · Multi-Axis Synchronization · Solenoid &amp; Pneumatic Actuation</div>
+    <div class="skill-cat">Hardware</div>
+    <div class="skill-list">PCB Schematic &amp; Layout · Hand Etching · Analog Circuit Design · Sensor Integration &amp; Signal Conditioning · Soldering &amp; Rework · Power Distribution</div>
+    <div class="skill-cat">Diagnostics &amp; Maint.</div>
+    <div class="skill-list">Oscilloscope · Multimeter · Logic Analysis · EMI &amp; Noise Isolation · Grounding · Root-Cause Analysis · Preventive Maintenance · Remote Monitoring</div>
     <div class="skill-cat">Embedded &amp; Network</div>
-    <div class="skill-list">Embedded Systems · C++ · UDP / OSC · Network Protocols · UWB Positioning · Ubiquiti UniFi</div>
-    <div class="skill-cat">Software &amp; ML</div>
-    <div class="skill-list">Python · PyTorch · Real-time ML · Adversarial ML (PGD) · Computer Vision (YOLO) · Unity · ARKit · Swift</div>
-    <div class="skill-cat">Signal &amp; Audio</div>
-    <div class="skill-list">DSP · Ambisonics · Neural Audio (RAVE) · Max/MSP · Multichannel Rendering</div>
+    <div class="skill-list">Embedded Systems · C++ · Python · UDP / OSC · Network Protocols · UWB Positioning · Ubiquiti UniFi</div>
+    <div class="skill-cat">Vision &amp; ML</div>
+    <div class="skill-list">PyTorch · Computer Vision (YOLO) · Visual SLAM / 6-DoF Pose Estimation · Data Normalization · Real-Time Inference · Adversarial ML (PGD)</div>
+    <div class="skill-cat">Tools &amp; Process</div>
+    <div class="skill-list">Odoo (Scrum-style iteration) · Unity · ARKit · Swift · Max/MSP · DSP &amp; Multichannel Audio</div>
   </div>
 </div>
 

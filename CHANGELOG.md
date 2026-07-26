@@ -1,5 +1,37 @@
 # Changelog — dataraw.tech
 
+## 2026-07-26 · 三軌 CV 體系 + 工程語言改寫 + 學歷更正
+
+### 學歷更正（重要）
+- 移除所有頁面上的 `B.Eng. Electrical Engineering` 與 `B.A. Drama & Theatre Arts` 字樣
+- 逢甲改列為 `Electrical Engineering`（就讀經歷，不標學位），年份更正 2010–2013 → **2012–2015**
+- 唯一取得之學位為陽明交大 M.F.A.（以同等學力入學）
+- 影響檔案：`cv-general.html`、`cv-field-service.html`、`cv-experiential.html`
+- `Tao_Yun_Huang_CV_Hardware_Engineer.pdf` 為修正前匯出，內含舊學歷 → **保留檔案但解除連結**，待重新匯出
+
+### 新增 cv-field-service.html
+- Customer Engineer / Field Service 專用版，對應半導體設備商 CE、FSE 職缺
+- Field Readiness 區塊：輪班（含大夜）、on-call、無塵室 PPE、出差 25%+、體能作業
+- 經歷條列以維護、排障、安裝試車、客戶對應優先；設計與 ML 內容大幅壓縮
+- Hands-On Systems 矩陣：Electrical / Mechanical / Motion & Control / Pneumatic & Gas / Instrumentation / Controls & Network（真空、電漿、液壓未列，無實務經驗）
+
+### 經歷補正（兩份工程 CV）
+- 新增 **King One Interactive 王一互動科技 · Technical Project Manager · 2024/01–2024/12**（先前完全遺漏）
+- 新增 Earlier 區塊：新竹高中兼任講師 2023/07–2024/06、交大國科會研究助理 2022/04–2023/01
+- IF Plus Art 起訖更正為 **Dec 2024 – Apr 2026**，職稱統一 Hardware Engineer
+- IF Plus Art 補上 EMC 測試、產線支援與品質控制、技術文件與規格、元件選型與 BOM
+
+### 工程語言改寫
+- `index.html`：statement 技能欄 3 類 → 4 類，Motion · Control 置頂；各作品 Stack 與 My role 全面改寫（柴電 PID 與 PM、川影 SLAM 與 6-DoF pose estimation、彌散圈氣體閥控制、13 聲部訊號完整性）
+- `cv-general.html`：Profile、Experience 條列化、Selected Engineering Projects、技能欄 6 類
+
+### 修復
+- `cv.html` 導覽列指向已不存在的 `#commercial` / `#research` 錨點 → 改為 Works / About / Contact，與首頁一致
+- 聯絡資訊 Taipei → Taiwan
+
+### cv.html
+- 改為三張卡：A 現場服務（CE）· B 硬體設計 · C 藝術品牌
+
 ## 2026-07-26 · Hardware CV PDF 上線
 
 ### cv.html
