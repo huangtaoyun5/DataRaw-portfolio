@@ -265,7 +265,7 @@ body.drawer-open .tblock { opacity: 0; }
   justify-content: space-between;
   gap: 2rem;
   padding-bottom: 1rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.15rem;
   border-bottom: 1px solid var(--ink);
 }
 .sec-head h2 {
@@ -441,7 +441,7 @@ body.drawer-open .tblock { opacity: 0; }
   display: grid;
   grid-template-columns: 3.2rem minmax(0,14rem) minmax(0,1fr);
   gap: 1.2rem;
-  padding: .6rem 0;
+  padding: .42rem 0;
   border-bottom: 1px solid var(--hair);
   align-items: start;
 }
@@ -473,7 +473,7 @@ body.drawer-open .tblock { opacity: 0; }
 }
 /* what it is · what it means · the certificate itself, cycling in one place */
 .certs {
-  margin-top: 1.25rem;
+  margin-top: .75rem;
   display: grid;
   grid-template-columns: minmax(0,.8fr) minmax(0,.95fr) minmax(0,1.1fr);
   gap: clamp(1.5rem, 3.5vw, 3.25rem);
@@ -488,6 +488,7 @@ body.drawer-open .tblock { opacity: 0; }
   border-bottom: 1px solid var(--hair);
 }
 .cert-item:first-of-type { border-top: 1px solid var(--ink); }
+.cert-item:last-of-type { border-bottom: 0; }
 .cert-code {
   font-family: var(--mono);
   font-size: .95rem;
@@ -512,7 +513,9 @@ body.drawer-open .tblock { opacity: 0; }
 /* supporting evidence, not a hero — the typography above carries the claim */
 /* .frame declares its own --mh, and a value set on the element beats an
    inherited one — so the override has to land on the frame itself */
-.cert-shots .frame { --mh: 25svh; aspect-ratio: 4 / 3; }
+/* --arw must match the frame's own ratio, otherwise the width cap is derived
+   from 16:9 and the height it actually renders at is not the one you asked for */
+.cert-shots .frame { --mh: 41svh; --arw: 1.3333; aspect-ratio: 4 / 3; }
 .cert-shots {
   display: block;                   /* the carousel inside does the work now */
   width: 100%;
