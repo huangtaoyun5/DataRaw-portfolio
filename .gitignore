@@ -1,3 +1,7 @@
 # Personal job-application documents — contains private data (address, phone, age).
 # Never deploy to the public site.
 104*.pdf
+
+# Working copies of unused originals. They are duplicates of files already in
+# images/, kept locally so nothing is ever lost — no reason to deploy them.
+images/_archive/

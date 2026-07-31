@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tao Yun Huang — Systems &amp; Hardware Engineer</title>
+<meta name="description" content="Electromechanical systems from the physical layer up. Hand-etched PCB, closed-loop motion control, commissioned on site and kept running.">
+<link rel="icon" type="image/png" sizes="32x32" href="images/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="images/brand/favicon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+<script>
+/* Decide the motion mode before first paint so the stylesheet and the
+   behaviour never disagree. This deck is presented live and the presenting
+   machine has "reduce motion" on system-wide, so motion is ON by default and
+   ?motion=off is the explicit way out. */
+(function () {
+  var r = document.documentElement;
+  r.className += ' js';
+  // deliberately not remembered: a stored "off" would silently strand the deck
+  // in its flat fallback on the one occasion it matters most
+  var q = new URLSearchParams(location.search).get('motion');
+  r.className += q === 'off' ? ' motion-off' : ' motion-full';
+  try { localStorage.removeItem('deck-motion'); } catch (e) {}
+})();
+</script>
+<style>
+/* ══════════════════════════════════════════════════════════════
+   TOKENS — strict two-colour system. Hierarchy comes from alpha,
+   never from a grey swatch.
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --ink: #000;
+  --paper: #fff;
+
+  --ink-70: rgba(0,0,0,.70);
+  --ink-45: rgba(0,0,0,.45);
+  --ink-28: rgba(0,0,0,.28);
+  --ink-14: rgba(0,0,0,.14);
+
+  --rule:       rgba(0,0,0,.055);   /* drafting grid, minor */
+  --rule-major: rgba(0,0,0,.10);    /* drafting grid, major */
+  --hair:       rgba(0,0,0,.16);    /* structural hairline  */
+
+  --sq: 40px;          /* minor grid pitch */
+  --sq-major: 200px;   /* major grid pitch */
+
+  /* One grid definition, reused by the page backdrop and by each opaque sheet
+     so the ruling stays continuous. Two gradient layers rather than four
+     (minor + major separately): with nine sticky full-viewport sheets each
+     painting this, halving the layer count is the difference between smooth
+     and stuttering. The major ruling is carried by --rule-major stops inside
+     the same repeating pass. */
+  --grid-img:
+    repeating-linear-gradient(90deg,
+      var(--rule-major) 0 1px,
+      transparent 1px var(--sq),
+      var(--rule) var(--sq) calc(var(--sq) + 1px),
+      transparent calc(var(--sq) + 1px) calc(var(--sq) * 2),
+      var(--rule) calc(var(--sq) * 2) calc(var(--sq) * 2 + 1px),
+      transparent calc(var(--sq) * 2 + 1px) calc(var(--sq) * 3),
+      var(--rule) calc(var(--sq) * 3) calc(var(--sq) * 3 + 1px),
+      transparent calc(var(--sq) * 3 + 1px) calc(var(--sq) * 4),
+      var(--rule) calc(var(--sq) * 4) calc(var(--sq) * 4 + 1px),
+      transparent calc(var(--sq) * 4 + 1px) var(--sq-major)),
+    repeating-linear-gradient(180deg,
+      var(--rule-major) 0 1px,
+      transparent 1px var(--sq),
+      var(--rule) var(--sq) calc(var(--sq) + 1px),
+      transparent calc(var(--sq) + 1px) calc(var(--sq) * 2),
+      var(--rule) calc(var(--sq) * 2) calc(var(--sq) * 2 + 1px),
+      transparent calc(var(--sq) * 2 + 1px) calc(var(--sq) * 3),
+      var(--rule) calc(var(--sq) * 3) calc(var(--sq) * 3 + 1px),
+      transparent calc(var(--sq) * 3 + 1px) calc(var(--sq) * 4),
+      var(--rule) calc(var(--sq) * 4) calc(var(--sq) * 4 + 1px),
+      transparent calc(var(--sq) * 4 + 1px) var(--sq-major));
+  --grid-size: var(--sq-major) var(--sq-major), var(--sq-major) var(--sq-major);
+
+  --display: 'IBM Plex Sans Condensed', system-ui, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+  --cjk:     'Noto Sans TC', system-ui, sans-serif;
+
+  --pad: max(4.5vw, 1.5rem);
+  --nav-h: 3.25rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* One lever for the whole type scale. This is read on a laptop from across a
+   desk and shared over video, so the base is set well above browser default
+   and every rem in the sheet follows it. */
+html { font-size: 118%; -webkit-text-size-adjust: 100%; }
+html, body { scrollbar-width: none; }
+body::-webkit-scrollbar, html::-webkit-scrollbar { display: none; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--display);
+  font-weight: 300;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Drafting paper. Fixed so the rules stay put while content moves over them. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--grid-img);
+  background-size: var(--grid-size);
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--ink); color: var(--paper); }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+main { position: relative; z-index: 1; }
+
+/* ── type utilities ─────────────────────────────────────────── */
+.mono {
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+.mono-b { color: var(--ink); }
+.cjk { font-family: var(--cjk); }
+
+/* ══════════════════════════════════════════════════════════════
+   CURSOR
+   ══════════════════════════════════════════════════════════════ */
+.cur { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+  body.cursor-on { cursor: none; }
+  body.cursor-on a,
+  body.cursor-on button { cursor: none; }
+
+  .cur {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 200;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    will-change: transform;
+    opacity: 0;                       /* until the pointer first moves */
+    transition: opacity .3s;
+  }
+  body.cursor-live .cur { opacity: 1; }
+  .cur-dot {
+    width: 6px; height: 6px;
+    margin: -3px 0 0 -3px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .cur-ring {
+    width: 40px; height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 1px solid rgba(255,255,255,.6);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition: width .3s cubic-bezier(.2,.8,.2,1),
+                height .3s cubic-bezier(.2,.8,.2,1),
+                border-color .3s;
+  }
+  .cur-ring.wide {
+    width: 84px; height: 84px;
+    margin: -42px 0 0 -42px;
+    border-color: rgba(255,255,255,.9);
+  }
+  .cur-legend {
+    font-family: var(--mono);
+    font-size: .5rem;
+    letter-spacing: .16em;
+    color: #fff;
+    opacity: 0;
+    transition: opacity .25s;
+    white-space: nowrap;
+  }
+  .cur-ring.wide .cur-legend { opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NAV
+   ══════════════════════════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad);
+  background: var(--paper);
+  border-bottom: 1px solid var(--hair);
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.nav-brand { display: flex; align-items: center; gap: .7rem; color: var(--ink); }
+.nav-mark { width: 20px; height: 20px; object-fit: contain; }
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a { color: var(--ink-45); transition: color .25s; }
+.nav-links a:hover, .nav-links a.on { color: var(--ink); }
+
+/* ══════════════════════════════════════════════════════════════
+   TITLE BLOCK — fixed drawing-sheet register, bottom right
+   ══════════════════════════════════════════════════════════════ */
+.tblock {
+  position: fixed;
+  right: var(--pad);
+  bottom: 1.25rem;
+  z-index: 44;          /* below the drawer, which covers it when open */
+  display: grid;
+  grid-template-columns: auto auto;
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+}
+/* the sheet is a sticky element and therefore its own stacking context, so the
+   drawer can never rise above this fixed block — it steps aside instead */
+.tblock { transition: opacity .35s; }
+body.drawer-open .tblock { opacity: 0; }
+.tblock span { padding: .3rem .6rem; }
+.tblock .k { color: var(--ink-45); border-right: 1px solid var(--hair); }
+.tblock .v { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION SCAFFOLD
+   ══════════════════════════════════════════════════════════════ */
+/* Every section is one slide: exactly a screen, contents centred inside it, so
+   the arrow keys move between whole thoughts instead of scroll positions. */
+.sec {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--nav-h) + 1.25rem) var(--pad) 1.75rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+}
+.sec > :last-child { align-self: center; }
+
+.sec-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--ink);
+}
+.sec-head h2 {
+  font-family: var(--mono);
+  font-size: .76rem;
+  font-weight: 500;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COVER
+   ══════════════════════════════════════════════════════════════ */
+.cover {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: calc(var(--nav-h) + 1.5rem) var(--pad) 2.5rem;
+}
+.cover-top { display: flex; justify-content: space-between; gap: 1rem; }
+
+/* Name left, mark right — but the mark is centred on the three-quarter line of
+   the viewport rather than pushed against the edge, so it sits inside the
+   composition instead of falling off it. */
+.cover-mid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .62fr) minmax(0, .26fr);
+  align-items: center;
+  gap: 2.5vw;
+  padding: 1rem 0;
+}
+.cover-name {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(3.4rem, 11.5vw, 11rem);
+  line-height: .88;
+  letter-spacing: -.035em;
+}
+/* overflow:hidden is what makes the line-mask reveal work, so the box is
+   padded to clear descenders and pulled back up by the same amount */
+.cover-name .ln {
+  display: block;
+  overflow: hidden;
+  padding-bottom: .16em;
+  margin-bottom: -.16em;
+}
+.cover-name .ln > span { display: block; }
+.cover-name .cn {
+  display: block;
+  font-family: var(--cjk);
+  font-size: .13em;
+  font-weight: 300;
+  color: var(--ink-45);
+  letter-spacing: .55em;
+  margin-top: 1.9rem;
+  padding-left: .3rem;
+}
+
+/* the one piece of colour in the entire interface */
+.cover-mark { position: relative; }
+.cover-mark img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 24px 40px rgba(0,0,0,.10));
+}
+.cover-mark figcaption {
+  font-family: var(--mono);
+  font-size: .55rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-28);
+  text-align: right;
+  margin-top: .9rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--hair);
+}
+
+.cover-bot {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink);
+}
+.cover-role {
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+}
+.cover-bot .mid { text-align: center; }
+.cover-bot .end { text-align: right; }
+
+/* corner registration marks */
+.reg {
+  position: absolute;
+  width: 22px; height: 22px;
+  pointer-events: none;
+  opacity: .5;
+}
+.reg::before, .reg::after {
+  content: '';
+  position: absolute;
+  background: var(--ink);
+}
+.reg::before { left: 0; top: 50%; width: 100%; height: 1px; }
+.reg::after  { top: 0; left: 50%; height: 100%; width: 1px; }
+.reg.tl { top: calc(var(--nav-h) + 1.1rem); left: calc(var(--pad) - 11px); }
+.reg.tr { top: calc(var(--nav-h) + 1.1rem); right: calc(var(--pad) - 11px); }
+.reg.bl { bottom: 1.6rem; left: calc(var(--pad) - 11px); }
+
+/* ══════════════════════════════════════════════════════════════
+   PROFILE
+   ══════════════════════════════════════════════════════════════ */
+/* thesis left, the record right — the statement no longer sits beside nothing */
+.thesis-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+  margin-bottom: 0;
+}
+.thesis {
+  font-size: clamp(1.45rem, 3.2vw, 2.6rem);
+  font-weight: 300;
+  line-height: 1.26;
+  letter-spacing: -.02em;
+  margin: 0;
+}
+.thesis em { font-style: normal; border-bottom: 2px solid var(--ink); }
+
+.record { border-top: 1px solid var(--ink); }
+.record h4 {
+  font-family: var(--mono);
+  font-size: .62rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  padding: .85rem 0 .3rem;
+}
+.record h4 + .rec-item { border-top: 0; }
+.rec-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: .5rem 1.25rem;
+  padding: .5rem 0;
+  border-top: 1px solid var(--hair);
+  align-items: baseline;
+}
+.rec-item .role { font-size: 1rem; font-weight: 400; }
+.rec-item .org {
+  grid-column: 1;
+  font-size: .85rem;
+  color: var(--ink-45);
+}
+.rec-item .when {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .1em;
+  color: var(--ink-45);
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.matrix { border-top: 1px solid var(--ink); }
+.mrow {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0,14rem) minmax(0,1fr);
+  gap: 1.2rem;
+  padding: .6rem 0;
+  border-bottom: 1px solid var(--hair);
+  align-items: start;
+}
+.mrow .n {
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .14em;
+  color: var(--ink-28);
+  padding-top: .3rem;
+  font-variant-numeric: tabular-nums;
+}
+.mrow dt {
+  font-family: var(--mono);
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  padding-top: .25rem;
+}
+.mrow dd { font-size: .9rem; color: var(--ink-70); line-height: 1.45; }
+
+/* The capability slide fills its screen: matrix on top, certifications taking
+   the room that is left rather than a band of white below them. */
+#capability > div:last-child {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  min-height: 0;
+}
+/* what it is · what it means · the certificate itself, cycling in one place */
+.certs {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0,.8fr) minmax(0,.95fr) minmax(0,1.1fr);
+  gap: clamp(1.5rem, 3.5vw, 3.25rem);
+  align-items: center;
+  min-height: 0;
+}
+.cert-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--hair);
+}
+.cert-item:first-of-type { border-top: 1px solid var(--ink); }
+.cert-code {
+  font-family: var(--mono);
+  font-size: .95rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+}
+.cert-name { font-size: 1.02rem; }
+.cert-meta {
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-top: .2rem;
+}
+.cert-note {
+  margin-top: 1rem;
+  font-size: .9rem;
+  color: var(--ink-70);
+  max-width: 46ch;
+}
+/* supporting evidence, not a hero — the typography above carries the claim */
+/* .frame declares its own --mh, and a value set on the element beats an
+   inherited one — so the override has to land on the frame itself */
+.cert-shots .frame { --mh: 25svh; aspect-ratio: 4 / 3; }
+.cert-shots {
+  display: block;                   /* the carousel inside does the work now */
+  width: 100%;
+  max-width: none;
+}
+.cert-shot { border: 1px solid var(--hair); }
+.cert-shot img { width: 100%; height: auto; display: block; }
+.cert-shot figcaption {
+  font-family: var(--mono);
+  font-size: .52rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  padding: .45rem .65rem;
+  border-top: 1px solid var(--hair);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   INDEX — drawing register
+   ══════════════════════════════════════════════════════════════ */
+/* The register lists; the panel beside it shows. Hovering a row swaps the
+   image, so the whole body of work is browsable without leaving the slide. */
+.index-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .42fr);
+  gap: clamp(1.75rem, 4vw, 4rem);
+  align-items: center;
+  min-height: 0;
+}
+.reg-table { border-top: 1px solid var(--ink); align-self: center; }
+.reg-row {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0,1fr) minmax(0,11rem) 4.2rem;
+  gap: 1rem;
+  align-items: baseline;
+  padding: .62rem .6rem .62rem 0;
+  border-bottom: 1px solid var(--hair);
+  transition: background-color .3s, padding-left .35s cubic-bezier(.2,.8,.2,1);
+}
+.reg-row:hover { background: var(--ink); color: var(--paper); padding-left: .9rem; }
+
+.index-preview {
+  position: relative;
+  width: 100%;            /* the slots are absolute, so it has no intrinsic width */
+  aspect-ratio: 4 / 5;
+  max-height: 62svh;
+  overflow: hidden;
+  border: 1px solid var(--hair);
+  background: rgba(0,0,0,.05);
+}
+.index-preview .slot {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity .55s ease;
+}
+.index-preview .slot.on { opacity: 1; }
+.index-preview .slot img { width: 100%; height: 100%; object-fit: cover; }
+.index-preview .label {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: grid;
+  gap: .2rem;
+  padding: 2.5rem .9rem .8rem;
+  background: linear-gradient(to top, rgba(0,0,0,.72), transparent);
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+  pointer-events: none;
+}
+.index-preview .label span:last-child { color: rgba(255,255,255,.7); }
+.reg-row:hover .r-tag,
+.reg-row:hover .r-yr,
+.reg-row:hover .r-n { color: rgba(255,255,255,.62); }
+.reg-row:hover .r-cn { color: rgba(255,255,255,.8); }
+.r-n {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  color: var(--ink-28);
+  font-variant-numeric: tabular-nums;
+}
+.r-t { font-size: clamp(1rem, 1.35vw, 1.22rem); font-weight: 400; letter-spacing: -.015em; }
+.r-cn {
+  font-family: var(--cjk);
+  font-size: .72rem;
+  color: var(--ink-45);
+  margin-left: .8rem;
+  letter-spacing: .06em;
+}
+.r-tag, .r-yr {
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+}
+.r-yr { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ══════════════════════════════════════════════════════════════
+   PANELS
+   ══════════════════════════════════════════════════════════════ */
+/* The panel is only a scroll track. The sheet inside it is what you see, and it
+   sticks to the top of the viewport for the extra height — so each sheet holds
+   still while you keep scrolling, then releases to the next. Native sticky is
+   used deliberately instead of JS pinning: nothing to measure, nothing to
+   re-measure when an image loads late, and it cannot drift out of sync.
+   The detail no longer needs its own scroll distance — it lives in a drawer —
+   so the track is back to one hold per sheet. */
+.panel { position: relative; height: 165vh; }
+
+.sheet {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: calc(var(--nav-h) + 1.5rem) var(--pad) 4rem;
+  overflow: hidden;
+  /* Opaque so consecutive sheets never bleed into each other, but carrying the
+     same ruling. While a sheet is stuck its origin sits exactly on the viewport
+     origin, so a plain scroll-attached background lines up with the fixed page
+     backdrop without needing background-attachment: fixed — which, on nine
+     full-viewport sheets, repaints the whole gradient stack every frame. */
+  background-color: var(--paper);
+  background-image: var(--grid-img);
+  background-size: var(--grid-size);
+  background-position: 0 0;
+}
+/* hairline separating consecutive sheets */
+.sheet::after {
+  content: '';
+  position: absolute;
+  left: var(--pad); right: var(--pad); top: 0;
+  height: 1px;
+  background: var(--hair);
+}
+
+.p-rail {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.1rem;
+  padding-bottom: .85rem;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.p-rail .idx { font-weight: 500; font-variant-numeric: tabular-nums; }
+.p-rail .tag { color: var(--ink-45); }
+.p-rail .yr { color: var(--ink-45); font-variant-numeric: tabular-nums; }
+
+.p-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.24fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3.5vw, 3.5rem);
+  align-items: center;
+  min-height: 0;
+  padding-top: 1.25rem;
+}
+
+/* ── media ──
+   Every sheet gets the SAME frame: one 16:9 box, sized from the available
+   height. Panoramas and portraits are contained inside it rather than given
+   their own dimensions — a deck where each slide sizes its own picture reads
+   as an accident, not a system. */
+.p-media {
+  position: relative;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto auto;   /* frame + caption travel together */
+  gap: .75rem;
+  height: 100%;
+  align-content: center;
+}
+.frame {
+  --arw: 1.7778;                   /* 16:9 as a number, for the width cap */
+  --mh: 54svh;
+  position: relative;
+  border: 1px solid var(--hair);
+  overflow: hidden;
+  background: var(--paper);
+  aspect-ratio: 16 / 9;
+  width: min(100%, calc(var(--mh) * var(--arw)));
+  margin-inline: auto;
+}
+.frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── carousel ──
+   One frame, several pictures. Supporting images cycle in place instead of
+   stacking down the page, so a set of stills costs the same room as one. */
+.carousel .cslide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .7s ease;
+}
+.carousel .cslide.on { opacity: 1; }
+.carousel .cslide img { width: 100%; height: 100%; object-fit: cover; }
+.carousel.contain .cslide img { object-fit: contain; }
+.cbar {
+  position: absolute;
+  left: .65rem; bottom: .65rem;
+  z-index: 4;
+  display: flex;
+  gap: .28rem;
+}
+.cbar button {
+  width: 1.5rem; height: 3px;
+  padding: 0;
+  border: 0;
+  background: rgba(255,255,255,.42);
+  box-shadow: 0 0 6px rgba(0,0,0,.4);
+  transition: background-color .3s;
+}
+.cbar button.on { background: #fff; }
+.ccap {
+  position: absolute;
+  right: .65rem; bottom: .6rem;
+  z-index: 4;
+  font-family: var(--mono);
+  font-size: .55rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0,0,0,.7);
+  pointer-events: none;
+}
+/* letterboxed against the ruling, so the frame stays the same size */
+.frame.contain {
+  background-color: var(--paper);
+  background-image: var(--grid-img);
+  background-size: var(--grid-size);
+}
+.frame.contain img { object-fit: contain; }
+
+.tube .poster { position: absolute; inset: 0; }
+.tube iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.tube-badge {
+  position: absolute;
+  left: 0; bottom: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .65rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.tube-badge .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 2s steps(1) infinite;
+}
+@keyframes blink { 0%,60% { opacity: 1 } 61%,100% { opacity: .25 } }
+
+.sound {
+  position: absolute;
+  right: 0; bottom: 0;
+  z-index: 3;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: .4rem .65rem;
+}
+.sound:hover { background: var(--ink-70); }
+
+/* Stills inside the drawer. Same rule as the sheets: one frame size for all of
+   them, so a column of supporting images reads as a set rather than a pile. */
+/* one carousel, full width of its column */
+.detail-media { display: block; }
+.detail-media .frame {
+  width: 100%;
+  margin-inline: 0;
+  aspect-ratio: 4 / 3;
+}
+.detail-media figcaption {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-top: .5rem;
+}
+
+.p-caption {
+  font-family: var(--mono);
+  font-size: .63rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-top: .65rem;
+}
+
+/* ── info column ── */
+.p-info { min-width: 0; }
+.p-title {
+  font-size: clamp(2.1rem, 3.7vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+}
+.p-title .ln {
+  display: block;
+  overflow: hidden;
+  padding-bottom: .14em;
+  margin-bottom: -.14em;
+}
+.p-title .ln > span { display: block; }
+.p-cn {
+  font-family: var(--cjk);
+  font-size: .95rem;
+  font-weight: 300;
+  color: var(--ink-45);
+  letter-spacing: .14em;
+  margin-top: .85rem;
+}
+
+.p-points { margin: 2rem 0 0; list-style: none; border-top: 1px solid var(--hair); }
+.p-points li {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: .6rem;
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--hair);
+  font-size: clamp(.95rem, 1.15vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--ink-70);
+}
+.p-points li b {
+  font-family: var(--mono);
+  font-size: .66rem;
+  font-weight: 400;
+  letter-spacing: .1em;
+  color: var(--ink-28);
+  padding-top: .28rem;
+  font-variant-numeric: tabular-nums;
+}
+.p-points strong { font-weight: 600; color: var(--ink); }
+
+.p-actions { display: flex; gap: .6rem; margin-top: 1.6rem; flex-wrap: wrap; }
+.btn {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: .62rem 1.05rem;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  transition: background-color .28s, color .28s;
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn.ghost { border-color: var(--hair); color: var(--ink-45); }
+.btn.ghost:hover { border-color: var(--ink); background: var(--paper); color: var(--ink); }
+
+/* ── work detail drawer ————————————————————————————————————————
+   Parked off the right edge with only its tab showing. Hovering the tab (or
+   anywhere in the drawer) slides it out; moving away slides it back. No click,
+   no state to get stuck in, and the overview is never destroyed — it is simply
+   covered for as long as you are looking at the detail. */
+.drawer {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  z-index: 45;
+  /* text only now, so it takes just the room the prose needs and leaves the
+     carousel on the left visible while you read */
+  width: min(49%, 40rem);
+  display: flex;
+  transform: translateX(calc(100% - var(--tab-w)));
+  transition: transform .6s cubic-bezier(.16, 1, .3, 1);
+  --tab-w: 2.6rem;
+}
+.drawer:hover,
+.drawer:focus-within,
+.drawer.open { transform: translateX(0); }
+
+.drawer-tab {
+  flex: 0 0 var(--tab-w);
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-left: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  padding: 1.5rem 0;
+}
+.drawer-tab span { transform: rotate(180deg); }
+.drawer:hover .drawer-tab { background: var(--ink); }
+
+.drawer-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: var(--paper);
+  border-left: 1px solid var(--ink);
+  padding: calc(var(--nav-h) + 1.25rem) clamp(1.35rem, 2.2vw, 2.25rem) 1.75rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+.drawer-body::-webkit-scrollbar { display: none; }
+
+.drawer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: .85rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.drawer-head h3 { font: inherit; font-weight: 500; }
+.drawer-head .k { color: var(--ink-45); }
+
+/* Prose and spec stack on the left, the stills sit beside them on the right —
+   the whole detail lands in one view instead of asking for another scroll. */
+.detail-grid,
+.detail-grid.has-media {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.4rem clamp(1.25rem, 2.2vw, 2.25rem);
+  align-content: start;
+}
+/* two sheets have no supporting stills yet — those read full width */
+.detail-grid:not(:has(.detail-media)) { grid-template-columns: minmax(0, 1fr); }
+/* prose beside the stills, then the spec table across the full width beneath —
+   at that width its values stop wrapping, which is what was costing the height */
+.detail-grid > div:first-child { grid-column: 1; grid-row: 1; }
+.detail-grid > .detail-media { grid-column: 2; grid-row: 1; margin-top: 0; align-self: start; }
+.detail-grid > .spec         { grid-column: 1 / -1; grid-row: 2; margin-top: .25rem; }
+.detail-grid > .spec div { grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); }
+.detail-grid p {
+  font-size: clamp(.92rem, 1.05vw, 1.02rem);
+  line-height: 1.52;
+  color: var(--ink-70);
+  margin-bottom: .75rem;
+}
+.detail-grid p strong { font-weight: 600; color: var(--ink); }
+.spec { border-top: 1px solid var(--ink); margin-top: 1rem; }
+.spec div {
+  display: grid;
+  grid-template-columns: minmax(0, 8rem) minmax(0, 1fr);
+  gap: 1rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid var(--hair);
+}
+.spec dt {
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  padding-top: .2rem;
+}
+.spec dd { font-size: clamp(.86rem, .98vw, .95rem); line-height: 1.5; color: var(--ink-70); }
+.spec a { border-bottom: 1px solid var(--ink-28); }
+.spec a:hover { border-bottom-color: var(--ink); }
+
+/* ══════════════════════════════════════════════════════════════
+   CONTACT
+   ══════════════════════════════════════════════════════════════ */
+.contact { text-align: left; }
+.contact h2.big {
+  font-size: clamp(1.9rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.06;
+  letter-spacing: -.03em;
+  max-width: 16ch;
+  margin-bottom: 2.5rem;
+}
+.mail {
+  display: inline-block;
+  font-size: clamp(1.1rem, 2.4vw, 1.9rem);
+  font-weight: 400;
+  letter-spacing: -.02em;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: .12em;
+}
+.contact-grid {
+  margin-top: 3.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1.5rem 2rem;
+  border-top: 1px solid var(--ink);
+  padding-top: 1.5rem;
+}
+.contact-grid dt {
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  margin-bottom: .45rem;
+}
+.contact-grid dd { font-size: 1rem; }
+.contact-grid a { border-bottom: 1px solid var(--ink-28); }
+.contact-grid a:hover { border-bottom-color: var(--ink); }
+
+footer {
+  padding: 2rem var(--pad) 5.5rem;
+  border-top: 1px solid var(--hair);
+  font-family: var(--mono);
+  font-size: .56rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-45);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   REVEAL — initial states. Removed wholesale if JS never runs.
+   ══════════════════════════════════════════════════════════════ */
+.js [data-reveal] { opacity: 0; }
+.js [data-reveal="up"]    { transform: translateY(18px); }
+.js [data-reveal="lines"] .ln > span { transform: translateY(105%); }
+.js [data-reveal="lines"] { opacity: 1; }
+.js [data-reveal="wipe"]  { opacity: 1; clip-path: inset(0 100% 0 0); }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE — below 960px everything degrades to a plain document
+   ══════════════════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  :root { --sq: 28px; --sq-major: 140px; }
+
+  .cover-mid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .cover-mark { max-width: 62%; margin-left: auto; }
+  .cover-bot { grid-template-columns: 1fr; gap: 1.1rem; }
+  .cover-bot .mid, .cover-bot .end { text-align: left; }
+  .reg { display: none; }
+
+  .nav-links { gap: 1rem; }
+  .tblock { display: none; }
+
+  .sec { padding: 5.5rem var(--pad); }
+  .thesis { max-width: none; margin-bottom: 3rem; }
+  .mrow { grid-template-columns: 2.4rem 1fr; }
+  .mrow dd { grid-column: 2; }
+  .certs { grid-template-columns: 1fr; }
+
+  .reg-row { grid-template-columns: 2.4rem 1fr; row-gap: .3rem; }
+  .reg-row .r-tag { grid-column: 2; }
+  .reg-row .r-yr { grid-column: 2; text-align: left; }
+  .reg-row:hover { background: none; color: inherit; padding-left: 0; }
+
+  /* no sticky, no hold — sheets become ordinary stacked sections and the
+     detail simply follows the overview instead of cross-fading over it */
+  .panel { height: auto; }
+  .sheet {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 3.5rem var(--pad);
+  }
+  .p-body { grid-template-columns: 1fr; gap: 1.75rem; padding-top: 1.25rem; }
+  .p-media { height: auto; justify-items: stretch; }
+  .frame { width: 100%; }
+  .drawer {
+    position: static;
+    width: auto;
+    transform: none;
+    display: block;
+    margin-top: 2.5rem;
+  }
+  .drawer-tab { display: none; }
+  .drawer-body {
+    border-left: 0;
+    border-top: 1px solid var(--ink);
+    padding: 2rem 0 0;
+    overflow: visible;
+  }
+  .thesis-row { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+@media (max-width: 560px) {
+  .media-trio { grid-template-columns: 1fr 1fr; }
+  .media-trio .frame:last-child { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   REDUCED MOTION / PRINT
+   ══════════════════════════════════════════════════════════════ */
+/* driven by the class set in <head>, so an explicit ?motion= override wins */
+.motion-off .panel { height: auto; }
+.motion-off .sheet {
+  position: static;
+  height: auto;
+  overflow: visible;
+  padding: 4rem var(--pad);
+}
+.motion-off .p-media { height: auto; }
+/* the drawer stops being a drawer and just follows the overview */
+.motion-off .drawer {
+  position: static;
+  width: auto;
+  transform: none;
+  display: block;
+  margin-top: 2.75rem;
+}
+.motion-off .drawer-tab { display: none; }
+.motion-off .drawer-body {
+  border-left: 0;
+  border-top: 1px solid var(--ink);
+  padding: 2.25rem 0 0;
+  overflow: visible;
+}
+.motion-off [data-reveal] { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+.motion-off [data-reveal="lines"] .ln > span { transform: none !important; }
+.motion-off .tube-badge .dot { animation: none; }
+.motion-off *, .motion-off *::before, .motion-off *::after {
+  transition-duration: .01ms !important;
+  animation-duration: .01ms !important;
+}
+
+@media print {
+  .nav, .tblock, .cur, .detail { display: none !important; }
+  body::before { display: none; }
+  .panel { height: auto; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─────────────── CURSOR ─────────────── -->
+<div class="cur cur-dot" id="curDot" aria-hidden="true"></div>
+<div class="cur cur-ring" id="curRing" aria-hidden="true"><span class="cur-legend" id="curLegend"></span></div>
+
+<!-- ─────────────── NAV ─────────────── -->
+<nav class="nav">
+  <a href="#cover" class="nav-brand" data-cursor-legend="TOP">
+    <img class="nav-mark" src="images/brand/dataraw-can.webp" alt="" aria-hidden="true">
+    <span>Tao Yun Huang</span>
+  </a>
+  <div class="nav-links">
+    <a href="#profile">Profile</a>
+    <a href="#index">Works</a>
+    <a href="#contact">Contact</a>
+    <a href="cv.html" class="mono-b">CV</a>
+  </div>
+</nav>
+
+<!-- ─────────────── TITLE BLOCK ─────────────── -->
+<div class="tblock" aria-hidden="true">
+  <span class="k">Sheet</span><span class="v" id="sheetNo">—</span>
+  <span class="k">Ref</span><span class="v" id="sheetRef">COVER</span>
+  <span class="k">View</span><span class="v" id="sheetStage">—</span>
+</div>
+
+<main>
+
+<!-- ══════════════════ COVER ══════════════════ -->
+<section class="cover" id="cover">
+  <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span>
+
+  <div class="cover-top">
+    <div class="mono">Selected Works · 2022 — 2026</div>
+    <div class="mono">Portfolio · Issue 03</div>
+  </div>
+
+  <div class="cover-mid">
+    <h1 class="cover-name" data-reveal="lines" data-reveal-stagger="0.08">
+      <span class="ln"><span>Tao Yun</span></span>
+      <span class="ln"><span>Huang</span></span>
+      <span class="cn">黃 韜 云</span>
+    </h1>
+
+    <figure class="cover-mark" data-reveal="up" data-reveal-delay="0.45">
+      <img src="images/brand/dataraw-can.webp" alt="DataRaw — raw and unprocessed" width="1100" height="944">
+      <figcaption>DataRaw · Raw &amp; Unprocessed</figcaption>
+    </figure>
+  </div>
+
+  <div class="cover-bot" data-reveal="up" data-reveal-delay="0.6">
+    <div class="cover-role">Systems &amp;<br>Hardware Engineer</div>
+    <div class="mono mid">Taiwan · Open to relocation</div>
+    <div class="mono end">bernie5@dataraw.tech</div>
+  </div>
+</section>
+
+<!-- ══════════════════ PROFILE ══════════════════ -->
+<section class="sec" id="profile">
+  <div class="sec-head">
+    <h2>01 — Profile</h2>
+    <span class="mono">Experience &amp; education</span>
+  </div>
+
+  <div class="thesis-row">
+    <p class="thesis" data-reveal="up">
+      Electromechanical systems from the <em>physical layer up</em> — hand-etched PCB,
+      closed-loop motion control, embedded firmware. Commissioned on site, then kept running.
+    </p>
+
+    <div class="record" data-reveal="up" data-reveal-delay="0.12">
+      <h4>Experience</h4>
+      <div class="rec-item">
+        <span class="role">Hardware Engineer</span>
+        <span class="org">IF Plus Art · 當若科技藝術</span>
+        <span class="when">Dec 2024 — Apr 2026</span>
+      </div>
+      <div class="rec-item">
+        <span class="role">Technical Project Manager</span>
+        <span class="org">King One Interactive · 王一互動科技</span>
+        <span class="when">Jan — Dec 2024</span>
+      </div>
+      <div class="rec-item">
+        <span class="role">Lecturer, part-time</span>
+        <span class="org">Hsinchu Senior High School · electronics &amp; programming</span>
+        <span class="when">Jul 2023 — Jun 2024</span>
+      </div>
+      <div class="rec-item">
+        <span class="role">Research Assistant</span>
+        <span class="org">NYCU · National Science &amp; Technology Council project</span>
+        <span class="when">Apr 2022 — Jan 2023</span>
+      </div>
+
+      <h4>Education</h4>
+      <div class="rec-item">
+        <span class="role">M.F.A. Multimedia &amp; New Music</span>
+        <span class="org">National Yang Ming Chiao Tung University, Hsinchu</span>
+        <span class="when">2020 — 2024</span>
+      </div>
+      <div class="rec-item">
+        <span class="role">Electrical Engineering</span>
+        <span class="org">Feng Chia University, Taichung</span>
+        <span class="when">2012 — 2015</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CAPABILITY ══════════════════ -->
+<section class="sec" id="capability">
+  <div class="sec-head">
+    <h2>02 — Capability</h2>
+    <span class="mono">Matrix &amp; certifications</span>
+  </div>
+
+  <div>
+  <dl class="matrix" data-reveal="up" data-reveal-stagger="0.07">
+    <div class="mrow">
+      <span class="n">01</span>
+      <dt>Circuit Design</dt>
+      <dd>Schematic &amp; layout · Hand etching · Analog design · Power distribution · Signal integrity · Component selection &amp; BOM · EMC testing · Soldering &amp; rework · Oscilloscope, logic analyser &amp; multimeter · EMI and noise isolation · Root-cause analysis</dd>
+    </div>
+    <div class="mrow">
+      <span class="n">02</span>
+      <dt>Mechanical &amp; Motion</dt>
+      <dd>Closed-loop PID across position, velocity and torque · Stepper &amp; servo · Encoder feedback · Multi-axis synchronisation · Solenoid &amp; pneumatic actuation · CO₂ / O₂ delivery and valve control · 3-D printed mechanism design under weight and balance constraints</dd>
+    </div>
+    <div class="mrow">
+      <span class="n">03</span>
+      <dt>Field &amp; Customer Delivery</dt>
+      <dd>Installation, commissioning and handover · Scheduled preventive maintenance · On-site fault diagnosis · Remote monitoring · Client-facing operation through delivery · Multi-day continuous public duty under load</dd>
+    </div>
+    <div class="mrow">
+      <span class="n">04</span>
+      <dt>Network &amp; Embedded</dt>
+      <dd>Ubiquiti UniFi — certified UWA and UFSP · Site Manager, Cloud Gateway, routing and switching · Complete remote and offline-capable service stood up from zero · Embedded C++ · UDP / OSC · UWB positioning</dd>
+    </div>
+    <div class="mrow">
+      <span class="n">05</span>
+      <dt>Software &amp; ML</dt>
+      <dd>Python · PyTorch · Computer vision (YOLO) · Visual SLAM and 6-DoF pose estimation · Real-time inference on device · Unity · Swift / ARKit</dd>
+    </div>
+  </dl>
+
+  <div class="certs">
+    <div>
+      <div class="cert-item" data-reveal="up">
+        <span class="cert-code">UWA</span>
+        <div>
+          <div class="cert-name">UniFi Wireless Admin</div>
+          <div class="cert-meta">Ubiquiti Academy · 2025</div>
+        </div>
+      </div>
+      <div class="cert-item" data-reveal="up" data-reveal-delay="0.08">
+        <span class="cert-code">UFSP</span>
+        <div>
+          <div class="cert-name">UniFi Full Stack Professional</div>
+          <div class="cert-meta">Ubiquiti Academy · 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="cert-note" data-reveal="up" data-reveal-delay="0.16">
+      Enough to stand up a complete networked service from nothing — gateway, routing,
+      switching, wireless and remote access — and keep it reachable when the site has
+      no usable uplink of its own.
+    </p>
+
+    <div class="cert-shots" data-reveal="up" data-reveal-delay="0.1">
+      <div class="frame carousel" data-carousel="5000">
+        <div class="cslide on" data-cap="UWA · Wireless Admin"><img src="images/certs/uwa.jpg" alt="Ubiquiti Academy — UniFi Wireless Admin" loading="lazy"></div>
+        <div class="cslide" data-cap="UFSP · Full Stack Professional"><img src="images/certs/ufsp.jpg" alt="Ubiquiti Training — UniFi Full Stack Professional" loading="lazy"></div>
+        <span class="ccap"></span>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- ══════════════════ INDEX ══════════════════ -->
+<section class="sec" id="index">
+  <div class="sec-head">
+    <h2>03 — Works</h2>
+    <span class="mono" id="workCount">09 sheets · 2022 — 2026</span>
+  </div>
+
+  <div class="index-grid">
+    <div class="reg-table" id="regTable">
+    <!-- rows injected order-of-truth below; keep in sync with panels -->
+    <a class="reg-row" href="#w-cv" data-cursor-legend="VIEW">
+      <span class="r-n">01</span>
+      <span class="r-t">13-Voice CV Synthesizer<span class="r-cn">十三聲部</span></span>
+      <span class="r-tag">Analog hardware</span>
+      <span class="r-yr">2023</span>
+    </a>
+    <a class="reg-row" href="#w-railway" data-cursor-legend="VIEW">
+      <span class="r-n">02</span>
+      <span class="r-t">Diesel-Electric Workshop<span class="r-cn">柴電工場</span></span>
+      <span class="r-tag">Motion control</span>
+      <span class="r-yr">2025</span>
+    </a>
+    <a class="reg-row" href="#w-ttxc" data-cursor-legend="VIEW">
+      <span class="r-n">03</span>
+      <span class="r-t">Culture-Tech Exchange<span class="r-cn">文化科技交易所</span></span>
+      <span class="r-tag">LINE OA · Live ops</span>
+      <span class="r-yr">2025</span>
+    </a>
+    <a class="reg-row" href="#w-ros" data-cursor-legend="VIEW">
+      <span class="r-n">04</span>
+      <span class="r-t">River of Shadows<span class="r-cn">川影</span></span>
+      <span class="r-tag">Visual SLAM</span>
+      <span class="r-yr">2024</span>
+    </a>
+    <a class="reg-row" href="#w-moda" data-cursor-legend="VIEW">
+      <span class="r-n">05</span>
+      <span class="r-t">AI Living Lab<span class="r-cn">資訊月</span></span>
+      <span class="r-tag">Sensor integration</span>
+      <span class="r-yr">2025</span>
+    </a>
+    <a class="reg-row" href="#w-circle" data-cursor-legend="VIEW">
+      <span class="r-n">06</span>
+      <span class="r-t">Circle of Confusion<span class="r-cn">彌散圈反應</span></span>
+      <span class="r-tag">VR · Pneumatics</span>
+      <span class="r-yr">2024</span>
+    </a>
+    <a class="reg-row" href="#w-threshold" data-cursor-legend="VIEW">
+      <span class="r-n">07</span>
+      <span class="r-t">Threshold<span class="r-cn">闁 · 三部曲</span></span>
+      <span class="r-tag">Electromechanical</span>
+      <span class="r-yr">2022—24</span>
+    </a>
+    <a class="reg-row" href="#w-moss" data-cursor-legend="VIEW">
+      <span class="r-n">08</span>
+      <span class="r-t">Moss Floating Layer<span class="r-cn">苔域浮層</span></span>
+      <span class="r-tag">Side project</span>
+      <span class="r-yr">2025</span>
+    </a>
+    <a class="reg-row" href="#w-blender" data-cursor-legend="VIEW">
+      <span class="r-n">09</span>
+      <span class="r-t">Blender MCP Bridge<span class="r-cn">程序化場景管線</span></span>
+      <span class="r-tag">Tooling · Socket bridge</span>
+      <span class="r-yr">2024—26</span>
+    </a>
+    </div>
+
+    <div class="index-preview" id="indexPreview">
+      <div class="slot on" data-key="w-cv"><img src="images/works/01-cv-synth/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-railway"><img src="images/works/02-railway/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-ttxc"><img src="images/works/03-ttxc/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-ros"><img src="images/works/04-river-of-shadows/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-moda"><img src="images/works/05-ai-living-lab/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-circle"><img src="images/works/06-circle-of-confusion/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-threshold"><img src="images/works/07-threshold/v3.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-moss"><img src="images/works/08-moss/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-blender"><img src="images/works/09-blender-mcp/hero.jpg" alt="" loading="lazy"></div>
+      <div class="label">
+        <span id="previewName">13-Voice CV Synthesizer</span>
+        <span id="previewMeta">2023 · Analog hardware</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ DECK ══════════════════ -->
+<div id="deck">
+
+<!-- ── 01 · 13-VOICE CV SYNTHESIZER ── -->
+<section class="panel" id="w-cv" data-sheet="01">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 01 / 09</span>
+      <span class="tag">Analog hardware · Circuit design · Solo build</span>
+      <span class="yr">2023</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel contain" data-carousel="4200">
+          <div class="cslide on" data-cap="Assembled rack"><img src="images/works/01-cv-synth/hero.jpg" alt="Thirteen boards assembled on one CV bus" loading="lazy"></div>
+          <div class="cslide" data-cap="PCB layout · Cadence Allegro"><img src="images/works/01-cv-synth/layout.jpg" alt="PCB layout in Cadence Allegro" loading="lazy"></div>
+          <div class="cslide" data-cap="CAM · Gerber review"><img src="images/works/01-cv-synth/cam.jpg" alt="CAM / Gerber review of the board" loading="lazy"></div>
+          <div class="cslide" data-cap="Hand-etched copper"><img src="images/works/01-cv-synth/detail-1.jpg" alt="Hand-etched copper PCB" loading="lazy"></div>
+          <div class="cslide" data-cap="BOM · per-board counts"><img src="images/works/01-cv-synth/detail-2.jpg" alt="Component bill of materials" loading="lazy"></div>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">Assembled rack · thirteen boards on one CV bus</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>13-Voice CV</span></span>
+          <span class="ln"><span>Synthesizer</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">十三聲部電壓控制合成器</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>One master and twelve sub-voices, each independently controlled through a <strong>shared voltage bus</strong>.</span></li>
+          <li><b>02</b><span>Schematic, layout and <strong>hand-etched copper</strong> — every one of the thirteen boards.</span></li>
+          <li><b>03</b><span>The hard part was holding control voltages accurate across all thirteen. Debugged board by board on the bench.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>13-Voice CV Synthesizer</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>The problem.</strong> Thirteen boards on one CV bus is a loading problem
+          before it is a music problem. Each board added draws on the same reference, so pitch
+          drifts as more come online; adjacent voices coupled into each other, and the shared
+          supply sagged under simultaneous gates.</p>
+          <p><strong>How it was found.</strong> Board by board on the bench, not by redesigning
+          the rack — bus loading measured against reference droop, crosstalk isolated by driving
+          one voice and scoping its neighbours, decoupling reworked until the rails held at
+          worst case.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Architecture</dt><dd>1 master · 12 sub-boards · shared CV bus</dd></div>
+            <div><dt>Fabrication</dt><dd>Schematic &amp; layout · hand-etched copper · hand assembly</dd></div>
+            <div><dt>Diagnostics</dt><dd>Bus loading · inter-voice crosstalk · supply decoupling · rail droop under simultaneous load</dd></div>
+            <div><dt>Instruments</dt><dd>Oscilloscope · multimeter · bench supply</dd></div>
+            <div><dt>Role</dt><dd>Solo — design through assembly and debug</dd></div>
+            <div><dt>Year</dt><dd>2023</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 02 · DIESEL-ELECTRIC WORKSHOP ── -->
+<section class="panel" id="w-railway" data-sheet="02">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 02 / 09</span>
+      <span class="tag">Motion control · Permanent install · Under maintenance</span>
+      <span class="yr">2025</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="4200">
+          <div class="cslide on" data-cap="On site · Railway Museum"><img src="images/works/02-railway/hero.jpg" alt="S212 transparent screen, National Railway Museum" loading="lazy"></div>
+          <div class="cslide" data-cap="Linear axis · CAD assembly"><img src="images/works/02-railway/mechanism.webp" alt="Linear axis assembly — carriage and cable carrier" loading="lazy"></div>
+          <div class="cslide" data-cap="Armature · crane axis"><img src="images/works/02-railway/detail-1.jpg" alt="Armature on the overhead crane axis" loading="lazy"></div>
+          <div class="cslide" data-cap="Workshop floor"><img src="images/works/02-railway/detail-2.jpg" alt="Workshop floor in service" loading="lazy"></div>
+          <a class="sound" href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">National Railway Museum, Taipei · permanent exhibition</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Diesel-Electric</span></span>
+          <span class="ln"><span>Workshop</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">國家鐵道博物館 · 柴電工場</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>A <strong>60 kg armature</strong> moving on an overhead-crane axis under closed-loop PID position and velocity control.</span></li>
+          <li><b>02</b><span>Inner torque and speed loop tuned against <strong>varying inertia</strong>, with animation playback synchronised to physical actuation.</span></li>
+          <li><b>03</b><span>Handed over in 2025 and <strong>still on a scheduled PM cycle</strong> — on-site fault diagnosis plus remote monitoring.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Diesel-Electric Workshop</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>The control problem.</strong> The load is heavy, the axis is long,
+          and effective inertia changes with position. A single position loop overshoots at one
+          end of travel and lags at the other, so it runs as position and velocity over an inner
+          torque loop — tuned so one set of gains holds across the whole travel.</p>
+          <p><strong>After handover.</strong> It did not end at commissioning. A public exhibit
+          running daily, on a scheduled preventive cycle since 2025, with on-site fault diagnosis
+          and remote monitoring between visits. Mechanical wear, not software, is what comes
+          back.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Client</dt><dd>National Railway Museum, Taipei</dd></div>
+            <div><dt>Studio</dt><dd>IF Plus Art</dd></div>
+            <div><dt>Moving load</dt><dd>60 kg armature on overhead-crane axis</dd></div>
+            <div><dt>Control</dt><dd>Closed-loop PID position / velocity over inner torque / speed loop · encoder feedback · multi-axis synchronisation</dd></div>
+            <div><dt>Service</dt><dd>Scheduled preventive maintenance · on-site fault diagnosis · remote monitoring</dd></div>
+            <div><dt>Status</dt><dd>Permanent · in service since 2025</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 03 · CULTURE-TECH EXCHANGE ── -->
+<section class="panel" id="w-ttxc" data-sheet="03">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 03 / 09</span>
+      <span class="tag">LINE OA · Real-time network · Four-day live operation</span>
+      <span class="yr">2025</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="5200">
+          <div class="cslide on" data-cap="LINE OA · in use"><img src="images/works/03-ttxc/loop-1.webp" alt="LINE OA investment interface in use" loading="lazy"></div>
+          <div class="cslide" data-cap="Portfolio · leaderboard"><img src="images/works/03-ttxc/loop-2.webp" alt="Portfolio and leaderboard on LINE OA" loading="lazy"></div>
+          <div class="cslide" data-cap="LINE Bot flow"><img src="images/works/03-ttxc/flow.jpg" alt="LINE Bot flow across the visit" loading="lazy"></div>
+          <div class="cslide" data-cap="Venue leaderboard"><img src="images/works/03-ttxc/hero.jpg" alt="Venue leaderboard" loading="lazy"></div>
+          <a class="sound" href="https://www.youtube.com/watch?v=KtusLH4ttM0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">TAICCA · TTXC Innovations · Pier-2, Kaohsiung</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Culture-Tech</span></span>
+          <span class="ln"><span>Exchange</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">文化科技交易所 · TAICCA</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>Visitors played on <strong>their own phones through LINE OA</strong> — no app to install, no account to make. That is what made the whole thing work.</span></li>
+          <li><b>02</b><span>Mobile ↔ venue data synchronised across platforms on a fixed <strong>three-minute leaderboard cycle</strong>.</span></li>
+          <li><b>03</b><span>Deployed and operated on site across four days — <strong>NT$4.7 bn</strong> in virtual capital placed by the public.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Culture-Tech Exchange</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid">
+          <div>
+          <p><strong>Why LINE OA was the design.</strong> Anything requiring an app install
+          loses most of an exhibition audience at the door. Building on the LINE Official Account
+          made the entry cost zero — visitors opened something already on their phone. Every other
+          decision followed from that one.</p>
+          <p><strong>The constraint.</strong> Hundreds of phones and the venue display have to
+          agree on one market state. A fixed three-minute settlement cycle: long enough to batch
+          and reconcile, short enough that the room still feels live.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Client</dt><dd>TAICCA</dd></div>
+            <div><dt>Studio</dt><dd>IF Plus Art</dd></div>
+            <div><dt>Entry point</dt><dd>LINE Official Account — no app install</dd></div>
+            <div><dt>Stack</dt><dd>Unity · LINE OA · real-time networking · cross-platform data sync</dd></div>
+            <div><dt>Cycle</dt><dd>Fixed 3-minute leaderboard settlement</dd></div>
+            <div><dt>Scale</dt><dd>4 days on site · NT$4.7 bn virtual capital placed</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=KtusLH4ttM0" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 04 · RIVER OF SHADOWS ── -->
+<section class="panel" id="w-ros" data-sheet="04">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 04 / 09</span>
+      <span class="tag">Visual SLAM · 6-DoF pose · iOS</span>
+      <span class="yr">2024</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="3800">
+          <div class="cslide on" data-cap="AR overlay in place"><img src="images/works/04-river-of-shadows/hero.jpg" alt="AR overlay on the corridor" loading="lazy"></div>
+          <div class="cslide" data-cap="App capture"><img src="images/works/04-river-of-shadows/detail-1.jpg" alt="App capture" loading="lazy"></div>
+          <div class="cslide" data-cap="Navigation cube"><img src="images/works/04-river-of-shadows/detail-2.jpg" alt="Navigation cube in performance" loading="lazy"></div>
+          <div class="cslide" data-cap="Overlaid space"><img src="images/works/04-river-of-shadows/detail-3.jpg" alt="Overlaid absent space" loading="lazy"></div>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">NYCU Administrative Building, Hsinchu · localised without markers</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>River of</span></span>
+          <span class="ln"><span>Shadows</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">川影 · NYCU 行政大樓</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>Localised by <strong>machine vision, not markers</strong> — nothing was attached to the building.</span></li>
+          <li><b>02</b><span>A dense photographic survey of the corridor processed into a <strong>3-D feature map</strong>, with runtime 6-DoF pose matching live camera frames against it.</span></li>
+          <li><b>03</b><span>Drift and re-localisation handled in <strong>repeating, low-texture corridors</strong> — the hardest case for feature matching.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>River of Shadows</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>Localised without markers.</strong> The building could not be modified,
+          so the corridor was photographed densely and processed into a 3-D feature map; at
+          runtime the device estimates full 6-DoF pose by matching live camera frames against
+          it.</p>
+          <p><strong>Why that corridor is the hard case.</strong> Sparse texture that repeats —
+          every bay looks like the next. Pose locks onto the wrong bay, or drifts, and the overlay
+          slides off the wall. The work was in deciding when to trust a match and when to discard
+          it.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Venue</dt><dd>NYCU Administrative Building, Hsinchu</dd></div>
+            <div><dt>Localisation</dt><dd>Area Target visual SLAM · dense photographic survey → 3-D feature map · runtime 6-DoF pose estimation</dd></div>
+            <div><dt>Failure modes</dt><dd>Drift and re-localisation in repeating, low-texture geometry</dd></div>
+            <div><dt>Stack</dt><dd>Swift · ARKit · feature matching · spatial audio</dd></div>
+            <div><dt>Role</dt><dd>Solo — iOS development, localisation, composition, audience navigation</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://youtu.be/FejVzhDx3Ls" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 05 · AI LIVING LAB ── -->
+<section class="panel" id="w-moda" data-sheet="05">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 05 / 09</span>
+      <span class="tag">Sensor integration · Real-time inference · Public duty</span>
+      <span class="yr">2025</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame tube" data-yt="mWuq7uki4DQ" data-reveal="wipe">
+          <img class="poster" src="images/works/05-ai-living-lab/hero.jpg" alt="Instrumented cycling station at the MODA booth" width="1331" height="747">
+          <span class="tube-badge"><span class="dot"></span>1,000+ riders</span>
+          <button class="sound" data-sound data-cursor-legend="SOUND">Sound off</button>
+        </div>
+        <div class="p-caption">Ministry of Digital Affairs · Taipei Computer Festival</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>AI Living</span></span>
+          <span class="ln"><span>Lab</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">資訊月 · 數位發展部</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>A <strong>custom instrumented bicycle</strong> — sensors on cadence, speed and route selection, with signal conditioning and normalisation.</span></li>
+          <li><b>02</b><span>That live riding data drives a model that <strong>generates a soundtrack for that specific ride</strong>, in real time, as the rider pedals.</span></li>
+          <li><b>03</b><span>Four days of continuous public duty, <strong>1,000+ riders</strong>, no supervised reset between them.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>AI Living Lab</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid">
+          <div>
+          <p><strong>Hardware.</strong> The bicycle is instrumented from scratch — cadence,
+          speed and route — with the analog side conditioned and normalised before anything
+          downstream sees it. A child and an adult do not produce the same scale of raw values,
+          and the model needs them to.</p>
+          <p><strong>What public duty actually tests.</strong> Not peak performance — recovery.
+          A thousand people used it with no controlled conditions: sensors knocked, riders
+          dismounting mid-session. The engineering was making each session independent enough
+          that a bad one did not take the next with it.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Client</dt><dd>Ministry of Digital Affairs (MODA)</dd></div>
+            <div><dt>Hardware</dt><dd>Custom instrumented bicycle · cadence, speed and route sensing · signal conditioning · data normalisation</dd></div>
+            <div><dt>Generation</dt><dd>Live riding dynamics → real-time generative audio model</dd></div>
+            <div><dt>Output</dt><dd>Per-rider soundtrack, printed as a cassette postcard</dd></div>
+            <div><dt>Load</dt><dd>1,000+ riders over 4 continuous days</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=mWuq7uki4DQ" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 06 · CIRCLE OF CONFUSION ── -->
+<section class="panel" id="w-circle" data-sheet="06">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 06 / 09</span>
+      <span class="tag">VR + pneumatics · Gas delivery &amp; valve control</span>
+      <span class="yr">2024</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame tube" data-yt="YpsZ0EtSozE" data-reveal="wipe">
+          <img class="poster" src="images/works/06-circle-of-confusion/hero.jpg" alt="Custom 3-D printed headset mechanism" width="1919" height="1079">
+          <span class="tube-badge"><span class="dot"></span>DAC Taipei</span>
+          <button class="sound" data-sound data-cursor-legend="SOUND">Sound off</button>
+        </div>
+        <div class="p-caption">Digital Art Center, Taipei</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Circle of</span></span>
+          <span class="ln"><span>Confusion</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">彌散圈反應</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>VR bound to a <strong>pneumatic apparatus</strong> — the headset and the physical rig run as one system, not two.</span></li>
+          <li><b>02</b><span><strong>CO₂ / O₂ delivery under valve control</strong>, driving the environment on a regulated respiratory cycle synchronised to the VR.</span></li>
+          <li><b>03</b><span>A 3-D printed haptic mechanism designed to mount on the headset <strong>within its weight and balance limits</strong>.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Circle of Confusion</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>Gas side.</strong> Two supplies, regulated delivery and valve control
+          on a repeating cycle, phase-locked to what the viewer sees. Holding a steady rhythm is a
+          matter of valve response, line volume and settling time — the commanded profile and the
+          delivered profile are not the same curve.</p>
+          <p><strong>Stated plainly.</strong> This is gas handling and flow fault-finding at
+          atmospheric pressure. It is <strong>not</strong> vacuum or plasma process experience,
+          and is not offered as such.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Venue</dt><dd>Digital Art Center, Taipei</dd></div>
+            <div><dt>Gas system</dt><dd>CO₂ / O₂ delivery · valve control · regulated respiratory cycle</dd></div>
+            <div><dt>Mechanism</dt><dd>3-D printed headset-mounted haptic unit, within mass and balance limits</dd></div>
+            <div><dt>Audio</dt><dd>Deliberately incomplete Ambisonics array</dd></div>
+            <div><dt>Not claimed</dt><dd>No vacuum, plasma or hydraulic process experience</dd></div>
+            <div><dt>Role</dt><dd>Solo — concept, system, gas control, mechanism, composition</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=YpsZ0EtSozE" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 07 · THRESHOLD ── -->
+<section class="panel" id="w-threshold" data-sheet="07">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 07 / 09</span>
+      <span class="tag">Electromechanical · Closed loop · Three versions</span>
+      <span class="yr">2022 — 2024</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="4600">
+          <div class="cslide on" data-cap="v3 · NYCU 2024"><img src="images/works/07-threshold/v3.jpg" alt="Threshold v3, NYCU 2024" loading="lazy"></div>
+          <div class="cslide" data-cap="v1 · Taichung 2022"><img src="images/works/07-threshold/v1.jpg" alt="Threshold v1, Taichung 2022" loading="lazy"></div>
+          <div class="cslide" data-cap="v2 · C-LAB Taipei 2023"><img src="images/works/07-threshold/v2.jpg" alt="Threshold v2, C-LAB Taipei 2023" loading="lazy"></div>
+          <a class="sound" href="https://www.youtube.com/watch?v=YVT2q0_gJyA" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">v1 Taichung 2022 · v2 C-LAB Taipei 2023 · v3 NYCU 2024</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Threshold</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">闁 · 真實與潛在空間的回授</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>Stepper motors, solenoids and pneumatics driven in a <strong>closed feedback loop</strong> with real-time neural audio synthesis.</span></li>
+          <li><b>02</b><span>The engineering constraint was the <strong>latency budget</strong> between sensing and actuation — and the mechanical settling time that budget has to absorb.</span></li>
+          <li><b>03</b><span>Three builds over three years. <strong>v2 ran across a 49.4-channel Ambisonics system</strong>, the first at that scale in Taiwan.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Threshold</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>Why a feedback loop is a stability problem.</strong> Any loop
+          containing real mechanics has dead time in it. Solenoids and pneumatics do not respond
+          instantly, and the structure keeps ringing after the actuator stops. Feed that into a
+          synthesis stage reacting within milliseconds and the system either runs away or
+          hunts.</p>
+          <p><strong>Three versions, three rebuilds.</strong> Each was rebuilt around what failed
+          in the last. v2 ran the modified RAVE pipeline across a 49.4-channel Ambisonics system —
+          the first at that scale in Taiwan.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Actuation</dt><dd>Stepper motors · solenoids · pneumatics · closed-loop control</dd></div>
+            <div><dt>Loop design</dt><dd>Feedback stability · mechanical settling time · sensing-to-actuation latency budget</dd></div>
+            <div><dt>Audio</dt><dd>Modified RAVE pipeline · k-means · Max/MSP · Ambisonics</dd></div>
+            <div><dt>Scale</dt><dd>v2 — 49.4-channel Ambisonics, first at this scale in Taiwan</dd></div>
+            <div><dt>Venues</dt><dd>Taichung 2022 · C-LAB Taipei 2023 · NYCU 2024</dd></div>
+            <div><dt>Role</dt><dd>Solo — apparatus, actuator control, loop stability, all three versions</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://youtu.be/YVT2q0_gJyA" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 08 · MOSS FLOATING LAYER ── -->
+<section class="panel" id="w-moss" data-sheet="08">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 08 / 09</span>
+      <span class="tag">Side project · Multichannel audio · Retail permanent</span>
+      <span class="yr">2025</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame tube" data-yt="3qMWraIEPbc" data-reveal="wipe">
+          <img class="poster" src="images/works/08-moss/hero.jpg" alt="Moss terrarium installation, Xinyi Taipei" width="1555" height="589">
+          <span class="tube-badge"><span class="dot"></span>Side project</span>
+          <button class="sound" data-sound data-cursor-legend="SOUND">Sound off</button>
+        </div>
+        <div class="p-caption">Shin Kong Mitsukoshi A9, Xinyi · permanent</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Moss</span></span>
+          <span class="ln"><span>Floating Layer</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">苔域浮層 · 信義區</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>A <strong>side project</strong> — a small terrarium breathing at its own pace against the velocity of Taipei's busiest retail district.</span></li>
+          <li><b>02</b><span>Multichannel spatial audio system design and <strong>speaker layout</strong> for a permanent retail environment.</span></li>
+          <li><b>03</b><span>Specified, integrated and <strong>commissioned on site</strong>, then handed to the venue to run unattended.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Moss Floating Layer</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid">
+          <div>
+          <p><strong>Audio for a room you do not control.</strong> A department store is a
+          hostile acoustic environment: high ambient noise, hard reflective surfaces, an audience
+          with no fixed listening position. Speaker layout was the whole problem — placing and
+          aiming so the piece reads as spatial from anywhere, without bleeding into neighbouring
+          tenants.</p>
+          <p><strong>Handover.</strong> Commissioned on site, then handed over to run permanently
+          unattended — which sets the real requirement: it has to come up correctly every morning
+          with nobody technical present.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Client</dt><dd>SCOPE TECH</dd></div>
+            <div><dt>Venue</dt><dd>Shin Kong Mitsukoshi A9, Taipei</dd></div>
+            <div><dt>Scope</dt><dd>Multichannel spatial audio system design · speaker layout · retail AV integration · on-site commissioning</dd></div>
+            <div><dt>Status</dt><dd>Permanent · unattended daily operation</dd></div>
+            <div><dt>Note</dt><dd>Side project</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=3qMWraIEPbc" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 09 · BLENDER MCP BRIDGE ── -->
+<section class="panel" id="w-blender" data-sheet="09">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 09 / 09</span>
+      <span class="tag">Tooling · Socket bridge · Procedural pipeline</span>
+      <span class="yr">2024 — 2026</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="3600">
+          <div class="cslide on" data-cap="OSM geometry, rendered"><img src="images/works/09-blender-mcp/hero.jpg" alt="OpenStreetMap city geometry, rendered" loading="lazy"></div>
+          <div class="cslide" data-cap="The bridge, in-process"><img src="images/works/09-blender-mcp/bridge.jpg" alt="blender_bridge_server.py running inside Blender" loading="lazy"></div>
+          <div class="cslide" data-cap="Procedural render"><img src="images/works/09-blender-mcp/detail-6.jpg" alt="Procedural render" loading="lazy"></div>
+          <div class="cslide" data-cap="Geometry study"><img src="images/works/09-blender-mcp/detail-1.jpg" alt="Geometry study" loading="lazy"></div>
+          <div class="cslide" data-cap="Material study"><img src="images/works/09-blender-mcp/detail-7.jpg" alt="Material study" loading="lazy"></div>
+          <div class="cslide" data-cap="Displacement study"><img src="images/works/09-blender-mcp/detail-2.jpg" alt="Displacement study" loading="lazy"></div>
+          <div class="cslide" data-cap="Morphing surface"><img src="images/works/09-blender-mcp/detail-3.jpg" alt="Morphing surface" loading="lazy"></div>
+          <div class="cslide" data-cap="Scatter study"><img src="images/works/09-blender-mcp/detail-4.jpg" alt="Scatter study" loading="lazy"></div>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">OpenStreetMap geometry, built and rendered through the bridge</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Blender MCP</span></span>
+          <span class="ln"><span>Bridge</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">程序化場景管線 · 自建工具</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>A <strong>TCP socket server running inside Blender</strong>, so an external agent can build and modify scenes directly instead of me clicking through them.</span></li>
+          <li><b>02</b><span>Incoming scripts are queued and executed <strong>on Blender's main thread via <code>bpy.app.timers</code></strong> — touching the API from the socket thread crashes the process.</span></li>
+          <li><b>03</b><span>Used to pull <strong>OpenStreetMap</strong> city data into a scene and render it procedurally, plus geometry and material studies.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Blender MCP Bridge</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>The real problem is threading.</strong> Blender's Python API is not
+          thread-safe — call <code>bpy</code> from the socket's worker thread and the process
+          dies, sometimes several operations later. The server accepts on a daemon thread but
+          never touches the scene there: scripts go onto a lock-guarded queue that a
+          <code>bpy.app.timers</code> callback drains on the main thread. That one indirection
+          is the whole design.</p>
+          <p><strong>Why build it.</strong> The same reason I instrument anything — describe the
+          scene once and have it constructed repeatably, rather than rebuilding it by hand every
+          time I change my mind.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Transport</dt><dd>TCP socket, <code>127.0.0.1:65432</code>, length-framed JSON</dd></div>
+            <div><dt>Concurrency</dt><dd>Daemon accept thread · lock-guarded script queue · <code>bpy.app.timers</code> drain on the main thread</dd></div>
+            <div><dt>Scene data</dt><dd>OpenStreetMap import — footway, pedestrian and railway layers</dd></div>
+            <div><dt>Render</dt><dd>Blender 5.2 LTS · Cycles · GPU compute</dd></div>
+            <div><dt>Role</dt><dd>Solo — server, protocol, scene pipeline</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /#deck -->
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<section class="sec contact" id="contact">
+  <div class="sec-head">
+    <h2>04 — Contact</h2>
+    <span class="mono">Available immediately</span>
+  </div>
+
+  <h2 class="big" data-reveal="up">Open to full relocation worldwide.</h2>
+  <a href="mailto:bernie5@dataraw.tech" class="mail" data-reveal="up" data-reveal-delay="0.1" data-cursor-legend="MAIL">bernie5@dataraw.tech</a>
+
+  <dl class="contact-grid" data-reveal="up" data-reveal-delay="0.2" data-reveal-stagger="0.05">
+    <div><dt>Phone</dt><dd>+886 983 717 444</dd></div>
+    <div><dt>Based</dt><dd>Taiwan</dd></div>
+    <div><dt>Profiles</dt><dd>
+      <a href="https://www.linkedin.com/in/tao-yun-huang-9953b5322" target="_blank" rel="noopener">LinkedIn</a> ·
+      <a href="https://github.com/huangtaoyun5" target="_blank" rel="noopener">GitHub</a>
+    </dd></div>
+    <div><dt>Documents</dt><dd>
+      <a href="cv.html">CV</a>
+    </dd></div>
+  </dl>
+</section>
+
+<footer>
+  <span>© 2026 · Tao Yun Huang</span>
+  <span>Portfolio · Issue 03</span>
+  <span>DataRaw · Raw &amp; Unprocessed</span>
+</footer>
+
+</main>
+
+<script src="deck-assets/js/gsap.min.js"></script>
+<script src="deck-assets/js/ScrollTrigger.min.js"></script>
+<script src="deck-assets/js/lenis.min.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // A deck should always open on its cover, never wherever the browser
+  // remembers you were last time.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  // mode was already resolved in <head> so CSS and behaviour cannot disagree
+  var reduced = document.documentElement.classList.contains('motion-off');
+  var desktop = matchMedia('(min-width: 961px)').matches;
+  var fine    = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var rich    = desktop && !reduced;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ─────────────────────────────────────────────────────────────
+     SMOOTH SCROLL — Lenis drives ScrollTrigger off one clock.
+     ───────────────────────────────────────────────────────────── */
+  var lenis = null;
+  if (rich) {
+    lenis = new Lenis({ duration: 1.05, wheelMultiplier: 0.9, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  function scrollTo(target, opts) {
+    if (lenis) lenis.scrollTo(target, Object.assign({ duration: 1.0 }, opts || {}));
+    else if (typeof target === 'number') window.scrollTo({ top: target, behavior: 'smooth' });
+    else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     PANELS — pin each sheet, scrub a short exit, track position.
+     Built BEFORE the reveal triggers: pinning changes document
+     height, and every trigger created afterwards is measured
+     against the corrected layout.
+     ───────────────────────────────────────────────────────────── */
+  var panels  = Array.prototype.slice.call(document.querySelectorAll('.panel'));
+  var sheetNo   = document.getElementById('sheetNo');
+  var sheetRef  = document.getElementById('sheetRef');
+  var sheetStage= document.getElementById('sheetStage');
+
+  function setHud(no, ref, stage) {
+    if (sheetNo)  sheetNo.textContent  = no;
+    if (sheetRef) sheetRef.textContent = ref;
+    if (sheetStage) sheetStage.textContent = stage || '—';
+  }
+  function setStage(s) { if (sheetStage) sheetStage.textContent = s; }
+
+  panels.forEach(function (panel) {
+    var sheet  = panel.querySelector('.sheet');
+    var media  = panel.querySelector('.p-media');
+    var info   = panel.querySelector('.p-info');
+    var label = (panel.querySelector('.p-title') || {}).textContent || '';
+    label = label.replace(/\s+/g, ' ').trim();
+
+    // Position readout — the sheet is stuck for most of its track, so "active"
+    // is simply the panel currently crossing the middle of the viewport.
+    ScrollTrigger.create({
+      trigger: panel,
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onToggle: function (self) {
+        if (self.isActive) setHud(panel.dataset.sheet + ' / 09', label, 'Overview');
+      }
+    });
+
+    if (!rich) return;
+
+    // Sticky holds the sheet still; this only drives what happens *during* the
+    // hold — a slow counter-drift, then a dim as the next sheet arrives.
+    gsap.timeline({
+      scrollTrigger: { trigger: panel, start: 'top top', end: 'bottom bottom', scrub: 0.8 }
+    })
+      .to(media, { yPercent: -5, ease: 'none', duration: 1 }, 0)
+      .to(info,  { yPercent: 5,  ease: 'none', duration: 1 }, 0)
+      .to(sheet, { opacity: .35, ease: 'none', duration: 0.12 }, 0.88);
+  });
+
+  /* ─────────────────────────────────────────────────────────────
+     DRAWERS — hover opens, leaving closes. CSS does the sliding;
+     this only reports state and gives touch devices a tap target.
+     ───────────────────────────────────────────────────────────── */
+  document.querySelectorAll('[data-drawer]').forEach(function (dr) {
+    var tab = dr.querySelector('.drawer-tab');
+    var body = dr.querySelector('.drawer-body');
+
+    function report(open) {
+      tab.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('drawer-open', open);
+      setStage(open ? 'Detail' : 'Overview');
+    }
+    dr.addEventListener('mouseenter', function () { report(true); });
+    dr.addEventListener('mouseleave', function () {
+      dr.classList.remove('open');
+      if (body) body.scrollTop = 0;
+      report(false);
+    });
+
+    // touch / keyboard: the tab toggles, since there is no hover to leave
+    tab.addEventListener('click', function () {
+      var open = dr.classList.toggle('open');
+      report(open);
+    });
+  });
+
+  /* ─────────────────────────────────────────────────────────────
+     REVEAL — declarative, driven by data-reveal on any element.
+     ───────────────────────────────────────────────────────────── */
+  function play(el) {
+    if (el._revealed) return;
+    el._revealed = true;
+
+    var kind    = el.dataset.reveal;
+    var delay   = parseFloat(el.dataset.revealDelay) || 0;
+    var stagger = parseFloat(el.dataset.revealStagger) || 0;
+    var ease    = 'power3.out';
+
+    if (kind === 'lines') {
+      // fromTo, not to: GSAP reads the CSS translateY(105%) as an absolute
+      // y in px, so tweening yPercent alone would leave that px offset behind.
+      gsap.fromTo(el.querySelectorAll('.ln > span'),
+        { yPercent: 105, y: 0 },
+        { yPercent: 0, y: 0, duration: 1.05, ease: ease, delay: delay,
+          stagger: stagger || 0.08 });
+      return;
+    }
+    if (kind === 'wipe') {
+      gsap.fromTo(el,
+        { clipPath: 'inset(0 100% 0 0)' },
+        { clipPath: 'inset(0 0% 0 0)', duration: 1.1, ease: ease, delay: delay });
+      return;
+    }
+    // "up" — staggering its own children when asked, otherwise itself
+    if (stagger && el.children.length > 1) {
+      gsap.set(el, { opacity: 1, y: 0 });
+      gsap.fromTo(el.children,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: .85, ease: ease, delay: delay, stagger: stagger });
+      return;
+    }
+    gsap.fromTo(el, { opacity: 0, y: 18 },
+      { opacity: 1, y: 0, duration: .9, ease: ease, delay: delay });
+  }
+
+  var reveals = document.querySelectorAll('[data-reveal]');
+
+  if (reduced) {
+    gsap.set(reveals, { clearProps: 'all' });
+  } else {
+    /* Observe the containing sheet/section, never the animated element itself.
+       Two reasons: this deck is driven by number keys that jump straight to a
+       sheet, and a ScrollTrigger onEnter never fires when you land past its
+       start; and an element whose initial state is clip-path: inset(0 100% 0 0)
+       has an empty intersection rect, so observing it directly means it can
+       never become visible enough to trigger its own reveal. */
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        en.target.querySelectorAll('[data-reveal]').forEach(function (el) { play(el); });
+      });
+    }, { threshold: 0 });
+
+    document.querySelectorAll('.panel, .sec').forEach(function (g) { io.observe(g); });
+    document.querySelectorAll('.cover [data-reveal]').forEach(play);
+  }
+
+  ['cover', 'profile', 'capability', 'index', 'contact'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 60%',
+      end: 'bottom 40%',
+      onToggle: function (self) { if (self.isActive) setHud('—', id.toUpperCase(), '—'); }
+    });
+  });
+
+  /* ─────────────────────────────────────────────────────────────
+     VIDEO — iframes are created on entry and destroyed on exit,
+     so nothing is requested from YouTube until a sheet is reached.
+     ───────────────────────────────────────────────────────────── */
+  function mount(tube) {
+    // Two of these videos belong to the studio's channel with embedding turned
+    // off — an iframe there renders a black "watch on YouTube" error box, which
+    // is worse in a presentation than simply showing the still. Those are
+    // marked data-noembed and stay as poster + outbound link.
+    if (tube._frame || tube.hasAttribute('data-noembed')) return;
+    var id = tube.dataset.yt;
+    if (!id) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube.com/embed/' + id +
+            '?autoplay=1&mute=1&loop=1&playlist=' + id +
+            '&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
+    f.title = 'Project video';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture';
+    f.setAttribute('allowfullscreen', '');
+    f.loading = 'eager';
+    tube.appendChild(f);
+    tube._frame = f;
+    tube._muted = true;
+  }
+
+  function unmount(tube) {
+    if (!tube._frame) return;
+    tube._frame.remove();
+    tube._frame = null;
+    tube._muted = true;
+    var b = tube.querySelector('[data-sound]');
+    if (b) b.textContent = 'Sound off';
+  }
+
+  /* Same reasoning as the reveals: a number-key jump lands past a scroll
+     trigger's start, so mounting is driven by actual visibility instead. */
+  var vio = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var tube = en.target.querySelector('.tube');
+      if (!tube) return;
+      if (en.isIntersecting) mount(tube); else unmount(tube);
+    });
+  }, { threshold: 0.25 });
+
+  document.querySelectorAll('.tube').forEach(function (tube) {
+    vio.observe(tube.closest('.panel'));
+
+    var btn = tube.querySelector('[data-sound]');
+    if (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (!tube._frame) return;
+        var cmd = tube._muted ? 'unMute' : 'mute';
+        tube._frame.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: cmd, args: '' }), '*');
+        tube._muted = !tube._muted;
+        btn.textContent = tube._muted ? 'Sound off' : 'Sound on';
+      });
+    }
+  });
+
+  /* ─────────────────────────────────────────────────────────────
+     KEYBOARD — this deck is presented live, so it is driven by
+     keys, not by scrolling accurately with a trackpad.
+     ───────────────────────────────────────────────────────────── */
+  // Absolute document offset of any target. With sticky sheets this is just the
+  // element's own position — there is no pin spacer to compensate for.
+  function topOf(el) {
+    return Math.round(el.getBoundingClientRect().top + window.scrollY);
+  }
+
+  function stops() {
+    var list = [{ y: 0, ref: 'COVER' }];
+    ['profile', 'capability', 'index'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) list.push({ y: topOf(el), ref: id.toUpperCase() });
+    });
+    panels.forEach(function (p) { list.push({ y: topOf(p), ref: p.dataset.sheet }); });
+    var c = document.getElementById('contact');
+    if (c) list.push({ y: topOf(c), ref: 'CONTACT' });
+    return list.sort(function (a, b) { return a.y - b.y; });
+  }
+
+  function step(dir) {
+    var list = stops();
+    var y = window.scrollY;
+    var target = null;
+    if (dir > 0) {
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].y > y + 8) { target = list[i]; break; }
+      }
+    } else {
+      for (var j = list.length - 1; j >= 0; j--) {
+        if (list[j].y < y - 8) { target = list[j]; break; }
+      }
+    }
+    if (target) scrollTo(target.y);
+  }
+
+  function gotoPanel(n) {
+    var p = panels[n - 1];
+    if (p) scrollTo(topOf(p));
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+
+    switch (e.key) {
+      case 'ArrowDown': case 'PageDown': case ' ':
+        e.preventDefault(); step(1); break;
+      case 'ArrowUp': case 'PageUp':
+        e.preventDefault(); step(-1); break;
+      case 'Home':
+        e.preventDefault(); scrollTo(0); break;
+      case 'End':
+        e.preventDefault(); scrollTo(topOf(document.getElementById('contact'))); break;
+      default:
+        if (/^[1-9]$/.test(e.key)) { e.preventDefault(); gotoPanel(+e.key); }
+    }
+  });
+
+  // index rows and nav use the same exact targets as the keys
+  document.querySelectorAll('.reg-row, .nav a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      scrollTo(topOf(el));
+    });
+  });
+
+  /* ─────────────────────────────────────────────────────────────
+     CAROUSELS — only the one on screen is running, so nine sheets
+     of cycling stills cost one timer, not nine.
+     ───────────────────────────────────────────────────────────── */
+  document.querySelectorAll('[data-carousel]').forEach(function (car) {
+    var slides = car.querySelectorAll('.cslide');
+    if (slides.length < 2) return;
+
+    var dots = document.createElement('div');
+    dots.className = 'cbar';
+    var caption = car.querySelector('.ccap');
+    var i = 0, timer = null;
+    var every = parseInt(car.dataset.carousel, 10) || 4200;
+
+    function go(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+      [].forEach.call(dots.children, function (d, k) { d.classList.toggle('on', k === i); });
+      if (caption) caption.textContent = slides[i].dataset.cap || '';
+    }
+
+    slides.forEach(function (s, k) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Image ' + (k + 1));
+      b.addEventListener('click', function (e) { e.preventDefault(); go(k); });
+      dots.appendChild(b);
+    });
+    car.appendChild(dots);
+
+    function start() { if (!timer) timer = setInterval(function () { go(i + 1); }, every); }
+    function stop() { clearInterval(timer); timer = null; }
+
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.isIntersecting ? start() : stop(); });
+    }, { threshold: 0.25 }).observe(car);
+
+    go(0);
+  });
+
+  /* ── index hover preview — the register shows what it lists ── */
+  (function () {
+    var list = document.getElementById('regTable');
+    var slots = document.querySelectorAll('#indexPreview .slot');
+    var nameEl = document.getElementById('previewName');
+    var metaEl = document.getElementById('previewMeta');
+    if (!list || !slots.length) return;
+    var labels = {
+    'w-cv': ['13-Voice CV Synthesizer', '2023 · Analog hardware'],
+    'w-railway': ['Diesel-Electric Workshop', '2025 · Railway Museum'],
+    'w-ttxc': ['Culture-Tech Exchange', '2025 · TAICCA · Kaohsiung'],
+    'w-ros': ['River of Shadows', '2024 · Visual SLAM · NYCU'],
+    'w-moda': ['AI Living Lab', '2025 · MODA · Taipei'],
+    'w-circle': ['Circle of Confusion', '2024 · VR · DAC Taipei'],
+    'w-threshold': ['Threshold', '2022—24 · Three versions'],
+    'w-moss': ['Moss Floating Layer', '2025 · Xinyi, Taipei'],
+    'w-blender': ['Blender MCP Bridge', '2024—26 · Socket bridge']
+    };
+    list.querySelectorAll('.reg-row').forEach(function (row) {
+      var k = row.getAttribute('href').slice(1);
+      function show() {
+        slots.forEach(function (s) { s.classList.toggle('on', s.dataset.key === k); });
+        if (labels[k]) { nameEl.textContent = labels[k][0]; metaEl.textContent = labels[k][1]; }
+      }
+      row.addEventListener('mouseenter', show);
+      row.addEventListener('focus', show);
+    });
+  })();
+
+  /* ─────────────────────────────────────────────────────────────
+     CURSOR
+     ───────────────────────────────────────────────────────────── */
+  if (fine && !reduced) {
+    document.body.classList.add('cursor-on');
+    var dot    = document.getElementById('curDot');
+    var ring   = document.getElementById('curRing');
+    var legend = document.getElementById('curLegend');
+
+    var dx = gsap.quickTo(dot,  'x', { duration: 0.12, ease: 'power3' });
+    var dy = gsap.quickTo(dot,  'y', { duration: 0.12, ease: 'power3' });
+    var rx = gsap.quickTo(ring, 'x', { duration: 0.55, ease: 'power3' });
+    var ry = gsap.quickTo(ring, 'y', { duration: 0.55, ease: 'power3' });
+
+    window.addEventListener('mousemove', function (e) {
+      if (!document.body.classList.contains('cursor-live')) {
+        // jump straight to the pointer the first time, then start easing
+        gsap.set([dot, ring], { x: e.clientX, y: e.clientY });
+        document.body.classList.add('cursor-live');
+      }
+      dx(e.clientX); dy(e.clientY); rx(e.clientX); ry(e.clientY);
+    }, { passive: true });
+
+    var HOT = 'a, button, [data-cursor-legend]';
+    document.addEventListener('mouseover', function (e) {
+      var t = e.target.closest ? e.target.closest(HOT) : null;
+      if (!t) return;
+      ring.classList.add('wide');
+      legend.textContent = t.dataset.cursorLegend || '';
+    });
+    document.addEventListener('mouseout', function (e) {
+      var t = e.target.closest ? e.target.closest(HOT) : null;
+      if (!t) return;
+      if (e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(HOT)) return;
+      ring.classList.remove('wide');
+      legend.textContent = '';
+    });
+  }
+
+  /* ── nav active state ── */
+  var navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  navLinks.forEach(function (a) {
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (!el) return;
+    ScrollTrigger.create({
+      trigger: el, start: 'top 50%', end: 'bottom 50%',
+      onToggle: function (self) { a.classList.toggle('on', self.isActive); }
+    });
+  });
+
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+})();
+</script>
+
+</body>
+</html>
