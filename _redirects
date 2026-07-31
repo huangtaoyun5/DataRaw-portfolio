@@ -1,0 +1,5 @@
+# Netlify redirects
+
+# The deck was published at /deck.html before it became the site root.
+# Anything already sharing that link keeps working.
+/deck.html    /    301

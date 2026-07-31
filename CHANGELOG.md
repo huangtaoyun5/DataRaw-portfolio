@@ -1,5 +1,21 @@
 # Changelog — dataraw.tech
 
+## 2026-07-31 (上線) · 新版成為網站首頁
+
+先前新版一直放在 `deck.html`，網站根目錄仍是舊版，所以 dataraw.tech 打開還是舊的。這次交換：
+
+| 檔案 | 內容 |
+|---|---|
+| **`index.html`** | **新版簡報站**（原 `deck.html`）— 現在就是 dataraw.tech 的首頁 |
+| **`index-classic.html`** | **舊版作品集 Issue 02** — 原封不動保留上線，檔頭有註記說明它是封存版本 |
+
+- `_redirects`：`/deck.html` → `/`（301），先前分享出去的連結不會斷。
+- `cv.html` 的「About」原本指向 `index.html#about`，新版的區塊叫 `#profile`，已修正。
+- CV 頁 favicon 從 8 MB 的原圖換成 32px 版本。
+- 用 `git mv` 換名，兩個檔案的歷史都保留，沒有任何刪除。
+
+---
+
 ## 2026-07-31 (定版) · 投影片化 + 輪播
 
 ### 每個 section 就是一張投影片
