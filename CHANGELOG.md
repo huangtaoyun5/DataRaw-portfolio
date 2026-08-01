@@ -1,5 +1,51 @@
 # Changelog — dataraw.tech
 
+## 2026-08-01 · 轉為 Field Service 語言
+
+面向 8/3 的 Customer Engineer 面試，把簡報站的文案從「作品說明」改寫為「現場工程語言」。
+版面與互動一律未動，只改內容。
+
+### Sheet 02 柴電工場：其實是兩件作品
+站上原本只寫了 60 kg 電樞，但圖全是透明屏滑台——文圖不符。改為**滑台為主敘事**：
+20 m 單軸、承載 500 kg、六片透明螢幕，`AZXM1260MC-PS25`（600 W／25:1 行星減速）
+透過 `AZXD-SED` 走 EtherCAT。
+
+核心論述是**影像索引的是絕對編碼器位置，不是時鐘**——玻璃上永遠對得上後方實車的剖面，
+誤差不會累積。配兩個決策說明：免電池絕對編碼器＝通電即知位置、20 m 載半噸不必歸原點；
+斷電動作型煞車＝E-stop 是夾住而不是滑行。
+
+「變慣量、單組增益跨全行程」的調校經驗歸屬滑台（原本錯放在電樞）。
+電樞降為第二件，抽屜裡只留一列 `Also on site`。
+
+### Section 02 能力矩陣：診斷動詞在前
+元件級 RCA 提到第一項；`handover` → `handover sign-off`、
+`fault diagnosis` → `corrective maintenance & on-site fault isolation`、加 `escalation`。
+補進 `EtherCAT`、`Absolute encoder feedback`、`Long-travel high-mass axes`。
+刪 `3-D printed`（對 CE 是雜訊），保留 mechanism design。**真空／電漿／液壓仍然不列。**
+
+### 其他
+- **Sheet 06 彌散圈**新增測漏（皂液測試＋壓降測試）bullet 與 `Leak check` 規格列；刪 `Audio`。
+  原有的 `Not claimed: No vacuum, plasma or hydraulic process experience` 保留。
+- **Sheet 01 十三聲部**只改 tag 為 `Analog hardware · Component-level diagnosis · Solo build`，
+  內文本來就已是元件級 RCA 語言。
+- **Sheet 07 闁**刪 `Scale` 列（與段落重複）、段落縮一行。純減重。
+  這一刀讓全站最壞的抽屜從 `w-threshold` 854px 降到 `w-circle` 798px。
+- `images/_incoming/README.md` 更新待補清單：schematic、mechanism、LINE OA、兩張證照都已到齊，
+  只剩 05 AI Living Lab 與 08 苔域浮層。
+
+### 量測（Edge headless + CDP，動效全開）
+1920 寬時全站零溢出，九個抽屜同時打開也不用捲；最壞是 `w-circle` 798px，
+**視窗高 ≥ 798px 就保證零捲軸**。
+
+⚠️ 新發現：**抽屜內容高度會隨視窗「寬度」變動**（抽屜寬 `min(49%, 40rem)`，窄視窗多折行）。
+1366 寬時 `w-circle` 長到 779px、1280 寬時 804px，在 768/800 高的視窗會溢出 11px／4px。
+改寫前更糟（854px，溢出 86px），但仍未歸零。
+
+用戶主螢幕是 1920×1080 無 DPI 縮放，瀏覽器最大化 CSS 高約 880–940（餘裕 82–142px），
+**面試按 F11 全螢幕最保險**（餘裕 282px）。窄視窗的溢出留待日後處理。
+
+---
+
 ## 2026-07-31 (上線) · 新版成為網站首頁
 
 先前新版一直放在 `deck.html`，網站根目錄仍是舊版，所以 dataraw.tech 打開還是舊的。這次交換：
