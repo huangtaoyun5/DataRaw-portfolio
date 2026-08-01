@@ -748,6 +748,9 @@ body.drawer-open .tblock { opacity: 0; }
   text-shadow: 0 1px 8px rgba(0,0,0,.7);
   pointer-events: none;
 }
+/* The caption and the Watch link are both pinned bottom-right. Where a frame has
+   both, the caption clears the link rather than printing on top of it. */
+.frame:has(.sound) .ccap { right: calc(.65rem + 6.5rem); }
 /* letterboxed against the ruling, so the frame stays the same size */
 .frame.contain {
   background-color: var(--paper);
@@ -1286,28 +1289,28 @@ footer {
   <dl class="matrix" data-reveal="up" data-reveal-stagger="0.07">
     <div class="mrow">
       <span class="n">01</span>
-      <dt>Circuit Design</dt>
-      <dd>Schematic &amp; layout · Hand etching · Analog design · Power distribution · Signal integrity · Component selection &amp; BOM · EMC testing · Soldering &amp; rework · Oscilloscope, logic analyser &amp; multimeter · EMI and noise isolation · Root-cause analysis</dd>
+      <dt>Circuit &amp; Signal Diagnosis</dt>
+      <dd>Component-level root-cause analysis · Oscilloscope, logic analyser &amp; multimeter · EMI and noise isolation · Grounding · Power distribution &amp; signal integrity · Schematic reading &amp; layout · Analog design · Hand etching · EMC testing · Soldering &amp; rework · Component selection &amp; BOM</dd>
     </div>
     <div class="mrow">
       <span class="n">02</span>
-      <dt>Mechanical &amp; Motion</dt>
-      <dd>Closed-loop PID across position, velocity and torque · Stepper &amp; servo · Encoder feedback · Multi-axis synchronisation · Solenoid &amp; pneumatic actuation · CO₂ / O₂ delivery and valve control · 3-D printed mechanism design under weight and balance constraints</dd>
+      <dt>Motion &amp; Closed-Loop Control</dt>
+      <dd>Closed-loop PID across position, velocity and torque · Long-travel high-mass axes tuned for smooth trajectory · Servo &amp; stepper drives over EtherCAT · Absolute encoder feedback · Multi-axis synchronisation · Solenoid &amp; pneumatic actuation · CO₂ / O₂ delivery and valve control · Leak checking by soap test and pressure decay · Mechanism design under weight and balance constraints</dd>
     </div>
     <div class="mrow">
       <span class="n">03</span>
-      <dt>Field &amp; Customer Delivery</dt>
-      <dd>Installation, commissioning and handover · Scheduled preventive maintenance · On-site fault diagnosis · Remote monitoring · Client-facing operation through delivery · Multi-day continuous public duty under load</dd>
+      <dt>Field Service &amp; Commissioning</dt>
+      <dd>Installation, commissioning and handover sign-off · Scheduled preventive maintenance · Corrective maintenance &amp; on-site fault isolation · Remote monitoring · Multi-day continuous duty under load · Client-facing through delivery and escalation</dd>
     </div>
     <div class="mrow">
       <span class="n">04</span>
-      <dt>Network &amp; Embedded</dt>
-      <dd>Ubiquiti UniFi — certified UWA and UFSP · Site Manager, Cloud Gateway, routing and switching · Complete remote and offline-capable service stood up from zero · Embedded C++ · UDP / OSC · UWB positioning</dd>
+      <dt>Fieldbus, Network &amp; Embedded</dt>
+      <dd>EtherCAT motion bus · Ubiquiti UniFi — certified UWA and UFSP · Site Manager, Cloud Gateway, routing and switching · Complete remote and offline-capable service stood up from zero · Embedded C++ · UDP / OSC · UWB positioning</dd>
     </div>
     <div class="mrow">
       <span class="n">05</span>
-      <dt>Software &amp; ML</dt>
-      <dd>Python · PyTorch · Computer vision (YOLO) · Visual SLAM and 6-DoF pose estimation · Real-time inference on device · Unity · Swift / ARKit</dd>
+      <dt>Software, Data &amp; ML</dt>
+      <dd>Python · PyTorch · Computer vision (YOLO) · Visual SLAM and 6-DoF pose estimation · Real-time inference on device · Sensor and log data from deployed systems · Unity · Swift / ARKit</dd>
     </div>
   </dl>
 
@@ -1438,7 +1441,7 @@ footer {
   <div class="sheet">
     <div class="p-rail">
       <span class="idx">Sheet 01 / 09</span>
-      <span class="tag">Analog hardware · Circuit design · Solo build</span>
+      <span class="tag">Analog hardware · Component-level diagnosis · Solo build</span>
       <span class="yr">2023</span>
     </div>
 
@@ -1505,15 +1508,15 @@ footer {
   <div class="sheet">
     <div class="p-rail">
       <span class="idx">Sheet 02 / 09</span>
-      <span class="tag">Motion control · Permanent install · Under maintenance</span>
+      <span class="tag">Long-travel motion · Absolute positioning · Under maintenance</span>
       <span class="yr">2025</span>
     </div>
 
     <div class="p-body">
       <div class="p-media">
         <div class="frame carousel" data-carousel="4200">
-          <div class="cslide on" data-cap="On site · Railway Museum"><img src="images/works/02-railway/hero.jpg" alt="S212 transparent screen, National Railway Museum" loading="lazy"></div>
-          <div class="cslide" data-cap="Linear axis · CAD assembly"><img src="images/works/02-railway/mechanism.webp" alt="Linear axis assembly — carriage and cable carrier" loading="lazy"></div>
+          <div class="cslide on" data-cap="Carriage in travel · S212"><img src="images/works/02-railway/hero.jpg" alt="Transparent-screen carriage travelling along locomotive S212, internals registered to the machine behind" loading="lazy"></div>
+          <div class="cslide" data-cap="20 m linear axis · CAD"><img src="images/works/02-railway/mechanism.webp" alt="Linear axis assembly — base, carriage and cable carrier" loading="lazy"></div>
           <div class="cslide" data-cap="Armature · crane axis"><img src="images/works/02-railway/detail-1.jpg" alt="Armature on the overhead crane axis" loading="lazy"></div>
           <div class="cslide" data-cap="Workshop floor"><img src="images/works/02-railway/detail-2.jpg" alt="Workshop floor in service" loading="lazy"></div>
           <a class="sound" href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
@@ -1530,9 +1533,10 @@ footer {
         <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">國家鐵道博物館 · 柴電工場</div>
 
         <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
-          <li><b>01</b><span>A <strong>60 kg armature</strong> moving on an overhead-crane axis under closed-loop PID position and velocity control.</span></li>
-          <li><b>02</b><span>Inner torque and speed loop tuned against <strong>varying inertia</strong>, with animation playback synchronised to physical actuation.</span></li>
-          <li><b>03</b><span>Handed over in 2025 and <strong>still on a scheduled PM cycle</strong> — on-site fault diagnosis plus remote monitoring.</span></li>
+          <li><b>01</b><span>A <strong>20 m single axis carrying 500 kg</strong> — six transparent screens on a servo carriage, owned from mechanical design through drive sizing to on-site commissioning.</span></li>
+          <li><b>02</b><span>Effective inertia changes along the travel, so position and velocity run over an <strong>inner torque loop</strong> — one set of gains holding end to end.</span></li>
+          <li><b>03</b><span>Playback <strong>indexed to absolute encoder position, not to a clock</strong> — the glass stays registered to the machine behind it, and the error cannot accumulate.</span></li>
+          <li><b>04</b><span>On a <strong>scheduled PM cycle since 2025</strong> — on-site fault isolation plus remote monitoring.</span></li>
         </ul>
       </div>
     </div>
@@ -1544,23 +1548,23 @@ footer {
         <div class="drawer-head"><h3>Diesel-Electric Workshop</h3><span class="k">Work detail</span></div>
         <div class="detail-grid has-media">
           <div>
-          <p><strong>The control problem.</strong> The load is heavy, the axis is long,
-          and effective inertia changes with position. A single position loop overshoots at one
-          end of travel and lags at the other, so it runs as position and velocity over an inner
-          torque loop — tuned so one set of gains holds across the whole travel.</p>
-          <p><strong>After handover.</strong> It did not end at commissioning. A public exhibit
-          running daily, on a scheduled preventive cycle since 2025, with on-site fault diagnosis
-          and remote monitoring between visits. Mechanical wear, not software, is what comes
-          back.</p>
+          <p><strong>The axis.</strong> Half a tonne over 20 m. A single position loop overshoots
+          where inertia is low and lags where it is high — the inner torque loop absorbs that
+          variation.</p>
+          <p><strong>Absolute feedback.</strong> Position is known at power-on — no reference run
+          down 20 m of rail with 500 kg on it. The power-off brake holds on E-stop rather than
+          coasting.</p>
+          <p><strong>Registration.</strong> Time-indexed playback would drift the first time the
+          axis lagged under load, and the error would accumulate. Indexing to encoder position
+          cannot.</p>
           </div>
           <dl class="spec">
-            <div><dt>Client</dt><dd>National Railway Museum, Taipei</dd></div>
-            <div><dt>Studio</dt><dd>IF Plus Art</dd></div>
-            <div><dt>Moving load</dt><dd>60 kg armature on overhead-crane axis</dd></div>
-            <div><dt>Control</dt><dd>Closed-loop PID position / velocity over inner torque / speed loop · encoder feedback · multi-axis synchronisation</dd></div>
-            <div><dt>Service</dt><dd>Scheduled preventive maintenance · on-site fault diagnosis · remote monitoring</dd></div>
-            <div><dt>Status</dt><dd>Permanent · in service since 2025</dd></div>
-            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener">Video ↗</a></dd></div>
+            <div><dt>Client</dt><dd>National Railway Museum, Taipei · IF Plus Art</dd></div>
+            <div><dt>Axis</dt><dd>20 m single axis · 500 kg moving load</dd></div>
+            <div><dt>Drive</dt><dd>600 W AZX servo · 25:1 planetary · 43 N·m · AZXD-SED over EtherCAT</dd></div>
+            <div><dt>Feedback</dt><dd>Battery-free absolute encoder · power-off brake</dd></div>
+            <div><dt>Also on site</dt><dd>60 kg armature on the overhead-crane axis</dd></div>
+            <div><dt>Service</dt><dd>Permanent since 2025 · scheduled PM · remote monitoring</dd></div>
           </dl>
         </div>
       </div>
@@ -1794,7 +1798,8 @@ footer {
         <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
           <li><b>01</b><span>VR bound to a <strong>pneumatic apparatus</strong> — the headset and the physical rig run as one system, not two.</span></li>
           <li><b>02</b><span><strong>CO₂ / O₂ delivery under valve control</strong>, driving the environment on a regulated respiratory cycle synchronised to the VR.</span></li>
-          <li><b>03</b><span>A 3-D printed haptic mechanism designed to mount on the headset <strong>within its weight and balance limits</strong>.</span></li>
+          <li><b>03</b><span>Delivery lines <strong>leak-checked by soap test and pressure decay</strong> before the piece ran.</span></li>
+          <li><b>04</b><span>A 3-D printed haptic mechanism designed to mount on the headset <strong>within its weight and balance limits</strong>.</span></li>
         </ul>
       </div>
     </div>
@@ -1817,8 +1822,8 @@ footer {
           <dl class="spec">
             <div><dt>Venue</dt><dd>Digital Art Center, Taipei</dd></div>
             <div><dt>Gas system</dt><dd>CO₂ / O₂ delivery · valve control · regulated respiratory cycle</dd></div>
+            <div><dt>Leak check</dt><dd>Soap test · pressure decay</dd></div>
             <div><dt>Mechanism</dt><dd>3-D printed headset-mounted haptic unit, within mass and balance limits</dd></div>
-            <div><dt>Audio</dt><dd>Deliberately incomplete Ambisonics array</dd></div>
             <div><dt>Not claimed</dt><dd>No vacuum, plasma or hydraulic process experience</dd></div>
             <div><dt>Role</dt><dd>Solo — concept, system, gas control, mechanism, composition</dd></div>
             <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=YpsZ0EtSozE" target="_blank" rel="noopener">Video ↗</a></dd></div>
@@ -1871,11 +1876,10 @@ footer {
         <div class="drawer-head"><h3>Threshold</h3><span class="k">Work detail</span></div>
         <div class="detail-grid has-media">
           <div>
-          <p><strong>Why a feedback loop is a stability problem.</strong> Any loop
-          containing real mechanics has dead time in it. Solenoids and pneumatics do not respond
-          instantly, and the structure keeps ringing after the actuator stops. Feed that into a
-          synthesis stage reacting within milliseconds and the system either runs away or
-          hunts.</p>
+          <p><strong>Why a feedback loop is a stability problem.</strong> Any loop with real
+          mechanics in it has dead time: solenoids and pneumatics do not respond instantly, and the
+          structure keeps ringing after the actuator stops. Feed that into a stage reacting in
+          milliseconds and the system runs away or hunts.</p>
           <p><strong>Three versions, three rebuilds.</strong> Each was rebuilt around what failed
           in the last. v2 ran the modified RAVE pipeline across a 49.4-channel Ambisonics system —
           the first at that scale in Taiwan.</p>
@@ -1884,7 +1888,6 @@ footer {
             <div><dt>Actuation</dt><dd>Stepper motors · solenoids · pneumatics · closed-loop control</dd></div>
             <div><dt>Loop design</dt><dd>Feedback stability · mechanical settling time · sensing-to-actuation latency budget</dd></div>
             <div><dt>Audio</dt><dd>Modified RAVE pipeline · k-means · Max/MSP · Ambisonics</dd></div>
-            <div><dt>Scale</dt><dd>v2 — 49.4-channel Ambisonics, first at this scale in Taiwan</dd></div>
             <div><dt>Venues</dt><dd>Taichung 2022 · C-LAB Taipei 2023 · NYCU 2024</dd></div>
             <div><dt>Role</dt><dd>Solo — apparatus, actuator control, loop stability, all three versions</dd></div>
             <div><dt>Doc</dt><dd><a href="https://youtu.be/YVT2q0_gJyA" target="_blank" rel="noopener">Video ↗</a></dd></div>
