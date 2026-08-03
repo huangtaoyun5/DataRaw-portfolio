@@ -1,5 +1,12 @@
 # Changelog — dataraw.tech
 
+## 2026-08-03 · 學歷字串縮短
+
+Profile 頁的 Education 欄 `M.F.A. Multimedia & New Music` → `M.F.A. Multimedia & NM`。
+（`cv-experiential.html` 的 `MFA Multimedia Music (New Music Theatre)` 未同步，那是藝術／品牌軌的 CV。）
+
+---
+
 ## 2026-08-01 · 轉為 Field Service 語言
 
 面向 8/3 的 Customer Engineer 面試，把簡報站的文案從「作品說明」改寫為「現場工程語言」。
