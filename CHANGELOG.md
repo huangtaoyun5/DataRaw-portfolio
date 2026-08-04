@@ -1,5 +1,65 @@
 # Changelog — dataraw.tech
 
+## 2026-08-04 · 履歷頁補上 8/1 的改寫，舊 PDF 下架
+
+8/1 那次「轉為 Field Service 語言」只改了簡報站，四個 CV 頁全部停在 7/31。
+同一個網站因此有兩套說法：簡報站的柴電工場主敘事是 20 m／500 kg 透明屏滑台，
+履歷上卻只有 60 kg 電樞。這次把履歷補齊。
+
+### 三個 CV 頁補上滑台
+內容源頭是 `index.html` Sheet 02，改寫成履歷語氣：
+20 m 單軸 · 500 kg 移動負載 · 六片透明螢幕 · 600 W AZX 伺服 + 25:1 行星 +
+`AZXD-SED` over EtherCAT · 免電池絕對編碼器 · 斷電動作型煞車。
+核心論述**播放索引絕對編碼器位置而非時鐘、誤差不累積**三個版本都寫進去了。
+60 kg 電樞降為 `Also on site`。A 版側重維護與試車，B 版側重驅動選型與迴路設計，
+C 版維持藝術軌語氣——三軌的差異化沒有被這次補寫抹平。
+
+### Version A 其他對齊
+- `Hands-On Systems Experience` 對齊簡報站 Capability Matrix：補
+  `long-travel high-mass axes`、`EtherCAT`、`absolute encoder feedback`、
+  `component-level root-cause analysis`、`leak checking by soap test and pressure decay`。
+- **新增 `Not claimed — no vacuum, plasma, or hydraulic process experience` 一列。**
+  簡報站早就有，履歷一直沒有。主動承認對設備商是加分。
+- 出差／異動改折衷寫法：主線 `relocation within Taiwan — Hsinchu · Taoyuan ·
+  Taichung · Tainan · Kaohsiung`（涵蓋 AMAT／LAM／KLA／Micron 台灣廠區），
+  海外收成最後一句 `Open to overseas assignment if required`。原本的
+  `anywhere in Taiwan or abroad` 與 `Travel 25%+, including overseas` 太滿。
+  **定位是通用設備商 CE/FSE 履歷，不對單一 JD 專用化。**
+
+### 學歷字串四頁統一
+`M.F.A. Multimedia & NM`——與簡報站完全一致。原本三個 CV 頁三種寫法
+（`M.F.A. — Institute of Music, NYCU`／`M.F.A. Multimedia Music`／
+`MFA Multimedia Music (New Music Theatre)`）。系所名一律 `Institute of Multimedia NM`。
+
+### 列印版面：修掉吃掉整頁的 page-break 規則
+`.cv-section { page-break-inside: avoid }` 套在整段工作經歷上，
+塞不下就把整塊推到下一頁，第 1 頁下半整片空白。改成**有列狀子元素的長區塊可以跨頁**
+（每一列自己仍受保護），短區塊（學歷／證照／技能／Availability）維持整塊不拆：
+
+```css
+.cv-section { page-break-inside: avoid; }
+.cv-section:has(.exp-bullets), .cv-section:has(.comm-row),
+.cv-section:has(.work-row), .cv-section:has(.proj),
+.cv-section:has(.res-row) { page-break-inside: auto; }
+```
+
+**CE 版 4 頁 → 3 頁，一個字都沒砍。** B 版仍 4 頁（末頁只有 Availability，
+要進 3 頁得砍內容，用戶裁示不砍）；C 版 2 頁。
+
+### CE 版 PDF 重匯
+線上那份還是 7/26 匯出的**舊赭橘 `#B85C38` 配色**，網頁早已全黑白，下載版與網站不一致。
+用 Edge headless + CDP `Page.printToPDF`（`preferCSSPageSize`，吃頁面自己的
+`@page { size: A4; margin: 15mm 18mm }`）重匯。
+
+### 舊 PDF 下架
+`Tao_Yun_Huang_CV.pdf` 與 `Tao_Yun_Huang_CV_Hardware_Engineer.pdf` 內含
+**更正前的 `B.Eng. Electrical Engineering 2010–2013` 與 `B.A. Drama & Theatre Arts`**
+——兩個從未取得的學位，而且一直是 git 追蹤中、網址可直接開啟。
+`git rm --cached` 後搬到 `job_application\archive\`（檔案保留不刪），
+`.gitignore` 補上防止再被加回。
+
+---
+
 ## 2026-08-03 · 學歷字串縮短
 
 Profile 頁的 Education 欄 `M.F.A. Multimedia & New Music` → `M.F.A. Multimedia & NM`。

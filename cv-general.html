@@ -302,7 +302,15 @@ body {
   .page { padding: 0; max-width: 100%; }
   .no-print { display: none !important; }
   a { color: inherit; text-decoration: none; }
+  .cv-section-title { break-after: avoid; page-break-after: avoid; }
+  /* Short trailing blocks (education, certs, skills, availability) stay whole.
+     Sections built from rows may flow — each row protects itself below. */
   .cv-section { page-break-inside: avoid; }
+  .cv-section:has(.exp-bullets),
+  .cv-section:has(.comm-row),
+  .cv-section:has(.work-row),
+  .cv-section:has(.proj),
+  .cv-section:has(.res-row) { page-break-inside: auto; }
   .work-row { page-break-inside: avoid; }
   .comm-row { page-break-inside: avoid; }
   .edu-row { page-break-inside: avoid; }
@@ -382,10 +390,13 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Hardware Engineer · IF Plus Art 當若科技藝術 · Dec 2024 – Apr 2026</div>
   <ul class="exp-bullets">
-    <li><strong>Closed-loop motion control.</strong> Designed and tuned PID position and velocity loops
-      with encoder feedback for a 60&nbsp;kg armature driven on an overhead-crane axis, over an inner
-      torque / speed loop tuned against varying inertia — eliminating overshoot, oscillation, and
-      settling error at end positions.</li>
+    <li><strong>Closed-loop motion control &amp; drive sizing.</strong> Specified and tuned a 20&nbsp;m
+      single axis carrying a 500&nbsp;kg moving load — a 600&nbsp;W AZX servo through a 25:1 planetary
+      gearhead sized against the load's torque and inertia budget, driven by an AZXD-SED over EtherCAT
+      with battery-free absolute encoder feedback. Because effective inertia varies along the travel,
+      position and velocity run over an inner torque loop, so a single set of gains holds end to end
+      without overshoot, oscillation, or settling error. Same architecture applied to a 60&nbsp;kg
+      armature on an overhead-crane axis.</li>
     <li><strong>Multi-axis synchronization.</strong> Aligned mechanical motion with display, audio, and
       lighting subsystems on a shared timing reference, compensating following error and pipeline
       latency so independently clocked systems held step through continuous daily operation.</li>
@@ -407,14 +418,18 @@ body {
   <div class="comm-row">
     <div class="comm-left">
       <div class="comm-title">Diesel-Electric Workshop</div>
-      <div class="comm-sub">Electromechanical system · permanent install</div>
+      <div class="comm-sub">Long-travel servo axis · absolute positioning</div>
       <div class="comm-client">National Railway Museum, Taipei · 2025</div>
     </div>
     <div class="comm-right">
-      60&nbsp;kg locomotive armature moved on an overhead-crane axis under closed-loop PID control,
-      synchronized to a transparent-display overlay registered to the live machinery behind it.
-      Permanent install — maintained on a scheduled PM cycle since handover.
-      <div class="comm-role">PID motion control · multi-axis synchronization · preventive maintenance &amp; on-site troubleshooting</div>
+      A 20&nbsp;m single axis carrying six transparent screens on a 500&nbsp;kg servo carriage, owned
+      from mechanical design through drive sizing to commissioning. The design decision that shaped the
+      system: playback is indexed to absolute encoder position rather than to a clock, so the overlay
+      stays registered to the locomotive behind it and error cannot accumulate — which in turn set the
+      requirement for battery-free multi-turn absolute feedback and a power-off-activated brake.
+      Also on site: a 60&nbsp;kg locomotive armature on the overhead-crane axis. Permanent install,
+      maintained on a scheduled PM cycle since handover.
+      <div class="comm-role">Mechanical design · drive sizing · closed-loop tuning over varying inertia · EtherCAT integration · commissioning</div>
     </div>
   </div>
 
@@ -592,9 +607,10 @@ body {
       drives the environment on a controlled respiratory cycle, and a 3D-printed haptic mechanism
       designed to mount directly onto the headset within its weight and balance limits. Built around
       a deliberately incomplete Ambisonics array, with the gaps treated as a designed property of the
-      system rather than a defect.
-      <div class="work-role">Solo — gas delivery &amp; valve control · mechanical design for additive manufacturing · VR system integration</div>
-      <div class="work-stack">CO₂ / O₂ gas system · Valve control · 3D-printed mechanism · VR · Ambisonics</div>
+      system rather than a defect. Delivery lines were leak-checked by soap test and pressure decay
+      before the piece ran.
+      <div class="work-role">Solo — gas delivery &amp; valve control · leak checking · mechanical design for additive manufacturing · VR system integration</div>
+      <div class="work-stack">CO₂ / O₂ gas system · Valve control · Leak check (soap test · pressure decay) · 3D-printed mechanism · VR · Ambisonics</div>
     </div>
   </div>
 </div>
@@ -605,8 +621,9 @@ body {
 
   <div class="edu-row">
     <div class="edu-left">
-      <div class="edu-degree">M.F.A. Multimedia Music</div>
-      <div class="edu-school">NYCU · 國立陽明交通大學 — Research-methodology training: applying scientific method to
+      <div class="edu-degree">M.F.A. Multimedia &amp; NM</div>
+      <div class="edu-school">National Yang Ming Chiao Tung University · 國立陽明交通大學 — Institute of
+        Multimedia NM. Research-methodology training: applying scientific method to
         human–machine collaboration. Thesis centered on machine-learning system design and implementation detail.</div>
     </div>
     <div class="edu-year">2020 — 2024</div>
@@ -646,7 +663,7 @@ body {
   <div class="cv-section-title">Technical Skills</div>
   <div class="skills-grid">
     <div class="skill-cat">Motion &amp; Control</div>
-    <div class="skill-list">PID Tuning · Closed-Loop Position / Velocity / Torque Control · Stepper &amp; Servo Motion · Encoder Feedback · Multi-Axis Synchronization · Solenoid &amp; Pneumatic Actuation</div>
+    <div class="skill-list">PID Tuning · Closed-Loop Position / Velocity / Torque Control · Long-Travel High-Mass Axes · Servo &amp; Stepper Drives over EtherCAT · Absolute Encoder Feedback · Drive &amp; Gearhead Sizing · Multi-Axis Synchronization · Solenoid &amp; Pneumatic Actuation · CO₂ / O₂ Delivery &amp; Valve Control · Leak Checking (Soap Test, Pressure Decay)</div>
     <div class="skill-cat">Hardware</div>
     <div class="skill-list">PCB Schematic &amp; Layout · Hand Etching · Analog Circuit Design · Sensor Integration &amp; Signal Conditioning · Soldering &amp; Rework · Power Distribution</div>
     <div class="skill-cat">Diagnostics &amp; Maint.</div>
@@ -664,7 +681,8 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Availability</div>
   <div class="avail-line">Immediate start · full-time</div>
-  <div class="avail-line">Open to relocation — Hsinchu · Taichung · Tainan · Taipei · overseas</div>
+  <div class="avail-line">Open to relocation within Taiwan — Hsinchu · Taoyuan · Taichung · Tainan · Kaohsiung</div>
+  <div class="avail-line">Open to overseas assignment if required</div>
   <div class="avail-line" style="color:#aaa; margin-top:0.3rem;">Mandarin Chinese (native) &nbsp;·&nbsp; English (professional) &nbsp;·&nbsp; Japanese (basic)</div>
 </div>
 

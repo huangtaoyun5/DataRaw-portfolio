@@ -5,3 +5,9 @@
 # Working copies of unused originals. They are duplicates of files already in
 # images/, kept locally so nothing is ever lost — no reason to deploy them.
 images/_archive/
+
+# Superseded CVs exported before the July 2026 education correction — they state a
+# B.Eng. and a B.A. that were never awarded. Archived to job_application\archive\.
+# Never let these back onto the public site.
+Tao_Yun_Huang_CV.pdf
+Tao_Yun_Huang_CV_Hardware_Engineer.pdf

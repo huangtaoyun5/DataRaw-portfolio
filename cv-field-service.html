@@ -252,7 +252,15 @@ body {
   .page { padding: 0; max-width: 100%; }
   .no-print { display: none !important; }
   a { color: inherit; text-decoration: none; }
+  .cv-section-title { break-after: avoid; page-break-after: avoid; }
+  /* Short trailing blocks (education, certs, skills, availability) stay whole.
+     Sections built from rows may flow — each row protects itself below. */
   .cv-section { page-break-inside: avoid; }
+  .cv-section:has(.exp-bullets),
+  .cv-section:has(.comm-row),
+  .cv-section:has(.work-row),
+  .cv-section:has(.proj),
+  .cv-section:has(.res-row) { page-break-inside: auto; }
   .comm-row { page-break-inside: avoid; }
   .edu-row { page-break-inside: avoid; }
   .readiness { background: none; }
@@ -332,7 +340,7 @@ body {
     the customer through handover and the warranty period. Strongest at the physical-signal layer —
     isolating noise, grounding, EMI, and bus or communication faults with instruments rather than by
     swapping parts. Available for shift work including nights, on-call rotation, cleanroom PPE, and
-    travel including overseas assignment.
+    travel and relocation within Taiwan.
   </p>
 </div>
 
@@ -343,9 +351,9 @@ body {
     <div>Shift work including night shift</div>
     <div>24/7 on-call rotation</div>
     <div>Cleanroom work — full PPE</div>
-    <div>Travel 25%+, including overseas</div>
+    <div>Travel 25%</div>
     <div>Extended standing, confined-space and at-height work, lifting to 16&nbsp;kg</div>
-    <div>Immediate start · relocation anywhere in Taiwan or abroad</div>
+    <div>Immediate start · relocation within Taiwan</div>
   </div>
 </div>
 
@@ -372,10 +380,11 @@ body {
     <li><strong>Installation &amp; commissioning.</strong> Installed and commissioned systems on
       customer sites against fixed opening dates: mechanical assembly and alignment, wiring, sensor
       mounting and calibration, and acceptance testing with the customer present.</li>
-    <li><strong>Motion control &amp; tuning.</strong> Designed and tuned closed-loop PID position and
-      velocity control with encoder feedback for a 60&nbsp;kg armature on an overhead-crane axis,
-      over an inner torque / speed loop tuned against varying inertia — eliminating overshoot,
-      oscillation, and settling error at end positions.</li>
+    <li><strong>Motion control &amp; tuning.</strong> Owned a 20&nbsp;m single axis carrying a
+      500&nbsp;kg moving load from drive sizing through on-site commissioning. Effective inertia
+      changes along the travel, so closed-loop position and velocity run over an inner torque loop —
+      one set of gains holding end to end, without overshoot, oscillation, or settling error at the
+      end positions. Same approach applied to a 60&nbsp;kg armature on an overhead-crane axis.</li>
     <li><strong>Actuation &amp; timing.</strong> Integrated solenoid valves and pneumatic actuators
       with embedded control, and synchronized mechanical motion with display and audio subsystems on
       a shared timing reference through continuous daily operation.</li>
@@ -391,14 +400,18 @@ body {
   <div class="comm-row">
     <div class="comm-left">
       <div class="comm-title">Diesel-Electric Workshop</div>
-      <div class="comm-sub">Permanent install · under maintenance</div>
+      <div class="comm-sub">Long-travel motion · absolute positioning · under maintenance</div>
       <div class="comm-client">National Railway Museum, Taipei · 2025</div>
     </div>
     <div class="comm-right">
-      60&nbsp;kg locomotive armature on an overhead-crane axis under closed-loop PID control,
-      synchronized to a transparent-display overlay. Maintained on a scheduled PM cycle since
-      handover, with on-site diagnosis and remote monitoring.
-      <div class="comm-role">PID motion control · multi-axis synchronization · preventive maintenance &amp; troubleshooting</div>
+      A 20&nbsp;m single axis carrying six transparent screens on a 500&nbsp;kg servo carriage —
+      600&nbsp;W AZX servo through a 25:1 planetary gearhead, driven by an AZXD-SED over EtherCAT,
+      with battery-free absolute encoder feedback and a power-off-activated brake that holds on
+      E-stop rather than coasting. Playback is indexed to encoder position rather than to a clock,
+      so the glass stays registered to the locomotive behind it and the error cannot accumulate.
+      Also on site: a 60&nbsp;kg locomotive armature on the overhead-crane axis. On a scheduled PM
+      cycle since handover, with on-site fault isolation and remote monitoring.
+      <div class="comm-role">Drive sizing · closed-loop tuning over varying inertia · commissioning · preventive maintenance &amp; troubleshooting</div>
     </div>
   </div>
 
@@ -499,15 +512,17 @@ body {
     <div class="sys-cat">Electrical</div>
     <div class="sys-list">PCB schematic &amp; layout · hand etching · analog circuit design · soldering &amp; rework · wiring and harnessing · power distribution · sensor signal conditioning</div>
     <div class="sys-cat">Mechanical</div>
-    <div class="sys-list">Assembly and alignment · overhead-crane axis · load handling to 60&nbsp;kg · 3D-printed mechanism design · bench fabrication</div>
+    <div class="sys-list">Assembly and alignment · 20&nbsp;m linear axis carrying a 500&nbsp;kg moving load · overhead-crane axis · 3D-printed mechanism design · bench fabrication</div>
     <div class="sys-cat">Motion &amp; Control</div>
-    <div class="sys-list">PID tuning · closed-loop position / velocity / torque · stepper &amp; servo · encoder feedback · multi-axis synchronization</div>
+    <div class="sys-list">PID tuning · closed-loop position / velocity / torque · long-travel high-mass axes · stepper &amp; servo drives over EtherCAT · absolute encoder feedback · multi-axis synchronization</div>
     <div class="sys-cat">Pneumatic &amp; Gas</div>
-    <div class="sys-list">Solenoid valves · pneumatic actuators · CO₂ / O₂ delivery with controlled flow and valve control</div>
+    <div class="sys-list">Solenoid valves · pneumatic actuators · CO₂ / O₂ delivery with controlled flow and valve control · leak checking by soap test and pressure decay</div>
     <div class="sys-cat">Instrumentation</div>
-    <div class="sys-list">Oscilloscope · multimeter · logic analysis · EMI and noise isolation · grounding · root-cause analysis</div>
+    <div class="sys-list">Component-level root-cause analysis · oscilloscope · multimeter · logic analysis · EMI and noise isolation · grounding</div>
     <div class="sys-cat">Controls &amp; Network</div>
-    <div class="sys-list">Embedded systems · C++ · Python · UDP / OSC · network protocols · remote monitoring · Ubiquiti UniFi</div>
+    <div class="sys-list">Embedded systems · C++ · Python · EtherCAT motion bus · UDP / OSC · network protocols · remote monitoring · Ubiquiti UniFi</div>
+    <div class="sys-cat">Not claimed</div>
+    <div class="sys-list">No vacuum, plasma, or hydraulic process experience</div>
   </div>
 </div>
 
@@ -552,8 +567,9 @@ body {
     </div>
     <div class="comm-right">
       CO₂ / O₂ delivery system running a controlled cyclic flow, plus a 3D-printed mechanism designed
-      to mount on a head-worn assembly within its weight and balance limits.
-      <div class="comm-role">Solo — gas delivery &amp; valve control · mechanical design for additive manufacturing</div>
+      to mount on a head-worn assembly within its weight and balance limits. Delivery lines were
+      leak-checked by soap test and pressure decay before the system ran.
+      <div class="comm-role">Solo — gas delivery &amp; valve control · leak checking · mechanical design for additive manufacturing</div>
     </div>
   </div>
 </div>
@@ -564,8 +580,9 @@ body {
 
   <div class="edu-row">
     <div class="edu-left">
-      <div class="edu-degree">M.F.A. — Institute of Music, NYCU</div>
-      <div class="edu-school">國立陽明交通大學 — Research-methodology training: applying scientific method to
+      <div class="edu-degree">M.F.A. Multimedia &amp; NM</div>
+      <div class="edu-school">National Yang Ming Chiao Tung University · 國立陽明交通大學 — Institute of
+        Multimedia NM. Research-methodology training: applying scientific method to
         human–machine collaboration. Thesis centered on machine-learning system design and implementation.</div>
     </div>
     <div class="edu-year">2020 — 2024</div>
@@ -604,7 +621,8 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Availability</div>
   <div class="avail-line">Immediate start · full-time · shift and on-call rotation accepted</div>
-  <div class="avail-line">Open to relocation — Hsinchu · Taichung · Tainan · Taipei · overseas</div>
+  <div class="avail-line">Open to relocation within Taiwan — Hsinchu · Taoyuan · Taichung · Tainan · Kaohsiung</div>
+  <div class="avail-line">Open to overseas assignment if required</div>
   <div class="avail-line" style="color:#aaa; margin-top:0.3rem;">Mandarin Chinese (native) &nbsp;·&nbsp; English (professional) &nbsp;·&nbsp; Japanese (basic)</div>
 </div>
 

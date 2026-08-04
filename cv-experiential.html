@@ -261,7 +261,15 @@ body {
   .page { padding: 0; max-width: 100%; }
   .no-print { display: none !important; }
   a { color: inherit; text-decoration: none; }
+  .cv-section-title { break-after: avoid; page-break-after: avoid; }
+  /* Short trailing blocks (education, certs, skills, availability) stay whole.
+     Sections built from rows may flow — each row protects itself below. */
   .cv-section { page-break-inside: avoid; }
+  .cv-section:has(.exp-bullets),
+  .cv-section:has(.comm-row),
+  .cv-section:has(.work-row),
+  .cv-section:has(.proj),
+  .cv-section:has(.res-row) { page-break-inside: auto; }
   .proj { page-break-inside: avoid; }
   .res-row { page-break-inside: avoid; }
   .edu-row { page-break-inside: avoid; }
@@ -367,11 +375,14 @@ body {
     </div>
     <div class="proj-right">
       A permanent exhibition staging the invisible — how energy flows through a 100-year-old
-      locomotive repair hall. Transparent screen X-ray overlay on live machinery;
-      60 kg armature choreographed with overhead crane.
-      <div class="proj-role">Hardware engineering — armature &amp; overhead crane motion control
+      locomotive repair hall. Six transparent screens ride a 20 m servo carriage carrying 500 kg,
+      travelling the length of the locomotive as an X-ray overlay; the image is indexed to the
+      carriage's absolute position rather than to a clock, so the overlay stays registered to the
+      machine behind it for the life of the show. A 60 kg armature is choreographed with the
+      overhead crane alongside it.
+      <div class="proj-role">Hardware engineering — 20 m linear axis &amp; overhead crane motion control
       · transparent display control · multi-system timing synchronization.</div>
-      <div class="proj-stack">Motor control · Transparent LED · Crane kinematics · Animation sync · Hardware timing</div>
+      <div class="proj-stack">Servo motion · Absolute positioning · Transparent LED · Crane kinematics · Animation sync · Hardware timing</div>
     </div>
   </div>
 
@@ -440,8 +451,8 @@ body {
 
   <div class="edu-row">
     <div class="edu-left">
-      <div class="edu-degree">MFA Multimedia Music (New Music Theatre)</div>
-      <div class="edu-school">NYCU — National Yang Ming Chiao Tung University · Institute of Music · 國立陽明交通大學</div>
+      <div class="edu-degree">M.F.A. Multimedia &amp; NM</div>
+      <div class="edu-school">National Yang Ming Chiao Tung University · Institute of Multimedia NM · 國立陽明交通大學</div>
     </div>
     <div class="edu-year">2020 — 2024</div>
   </div>
