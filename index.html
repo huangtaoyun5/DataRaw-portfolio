@@ -940,9 +940,18 @@ body.drawer-open .tblock { opacity: 0; }
   padding: calc(var(--nav-h) + 1.25rem) clamp(1.35rem, 2.2vw, 2.25rem) 1.75rem;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: none;
+  /* On a short window the prose runs past the fold — the tallest drawer needs
+     804px and a 1366x768 laptop can only ever offer ~628px. The scrollbar is
+     the one thing telling a reader that the text continues, so it stays. It is
+     thin and monochrome, and since the container is overflow:auto it is absent
+     entirely whenever the content fits, which is the case on a full screen. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-45) transparent;
 }
-.drawer-body::-webkit-scrollbar { display: none; }
+.drawer-body::-webkit-scrollbar { width: 6px; }
+.drawer-body::-webkit-scrollbar-track { background: transparent; }
+.drawer-body::-webkit-scrollbar-thumb { background: var(--ink-45); }
+.drawer-body:hover::-webkit-scrollbar-thumb { background: var(--ink-70); }
 
 .drawer-head {
   display: flex;
@@ -1068,8 +1077,61 @@ footer {
 .js [data-reveal="wipe"]  { opacity: 1; clip-path: inset(0 100% 0 0); }
 
 /* ══════════════════════════════════════════════════════════════
-   RESPONSIVE — below 960px everything degrades to a plain document
+   RESPONSIVE — the deck gives up the slide model at 1600, and the
+   whole drafting conceit at 960
    ══════════════════════════════════════════════════════════════ */
+
+/* A sheet is only a slide while a slide actually fits. On a 1366x768 laptop the
+   CSS viewport is about 1350x589 once Chrome has taken its 179px, and the
+   tallest work detail needs ~780px — four of the six spec rows on Sheet 02 sat
+   under a hidden fold, including the drive, the encoder and the service line.
+   Shrinking the type would have meant giving back a quarter of it, so instead
+   the sheet stops being fixed-height here and the detail follows the overview
+   down the page: the same arrangement the phone layout has always used.
+
+   The cut is at 1600 rather than the width where the text first stops fitting,
+   because the margin collapses long before the content does: measured slack on
+   the tallest drawer is +15px at 1584 and +18px at 1536 (a 1920 screen at 125%),
+   which one bookmarks bar erases, against +63 to +119px at an unscaled 1920.
+   Slide mode is therefore kept only where there is real room for it — which
+   still covers presenting from this machine, and F11 more so. */
+@media (max-width: 1600px) {
+  .panel { height: auto; }
+  .sheet {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 3.5rem var(--pad);
+  }
+  .p-media { height: auto; justify-items: stretch; }
+
+  .drawer {
+    position: static;
+    width: auto;
+    transform: none;
+    display: block;
+    margin-top: 2.5rem;
+  }
+  .drawer-tab { display: none; }
+  .drawer-body {
+    border-left: 0;
+    border-top: 1px solid var(--ink);
+    padding: 2rem 0 0;
+    overflow: visible;
+  }
+  /* The prose was written to a 40rem drawer. Released to the full page it runs
+     to about 140 characters a line, which is past the point where the eye finds
+     the next line reliably. The spec table still wants the width — its values
+     stop wrapping out there — so only the paragraphs are held back. */
+  .detail-grid p { max-width: 66ch; }
+
+  /* The title block is fixed to the bottom-right corner, which only works while
+     a sheet owns exactly one viewport and leaves that corner clear. Once the
+     sheets flow it sits on top of whatever text happens to be passing under it,
+     so it goes — the same call the phone layout already makes. */
+  .tblock { display: none; }
+}
+
 @media (max-width: 960px) {
   :root { --sq: 28px; --sq-major: 140px; }
 
