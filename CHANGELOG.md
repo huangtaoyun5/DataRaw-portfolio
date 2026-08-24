@@ -1,5 +1,65 @@
 # Changelog — dataraw.tech
 
+## 2026-08-24 · 簡報站改為工程主線＋side projects 獨立頁
+
+**觸發：** ASML 一面回饋「學經歷比較特別，工程面要更明顯、藝術成分要降低」，
+而且 8/25 美光面談、9/7 ASML 二面都會用這個站當簡報。
+
+### 1. Works 拆成兩層
+主線只留 **05 個工程項目**：十三聲部 · 柴電工場 · 文化科技交易所 · AI Living Lab · Threshold。
+**川影 · 彌散圈反應 · 苔域浮層 · Blender MCP** 移到新頁 `side-projects.html`
+（複製 index 再裁切，CSS 與 GSAP 捲動邏輯完全一致，不另寫樣式）。
+清單最後一列改成 `→ Side Projects · Separate page` 連過去；side 頁的導覽列連結
+全部改指 `index.html#...`，否則點了沒反應。
+
+- `data-sheet` 主線重編 `01–05`，side 頁 `01–04`
+- 新增 `data-total`，HUD 由 `dataset.sheet + ' / 09'` 改為讀 `data-total`
+- `workCount` → `05 sheets · 2022 — 2026`
+- 彌散圈標籤 `VR · Pneumatics` → **`Gas control · Pneumatics`**
+  （即使降為 side project，ASML 問到氣體經驗時它仍是唯一證據，讀起來要是工程不是 VR）
+
+### 2. 封面照換掉罐頭圖
+`dataraw-can.webp` → **`cover-engineer.png`**（現場組裝校正照，戴頭燈與手套）。
+**理由：** 罐頭圖需要一段口頭解釋才成立；這張不用解釋，一眼就是設備工程師在動手。
+美光與 ASML 兩邊都適用。
+
+🔴 **直向照片撐破版面，已修：**
+原本 `width:100%` 讓 396×671 的圖被放大到 545×923（138% 上採樣，大螢幕會糊），
+封面總高衝到 1249px > 視窗 917px，**職稱與聯絡資訊掉到摺線下**。
+改成 `max-height: min(56vh, 671px)` + `width:auto` + `object-fit:contain`，
+封面回到剛好一個視窗、且不再上採樣。
+⚠️ **1366×768 筆電未實測**（瀏覽器視窗鎖在最大化，resize 無效）——**簡報前用實機開一次**。
+
+### 3. 地點文案（兩份工作地點都已確定在台中）
+- 封面 `Taiwan · Open to relocation` → `Taichung, Taiwan · Available immediately`
+- 結尾大字 `Open to full relocation worldwide.` → `Based in Taichung. Available immediately.`
+
+### 4. Threshold
+輪播拿掉，改為 C-LAB（v2）單張靜態圖；首頁縮圖同步改用 v2。
+
+**備份：** `index.html.bak-20260824`
+🔴 **連帶待辦：ASML 逐字稿開場有一整段在講罐頭圖，已與畫面對不上，二面前必須重寫。**
+
+## 2026-08-21 · 移除全站「EMC 測試」宣稱
+
+準備 ASML 二面（Project Lead 劉世宇，機械本科＋台大應用力學碩士）時，
+問到「EMC 測試那塊你做了什麼」，用戶回答**不確定**。
+
+**不確定就不能留在對外文件上。** 設備職面試官問「用什麼設備、依哪個規範測的」
+是很自然的追問，答不出來的殺傷力遠大於少列一項技能，而且會回頭汙染其他誠實陳述。
+全站只有兩處，都已改掉：
+
+| 檔案 | 原本 | 改成 |
+|---|---|---|
+| `index.html:1355` 技能列 | `… Hand etching · EMC testing · Soldering …` | 直接刪掉 `EMC testing` |
+| `cv-field-service.html:372` | `Ran electromagnetic-compatibility (EMC) testing on custom hardware and closed out the interference paths it exposed.` | `Traced interference paths on custom hardware and closed them out through grounding and EMI isolation.` |
+
+`cv-general.html` 只寫 `EMI & Noise Isolation`／`Grounding`，**那是他真的做過的，保留**。
+`cv.html`、`cv-experiential.html` 無此宣稱。
+
+🔴 **判準**：**EMI／雜訊隔離、接地** 是實作經驗，可以講；
+**EMC 測試** 是有規範、有設備、有報告的正式驗證，**沒做過就不要寫**。
+
 ## 2026-08-07 · 簡報站在 1600px 以下改為長頁
 
 簡報站的網址已經寄給應材主管做面試後評估，所以它現在是被「讀」的材料，

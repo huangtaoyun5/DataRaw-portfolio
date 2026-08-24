@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tao Yun Huang — Systems &amp; Hardware Engineer</title>
+<title>Side Projects — Tao Yun Huang</title>
 <meta name="description" content="Electromechanical systems from the physical layer up. Hand-etched PCB, closed-loop motion control, commissioned on site and kept running.">
 <link rel="icon" type="image/png" sizes="32x32" href="images/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="images/brand/favicon-180.png">
@@ -326,16 +326,10 @@ body.drawer-open .tblock { opacity: 0; }
 }
 
 /* the one piece of colour in the entire interface */
-.cover-mark { position: relative; display: flex; flex-direction: column; align-items: flex-end; }
+.cover-mark { position: relative; }
 .cover-mark img {
-  /* Portrait cover photo: cap the height so the whole cover block still fits
-     one viewport (role + contact must stay above the fold), and never upscale
-     past the file's native 671px or it goes soft on a large screen. */
-  width: auto;
+  width: 100%;
   height: auto;
-  max-height: min(56vh, 671px);
-  max-width: 100%;
-  object-fit: contain;
   filter: drop-shadow(0 24px 40px rgba(0,0,0,.10));
 }
 .cover-mark figcaption {
@@ -1267,14 +1261,14 @@ footer {
 
 <!-- ─────────────── NAV ─────────────── -->
 <nav class="nav">
-  <a href="#cover" class="nav-brand" data-cursor-legend="TOP">
+  <a href="index.html#cover" class="nav-brand" data-cursor-legend="TOP">
     <img class="nav-mark" src="images/brand/dataraw-can.webp" alt="" aria-hidden="true">
     <span>Tao Yun Huang</span>
   </a>
   <div class="nav-links">
-    <a href="#profile">Profile</a>
-    <a href="#index">Works</a>
-    <a href="#contact">Contact</a>
+    <a href="index.html#profile">Profile</a>
+    <a href="index.html#index">Works</a>
+    <a href="index.html#contact">Contact</a>
     <a href="cv.html" class="mono-b">CV</a>
   </div>
 </nav>
@@ -1289,253 +1283,56 @@ footer {
 <main>
 
 <!-- ══════════════════ COVER ══════════════════ -->
-<section class="cover" id="cover">
-  <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span>
-
-  <div class="cover-top">
-    <div class="mono">Selected Works · 2022 — 2026</div>
-    <div class="mono">Portfolio · Issue 03</div>
-  </div>
-
-  <div class="cover-mid">
-    <h1 class="cover-name" data-reveal="lines" data-reveal-stagger="0.08">
-      <span class="ln"><span>Tao Yun</span></span>
-      <span class="ln"><span>Huang</span></span>
-      <span class="cn">黃 韜 云</span>
-    </h1>
-
-    <figure class="cover-mark" data-reveal="up" data-reveal-delay="0.45">
-      <img src="images/brand/cover-engineer.png" alt="On-site mechanical assembly and alignment">
-      <figcaption>On-site assembly &amp; alignment</figcaption>
-    </figure>
-  </div>
-
-  <div class="cover-bot" data-reveal="up" data-reveal-delay="0.6">
-    <div class="cover-role">Systems &amp;<br>Hardware Engineer</div>
-    <div class="mono mid">Taichung, Taiwan · Available immediately</div>
-    <div class="mono end">bernie5@dataraw.tech</div>
-  </div>
-</section>
 
 <!-- ══════════════════ PROFILE ══════════════════ -->
-<section class="sec" id="profile">
-  <div class="sec-head">
-    <h2>01 — Profile</h2>
-    <span class="mono">Experience &amp; education</span>
-  </div>
-
-  <div class="thesis-row">
-    <p class="thesis" data-reveal="up">
-      Electromechanical systems from the <em>physical layer up</em> — hand-etched PCB,
-      closed-loop motion control, embedded firmware. Commissioned on site, then kept running.
-    </p>
-
-    <div class="record" data-reveal="up" data-reveal-delay="0.12">
-      <h4>Experience</h4>
-      <div class="rec-item">
-        <span class="role">Hardware Engineer</span>
-        <span class="org">IF Plus Art · 當若科技藝術</span>
-        <span class="when">Dec 2024 — Apr 2026</span>
-      </div>
-      <div class="rec-item">
-        <span class="role">Technical Project Manager</span>
-        <span class="org">King One Interactive · 王一互動科技</span>
-        <span class="when">Jan — Dec 2024</span>
-      </div>
-      <div class="rec-item">
-        <span class="role">Lecturer, part-time</span>
-        <span class="org">Hsinchu Senior High School · electronics &amp; programming</span>
-        <span class="when">Jul 2023 — Jun 2024</span>
-      </div>
-      <div class="rec-item">
-        <span class="role">Research Assistant</span>
-        <span class="org">NYCU · National Science &amp; Technology Council project</span>
-        <span class="when">Apr 2022 — Jan 2023</span>
-      </div>
-
-      <h4>Education</h4>
-      <div class="rec-item">
-        <span class="role">M.F.A. Multimedia &amp; NM</span>
-        <span class="org">National Yang Ming Chiao Tung University, Hsinchu</span>
-        <span class="when">2020 — 2024</span>
-      </div>
-      <div class="rec-item">
-        <span class="role">Electrical Engineering</span>
-        <span class="org">Feng Chia University, Taichung</span>
-        <span class="when">2012 — 2015</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════ CAPABILITY ══════════════════ -->
-<section class="sec" id="capability">
-  <div class="sec-head">
-    <h2>02 — Capability</h2>
-    <span class="mono">Matrix &amp; certifications</span>
-  </div>
-
-  <div>
-  <dl class="matrix" data-reveal="up" data-reveal-stagger="0.07">
-    <div class="mrow">
-      <span class="n">01</span>
-      <dt>Circuit &amp; Signal Diagnosis</dt>
-      <dd>Component-level root-cause analysis · Oscilloscope, logic analyser &amp; multimeter · EMI and noise isolation · Grounding · Power distribution &amp; signal integrity · Schematic reading &amp; layout · Analog design · Hand etching · Soldering &amp; rework · Component selection &amp; BOM</dd>
-    </div>
-    <div class="mrow">
-      <span class="n">02</span>
-      <dt>Motion &amp; Closed-Loop Control</dt>
-      <dd>Closed-loop PID across position, velocity and torque · Long-travel high-mass axes tuned for smooth trajectory · Servo &amp; stepper drives over EtherCAT · Absolute encoder feedback · Multi-axis synchronisation · Solenoid &amp; pneumatic actuation · CO₂ / O₂ delivery and valve control · Leak checking by soap test and pressure decay · Mechanism design under weight and balance constraints</dd>
-    </div>
-    <div class="mrow">
-      <span class="n">03</span>
-      <dt>Field Service &amp; Commissioning</dt>
-      <dd>Installation, commissioning and handover sign-off · Scheduled preventive maintenance · Corrective maintenance &amp; on-site fault isolation · Remote monitoring · Multi-day continuous duty under load · Client-facing through delivery and escalation</dd>
-    </div>
-    <div class="mrow">
-      <span class="n">04</span>
-      <dt>Fieldbus, Network &amp; Embedded</dt>
-      <dd>EtherCAT motion bus · Ubiquiti UniFi — certified UWA and UFSP · Site Manager, Cloud Gateway, routing and switching · Complete remote and offline-capable service stood up from zero · Embedded C++ · UDP / OSC · UWB positioning</dd>
-    </div>
-    <div class="mrow">
-      <span class="n">05</span>
-      <dt>Software, Data &amp; ML</dt>
-      <dd>Python · PyTorch · Computer vision (YOLO) · Visual SLAM and 6-DoF pose estimation · Real-time inference on device · Sensor and log data from deployed systems · Unity · Swift / ARKit</dd>
-    </div>
-  </dl>
-
-  <div class="certs">
-    <div>
-      <div class="cert-item" data-reveal="up">
-        <span class="cert-code">UWA</span>
-        <div>
-          <div class="cert-name">UniFi Wireless Admin</div>
-          <div class="cert-meta">Ubiquiti Academy · 2025</div>
-        </div>
-      </div>
-      <div class="cert-item" data-reveal="up" data-reveal-delay="0.08">
-        <span class="cert-code">UFSP</span>
-        <div>
-          <div class="cert-name">UniFi Full Stack Professional</div>
-          <div class="cert-meta">Ubiquiti Academy · 2025</div>
-        </div>
-      </div>
-    </div>
-
-    <p class="cert-note" data-reveal="up" data-reveal-delay="0.16">
-      Enough to stand up a complete networked service from nothing — gateway, routing,
-      switching, wireless and remote access — and keep it reachable when the site has
-      no usable uplink of its own.
-    </p>
-
-    <div class="cert-shots" data-reveal="up" data-reveal-delay="0.1">
-      <div class="frame carousel" data-carousel="5000">
-        <div class="cslide on" data-cap="UWA · Wireless Admin"><img src="images/certs/uwa.jpg" alt="Ubiquiti Academy — UniFi Wireless Admin" loading="lazy"></div>
-        <div class="cslide" data-cap="UFSP · Full Stack Professional"><img src="images/certs/ufsp.jpg" alt="Ubiquiti Training — UniFi Full Stack Professional" loading="lazy"></div>
-        <span class="ccap"></span>
-      </div>
-    </div>
-  </div>
-  </div>
-</section>
 
 <!-- ══════════════════ INDEX ══════════════════ -->
-<section class="sec" id="index">
-  <div class="sec-head">
-    <h2>03 — Works</h2>
-    <span class="mono" id="workCount">05 sheets · 2022 — 2026</span>
-  </div>
-
-  <div class="index-grid">
-    <div class="reg-table" id="regTable">
-    <!-- rows injected order-of-truth below; keep in sync with panels -->
-    <a class="reg-row" href="#w-cv" data-cursor-legend="VIEW">
-      <span class="r-n">01</span>
-      <span class="r-t">13-Voice CV Synthesizer<span class="r-cn">十三聲部</span></span>
-      <span class="r-tag">Analog hardware</span>
-      <span class="r-yr">2023</span>
-    </a>
-    <a class="reg-row" href="#w-railway" data-cursor-legend="VIEW">
-      <span class="r-n">02</span>
-      <span class="r-t">Diesel-Electric Workshop<span class="r-cn">柴電工場</span></span>
-      <span class="r-tag">Motion control</span>
-      <span class="r-yr">2025</span>
-    </a>
-    <a class="reg-row" href="#w-ttxc" data-cursor-legend="VIEW">
-      <span class="r-n">03</span>
-      <span class="r-t">Culture-Tech Exchange<span class="r-cn">文化科技交易所</span></span>
-      <span class="r-tag">LINE OA · Live ops</span>
-      <span class="r-yr">2025</span>
-    </a>
-    <a class="reg-row" href="#w-moda" data-cursor-legend="VIEW">
-      <span class="r-n">04</span>
-      <span class="r-t">AI Living Lab<span class="r-cn">資訊月</span></span>
-      <span class="r-tag">Sensor integration</span>
-      <span class="r-yr">2025</span>
-    </a>
-    <a class="reg-row" href="#w-threshold" data-cursor-legend="VIEW">
-      <span class="r-n">05</span>
-      <span class="r-t">Threshold<span class="r-cn">闁 · 三部曲</span></span>
-      <span class="r-tag">Electromechanical</span>
-      <span class="r-yr">2022—24</span>
-    </a>
-    <a class="reg-row reg-more" href="side-projects.html" data-cursor-legend="OPEN">
-      <span class="r-n">→</span>
-      <span class="r-t">Side Projects<span class="r-cn">個人專案</span></span>
-      <span class="r-tag">Separate page</span>
-      <span class="r-yr">2024—26</span>
-    </a>
-</div>
-
-    <div class="index-preview" id="indexPreview">
-      <div class="slot on" data-key="w-cv"><img src="images/works/01-cv-synth/hero.jpg" alt="" loading="lazy"></div>
-      <div class="slot" data-key="w-railway"><img src="images/works/02-railway/hero.jpg" alt="" loading="lazy"></div>
-      <div class="slot" data-key="w-ttxc"><img src="images/works/03-ttxc/hero.jpg" alt="" loading="lazy"></div>
-      <div class="slot" data-key="w-moda"><img src="images/works/05-ai-living-lab/hero.jpg" alt="" loading="lazy"></div>
-      <div class="slot" data-key="w-threshold"><img src="images/works/07-threshold/v2.jpg" alt="" loading="lazy"></div>
-<div class="label">
-        <span id="previewName">13-Voice CV Synthesizer</span>
-        <span id="previewMeta">2023 · Analog hardware</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ══════════════════ DECK ══════════════════ -->
+
+<section class="sec" id="sidehead">
+  <div class="sec-head">
+    <h2>Side Projects</h2>
+    <span class="mono">Personal work · 2024 — 2026</span>
+  </div>
+  <p class="mono" style="opacity:.55;max-width:46rem;margin-top:1.2rem">Personal projects outside the engineering line. <a href="index.html" style="text-decoration:underline">← Back to selected works</a></p>
+</section>
+
 <div id="deck">
-<!-- ── 01 · 13-VOICE CV SYNTHESIZER ── -->
-<section class="panel" id="w-cv" data-sheet="01" data-total="05">
+<!-- ── 01 · RIVER OF SHADOWS ── -->
+<section class="panel" id="w-ros" data-sheet="01" data-total="04">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 01 / 05</span>
-      <span class="tag">Analog hardware · Component-level diagnosis · Solo build</span>
-      <span class="yr">2023</span>
+      <span class="idx">Side 01 / 04</span>
+      <span class="tag">Visual SLAM · 6-DoF pose · iOS</span>
+      <span class="yr">2024</span>
     </div>
 
     <div class="p-body">
       <div class="p-media">
-        <div class="frame carousel contain" data-carousel="4200">
-          <div class="cslide on" data-cap="Assembled rack"><img src="images/works/01-cv-synth/hero.jpg" alt="Thirteen boards assembled on one CV bus" loading="lazy"></div>
-          <div class="cslide" data-cap="PCB layout · Cadence Allegro"><img src="images/works/01-cv-synth/layout.jpg" alt="PCB layout in Cadence Allegro" loading="lazy"></div>
-          <div class="cslide" data-cap="CAM · Gerber review"><img src="images/works/01-cv-synth/cam.jpg" alt="CAM / Gerber review of the board" loading="lazy"></div>
-          <div class="cslide" data-cap="Hand-etched copper"><img src="images/works/01-cv-synth/detail-1.jpg" alt="Hand-etched copper PCB" loading="lazy"></div>
-          <div class="cslide" data-cap="BOM · per-board counts"><img src="images/works/01-cv-synth/detail-2.jpg" alt="Component bill of materials" loading="lazy"></div>
+        <div class="frame carousel" data-carousel="3800">
+          <div class="cslide on" data-cap="AR overlay in place"><img src="images/works/04-river-of-shadows/hero.jpg" alt="AR overlay on the corridor" loading="lazy"></div>
+          <div class="cslide" data-cap="App capture"><img src="images/works/04-river-of-shadows/detail-1.jpg" alt="App capture" loading="lazy"></div>
+          <div class="cslide" data-cap="Navigation cube"><img src="images/works/04-river-of-shadows/detail-2.jpg" alt="Navigation cube in performance" loading="lazy"></div>
+          <div class="cslide" data-cap="Overlaid space"><img src="images/works/04-river-of-shadows/detail-3.jpg" alt="Overlaid absent space" loading="lazy"></div>
           <span class="ccap"></span>
         </div>
-        <div class="p-caption">Assembled rack · thirteen boards on one CV bus</div>
+        <div class="p-caption">NYCU Administrative Building, Hsinchu · localised without markers</div>
       </div>
 
       <div class="p-info">
         <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
-          <span class="ln"><span>13-Voice CV</span></span>
-          <span class="ln"><span>Synthesizer</span></span>
+          <span class="ln"><span>River of</span></span>
+          <span class="ln"><span>Shadows</span></span>
         </h2>
-        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">十三聲部電壓控制合成器</div>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">川影 · NYCU 行政大樓</div>
 
         <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
-          <li><b>01</b><span>One master and twelve sub-voices, each independently controlled through a <strong>shared voltage bus</strong>.</span></li>
-          <li><b>02</b><span>Schematic, layout and <strong>hand-etched copper</strong> — every one of the thirteen boards.</span></li>
-          <li><b>03</b><span>The hard part was holding control voltages accurate across all thirteen. Debugged board by board on the bench.</span></li>
+          <li><b>01</b><span>Localised by <strong>machine vision, not markers</strong> — nothing was attached to the building.</span></li>
+          <li><b>02</b><span>A dense photographic survey of the corridor processed into a <strong>3-D feature map</strong>, with runtime 6-DoF pose matching live camera frames against it.</span></li>
+          <li><b>03</b><span>Drift and re-localisation handled in <strong>repeating, low-texture corridors</strong> — the hardest case for feature matching.</span></li>
         </ul>
       </div>
     </div>
@@ -1544,25 +1341,25 @@ footer {
       <button class="drawer-tab" type="button" aria-expanded="false"
               data-cursor-legend="DETAIL"><span>Detail</span></button>
       <div class="drawer-body" data-lenis-prevent>
-        <div class="drawer-head"><h3>13-Voice CV Synthesizer</h3><span class="k">Work detail</span></div>
+        <div class="drawer-head"><h3>River of Shadows</h3><span class="k">Work detail</span></div>
         <div class="detail-grid has-media">
           <div>
-          <p><strong>The problem.</strong> Thirteen boards on one CV bus is a loading problem
-          before it is a music problem. Each board added draws on the same reference, so pitch
-          drifts as more come online; adjacent voices coupled into each other, and the shared
-          supply sagged under simultaneous gates.</p>
-          <p><strong>How it was found.</strong> Board by board on the bench, not by redesigning
-          the rack — bus loading measured against reference droop, crosstalk isolated by driving
-          one voice and scoping its neighbours, decoupling reworked until the rails held at
-          worst case.</p>
+          <p><strong>Localised without markers.</strong> The building could not be modified,
+          so the corridor was photographed densely and processed into a 3-D feature map; at
+          runtime the device estimates full 6-DoF pose by matching live camera frames against
+          it.</p>
+          <p><strong>Why that corridor is the hard case.</strong> Sparse texture that repeats —
+          every bay looks like the next. Pose locks onto the wrong bay, or drifts, and the overlay
+          slides off the wall. The work was in deciding when to trust a match and when to discard
+          it.</p>
           </div>
           <dl class="spec">
-            <div><dt>Architecture</dt><dd>1 master · 12 sub-boards · shared CV bus</dd></div>
-            <div><dt>Fabrication</dt><dd>Schematic &amp; layout · hand-etched copper · hand assembly</dd></div>
-            <div><dt>Diagnostics</dt><dd>Bus loading · inter-voice crosstalk · supply decoupling · rail droop under simultaneous load</dd></div>
-            <div><dt>Instruments</dt><dd>Oscilloscope · multimeter · bench supply</dd></div>
-            <div><dt>Role</dt><dd>Solo — design through assembly and debug</dd></div>
-            <div><dt>Year</dt><dd>2023</dd></div>
+            <div><dt>Venue</dt><dd>NYCU Administrative Building, Hsinchu</dd></div>
+            <div><dt>Localisation</dt><dd>Area Target visual SLAM · dense photographic survey → 3-D feature map · runtime 6-DoF pose estimation</dd></div>
+            <div><dt>Failure modes</dt><dd>Drift and re-localisation in repeating, low-texture geometry</dd></div>
+            <div><dt>Stack</dt><dd>Swift · ARKit · feature matching · spatial audio</dd></div>
+            <div><dt>Role</dt><dd>Solo — iOS development, localisation, composition, audience navigation</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://youtu.be/FejVzhDx3Ls" target="_blank" rel="noopener">Video ↗</a></dd></div>
           </dl>
         </div>
       </div>
@@ -1570,172 +1367,37 @@ footer {
   </div>
 </section>
 
-<!-- ── 02 · DIESEL-ELECTRIC WORKSHOP ── -->
-<section class="panel" id="w-railway" data-sheet="02" data-total="05">
+<!-- ── 02 · CIRCLE OF CONFUSION ── -->
+<section class="panel" id="w-circle" data-sheet="02" data-total="04">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 02 / 05</span>
-      <span class="tag">Long-travel motion · Absolute positioning · Under maintenance</span>
-      <span class="yr">2025</span>
+      <span class="idx">Side 02 / 04</span>
+      <span class="tag">VR + pneumatics · Gas delivery &amp; valve control</span>
+      <span class="yr">2024</span>
     </div>
 
     <div class="p-body">
       <div class="p-media">
-        <div class="frame carousel" data-carousel="4200">
-          <div class="cslide on" data-cap="Carriage in travel · S212"><img src="images/works/02-railway/hero.jpg" alt="Transparent-screen carriage travelling along locomotive S212, internals registered to the machine behind" loading="lazy"></div>
-          <div class="cslide" data-cap="20 m linear axis · CAD"><img src="images/works/02-railway/mechanism.webp" alt="Linear axis assembly — base, carriage and cable carrier" loading="lazy"></div>
-          <div class="cslide" data-cap="Armature · crane axis"><img src="images/works/02-railway/detail-1.jpg" alt="Armature on the overhead crane axis" loading="lazy"></div>
-          <div class="cslide" data-cap="Workshop floor"><img src="images/works/02-railway/detail-2.jpg" alt="Workshop floor in service" loading="lazy"></div>
-          <a class="sound" href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
-          <span class="ccap"></span>
-        </div>
-        <div class="p-caption">National Railway Museum, Taipei · permanent exhibition</div>
-      </div>
-
-      <div class="p-info">
-        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
-          <span class="ln"><span>Diesel-Electric</span></span>
-          <span class="ln"><span>Workshop</span></span>
-        </h2>
-        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">國家鐵道博物館 · 柴電工場</div>
-
-        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
-          <li><b>01</b><span>A <strong>20 m single axis carrying 500 kg</strong> — six transparent screens on a servo carriage, owned from mechanical design through drive sizing to on-site commissioning.</span></li>
-          <li><b>02</b><span>Effective inertia changes along the travel, so position and velocity run over an <strong>inner torque loop</strong> — one set of gains holding end to end.</span></li>
-          <li><b>03</b><span>Playback <strong>indexed to absolute encoder position, not to a clock</strong> — the glass stays registered to the machine behind it, and the error cannot accumulate.</span></li>
-          <li><b>04</b><span>On a <strong>scheduled PM cycle since 2025</strong> — on-site fault isolation plus remote monitoring.</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="drawer" data-drawer>
-      <button class="drawer-tab" type="button" aria-expanded="false"
-              data-cursor-legend="DETAIL"><span>Detail</span></button>
-      <div class="drawer-body" data-lenis-prevent>
-        <div class="drawer-head"><h3>Diesel-Electric Workshop</h3><span class="k">Work detail</span></div>
-        <div class="detail-grid has-media">
-          <div>
-          <p><strong>The axis.</strong> Half a tonne over 20 m. A single position loop overshoots
-          where inertia is low and lags where it is high — the inner torque loop absorbs that
-          variation.</p>
-          <p><strong>Absolute feedback.</strong> Position is known at power-on — no reference run
-          down 20 m of rail with 500 kg on it. The power-off brake holds on E-stop rather than
-          coasting.</p>
-          <p><strong>Registration.</strong> Time-indexed playback would drift the first time the
-          axis lagged under load, and the error would accumulate. Indexing to encoder position
-          cannot.</p>
-          </div>
-          <dl class="spec">
-            <div><dt>Client</dt><dd>National Railway Museum, Taipei · IF Plus Art</dd></div>
-            <div><dt>Axis</dt><dd>20 m single axis · 500 kg moving load</dd></div>
-            <div><dt>Drive</dt><dd>600 W AZX servo · 25:1 planetary · 43 N·m · AZXD-SED over EtherCAT</dd></div>
-            <div><dt>Feedback</dt><dd>Battery-free absolute encoder · power-off brake</dd></div>
-            <div><dt>Also on site</dt><dd>60 kg armature on the overhead-crane axis</dd></div>
-            <div><dt>Service</dt><dd>Permanent since 2025 · scheduled PM · remote monitoring</dd></div>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── 03 · CULTURE-TECH EXCHANGE ── -->
-<section class="panel" id="w-ttxc" data-sheet="03" data-total="05">
-  <div class="sheet">
-    <div class="p-rail">
-      <span class="idx">Sheet 03 / 05</span>
-      <span class="tag">LINE OA · Real-time network · Four-day live operation</span>
-      <span class="yr">2025</span>
-    </div>
-
-    <div class="p-body">
-      <div class="p-media">
-        <div class="frame carousel" data-carousel="5200">
-          <div class="cslide on" data-cap="LINE OA · in use"><img src="images/works/03-ttxc/loop-1.webp" alt="LINE OA investment interface in use" loading="lazy"></div>
-          <div class="cslide" data-cap="Portfolio · leaderboard"><img src="images/works/03-ttxc/loop-2.webp" alt="Portfolio and leaderboard on LINE OA" loading="lazy"></div>
-          <div class="cslide" data-cap="LINE Bot flow"><img src="images/works/03-ttxc/flow.jpg" alt="LINE Bot flow across the visit" loading="lazy"></div>
-          <div class="cslide" data-cap="Venue leaderboard"><img src="images/works/03-ttxc/hero.jpg" alt="Venue leaderboard" loading="lazy"></div>
-          <a class="sound" href="https://www.youtube.com/watch?v=KtusLH4ttM0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
-          <span class="ccap"></span>
-        </div>
-        <div class="p-caption">TAICCA · TTXC Innovations · Pier-2, Kaohsiung</div>
-      </div>
-
-      <div class="p-info">
-        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
-          <span class="ln"><span>Culture-Tech</span></span>
-          <span class="ln"><span>Exchange</span></span>
-        </h2>
-        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">文化科技交易所 · TAICCA</div>
-
-        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
-          <li><b>01</b><span>Visitors played on <strong>their own phones through LINE OA</strong> — no app to install, no account to make. That is what made the whole thing work.</span></li>
-          <li><b>02</b><span>Mobile ↔ venue data synchronised across platforms on a fixed <strong>three-minute leaderboard cycle</strong>.</span></li>
-          <li><b>03</b><span>Deployed and operated on site across four days — <strong>NT$4.7 bn</strong> in virtual capital placed by the public.</span></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="drawer" data-drawer>
-      <button class="drawer-tab" type="button" aria-expanded="false"
-              data-cursor-legend="DETAIL"><span>Detail</span></button>
-      <div class="drawer-body" data-lenis-prevent>
-        <div class="drawer-head"><h3>Culture-Tech Exchange</h3><span class="k">Work detail</span></div>
-        <div class="detail-grid">
-          <div>
-          <p><strong>Why LINE OA was the design.</strong> Anything requiring an app install
-          loses most of an exhibition audience at the door. Building on the LINE Official Account
-          made the entry cost zero — visitors opened something already on their phone. Every other
-          decision followed from that one.</p>
-          <p><strong>The constraint.</strong> Hundreds of phones and the venue display have to
-          agree on one market state. A fixed three-minute settlement cycle: long enough to batch
-          and reconcile, short enough that the room still feels live.</p>
-          </div>
-          <dl class="spec">
-            <div><dt>Client</dt><dd>TAICCA</dd></div>
-            <div><dt>Studio</dt><dd>IF Plus Art</dd></div>
-            <div><dt>Entry point</dt><dd>LINE Official Account — no app install</dd></div>
-            <div><dt>Stack</dt><dd>Unity · LINE OA · real-time networking · cross-platform data sync</dd></div>
-            <div><dt>Cycle</dt><dd>Fixed 3-minute leaderboard settlement</dd></div>
-            <div><dt>Scale</dt><dd>4 days on site · NT$4.7 bn virtual capital placed</dd></div>
-            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=KtusLH4ttM0" target="_blank" rel="noopener">Video ↗</a></dd></div>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── 04 · AI LIVING LAB ── -->
-<section class="panel" id="w-moda" data-sheet="04" data-total="05">
-  <div class="sheet">
-    <div class="p-rail">
-      <span class="idx">Sheet 04 / 05</span>
-      <span class="tag">Sensor integration · Real-time inference · Public duty</span>
-      <span class="yr">2025</span>
-    </div>
-
-    <div class="p-body">
-      <div class="p-media">
-        <div class="frame tube" data-yt="mWuq7uki4DQ" data-reveal="wipe">
-          <img class="poster" src="images/works/05-ai-living-lab/hero.jpg" alt="Instrumented cycling station at the MODA booth" width="1331" height="747">
-          <span class="tube-badge"><span class="dot"></span>1,000+ riders</span>
+        <div class="frame tube" data-yt="YpsZ0EtSozE" data-reveal="wipe">
+          <img class="poster" src="images/works/06-circle-of-confusion/hero.jpg" alt="Custom 3-D printed headset mechanism" width="1919" height="1079">
+          <span class="tube-badge"><span class="dot"></span>DAC Taipei</span>
           <button class="sound" data-sound data-cursor-legend="SOUND">Sound off</button>
         </div>
-        <div class="p-caption">Ministry of Digital Affairs · Taipei Computer Festival</div>
+        <div class="p-caption">Digital Art Center, Taipei</div>
       </div>
 
       <div class="p-info">
         <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
-          <span class="ln"><span>AI Living</span></span>
-          <span class="ln"><span>Lab</span></span>
+          <span class="ln"><span>Circle of</span></span>
+          <span class="ln"><span>Confusion</span></span>
         </h2>
-        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">資訊月 · 數位發展部</div>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">彌散圈反應</div>
 
         <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
-          <li><b>01</b><span>A <strong>custom instrumented bicycle</strong> — sensors on cadence, speed and route selection, with signal conditioning and normalisation.</span></li>
-          <li><b>02</b><span>That live riding data drives a model that <strong>generates a soundtrack for that specific ride</strong>, in real time, as the rider pedals.</span></li>
-          <li><b>03</b><span>Four days of continuous public duty, <strong>1,000+ riders</strong>, no supervised reset between them.</span></li>
+          <li><b>01</b><span>VR bound to a <strong>pneumatic apparatus</strong> — the headset and the physical rig run as one system, not two.</span></li>
+          <li><b>02</b><span><strong>CO₂ / O₂ delivery under valve control</strong>, driving the environment on a regulated respiratory cycle synchronised to the VR.</span></li>
+          <li><b>03</b><span>Delivery lines <strong>leak-checked by soap test and pressure decay</strong> before the piece ran.</span></li>
+          <li><b>04</b><span>A 3-D printed haptic mechanism designed to mount on the headset <strong>within its weight and balance limits</strong>.</span></li>
         </ul>
       </div>
     </div>
@@ -1744,25 +1406,25 @@ footer {
       <button class="drawer-tab" type="button" aria-expanded="false"
               data-cursor-legend="DETAIL"><span>Detail</span></button>
       <div class="drawer-body" data-lenis-prevent>
-        <div class="drawer-head"><h3>AI Living Lab</h3><span class="k">Work detail</span></div>
-        <div class="detail-grid">
+        <div class="drawer-head"><h3>Circle of Confusion</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
           <div>
-          <p><strong>Hardware.</strong> The bicycle is instrumented from scratch — cadence,
-          speed and route — with the analog side conditioned and normalised before anything
-          downstream sees it. A child and an adult do not produce the same scale of raw values,
-          and the model needs them to.</p>
-          <p><strong>What public duty actually tests.</strong> Not peak performance — recovery.
-          A thousand people used it with no controlled conditions: sensors knocked, riders
-          dismounting mid-session. The engineering was making each session independent enough
-          that a bad one did not take the next with it.</p>
+          <p><strong>Gas side.</strong> Two supplies, regulated delivery and valve control
+          on a repeating cycle, phase-locked to what the viewer sees. Holding a steady rhythm is a
+          matter of valve response, line volume and settling time — the commanded profile and the
+          delivered profile are not the same curve.</p>
+          <p><strong>Stated plainly.</strong> This is gas handling and flow fault-finding at
+          atmospheric pressure. It is <strong>not</strong> vacuum or plasma process experience,
+          and is not offered as such.</p>
           </div>
           <dl class="spec">
-            <div><dt>Client</dt><dd>Ministry of Digital Affairs (MODA)</dd></div>
-            <div><dt>Hardware</dt><dd>Custom instrumented bicycle · cadence, speed and route sensing · signal conditioning · data normalisation</dd></div>
-            <div><dt>Generation</dt><dd>Live riding dynamics → real-time generative audio model</dd></div>
-            <div><dt>Output</dt><dd>Per-rider soundtrack, printed as a cassette postcard</dd></div>
-            <div><dt>Load</dt><dd>1,000+ riders over 4 continuous days</dd></div>
-            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=mWuq7uki4DQ" target="_blank" rel="noopener">Video ↗</a></dd></div>
+            <div><dt>Venue</dt><dd>Digital Art Center, Taipei</dd></div>
+            <div><dt>Gas system</dt><dd>CO₂ / O₂ delivery · valve control · regulated respiratory cycle</dd></div>
+            <div><dt>Leak check</dt><dd>Soap test · pressure decay</dd></div>
+            <div><dt>Mechanism</dt><dd>3-D printed headset-mounted haptic unit, within mass and balance limits</dd></div>
+            <div><dt>Not claimed</dt><dd>No vacuum, plasma or hydraulic process experience</dd></div>
+            <div><dt>Role</dt><dd>Solo — concept, system, gas control, mechanism, composition</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=YpsZ0EtSozE" target="_blank" rel="noopener">Video ↗</a></dd></div>
           </dl>
         </div>
       </div>
@@ -1770,34 +1432,36 @@ footer {
   </div>
 </section>
 
-<!-- ── 05 · THRESHOLD ── -->
-<section class="panel" id="w-threshold" data-sheet="05" data-total="05">
+<!-- ── 03 · MOSS FLOATING LAYER ── -->
+<section class="panel" id="w-moss" data-sheet="03" data-total="04">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 05 / 05</span>
-      <span class="tag">Electromechanical · Closed loop · Three versions</span>
-      <span class="yr">2022 — 2024</span>
+      <span class="idx">Side 03 / 04</span>
+      <span class="tag">Side project · Multichannel audio · Retail permanent</span>
+      <span class="yr">2025</span>
     </div>
 
     <div class="p-body">
       <div class="p-media">
-        <div class="frame">
-          <img src="images/works/07-threshold/v2.jpg" alt="Threshold v2, C-LAB Taipei 2023" loading="lazy">
-          <a class="sound" href="https://www.youtube.com/watch?v=YVT2q0_gJyA" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
+        <div class="frame tube" data-yt="3qMWraIEPbc" data-reveal="wipe">
+          <img class="poster" src="images/works/08-moss/hero.jpg" alt="Moss terrarium installation, Xinyi Taipei" width="1555" height="589">
+          <span class="tube-badge"><span class="dot"></span>Side project</span>
+          <button class="sound" data-sound data-cursor-legend="SOUND">Sound off</button>
         </div>
-        <div class="p-caption">v2 · C-LAB Taipei 2023 · three builds 2022—24</div>
+        <div class="p-caption">Shin Kong Mitsukoshi A9, Xinyi · permanent</div>
       </div>
 
       <div class="p-info">
         <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
-          <span class="ln"><span>Threshold</span></span>
+          <span class="ln"><span>Moss</span></span>
+          <span class="ln"><span>Floating Layer</span></span>
         </h2>
-        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">闁 · 真實與潛在空間的回授</div>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">苔域浮層 · 信義區</div>
 
         <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
-          <li><b>01</b><span>Stepper motors, solenoids and pneumatics driven in a <strong>closed feedback loop</strong> with real-time neural audio synthesis.</span></li>
-          <li><b>02</b><span>The engineering constraint was the <strong>latency budget</strong> between sensing and actuation — and the mechanical settling time that budget has to absorb.</span></li>
-          <li><b>03</b><span>Three builds over three years. <strong>v2 ran across a 49.4-channel Ambisonics system</strong>, the first at that scale in Taiwan.</span></li>
+          <li><b>01</b><span>A <strong>side project</strong> — a small terrarium breathing at its own pace against the velocity of Taipei's busiest retail district.</span></li>
+          <li><b>02</b><span>Multichannel spatial audio system design and <strong>speaker layout</strong> for a permanent retail environment.</span></li>
+          <li><b>03</b><span>Specified, integrated and <strong>commissioned on site</strong>, then handed to the venue to run unattended.</span></li>
         </ul>
       </div>
     </div>
@@ -1806,24 +1470,95 @@ footer {
       <button class="drawer-tab" type="button" aria-expanded="false"
               data-cursor-legend="DETAIL"><span>Detail</span></button>
       <div class="drawer-body" data-lenis-prevent>
-        <div class="drawer-head"><h3>Threshold</h3><span class="k">Work detail</span></div>
-        <div class="detail-grid has-media">
+        <div class="drawer-head"><h3>Moss Floating Layer</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid">
           <div>
-          <p><strong>Why a feedback loop is a stability problem.</strong> Any loop with real
-          mechanics in it has dead time: solenoids and pneumatics do not respond instantly, and the
-          structure keeps ringing after the actuator stops. Feed that into a stage reacting in
-          milliseconds and the system runs away or hunts.</p>
-          <p><strong>Three versions, three rebuilds.</strong> Each was rebuilt around what failed
-          in the last. v2 ran the modified RAVE pipeline across a 49.4-channel Ambisonics system —
-          the first at that scale in Taiwan.</p>
+          <p><strong>Audio for a room you do not control.</strong> A department store is a
+          hostile acoustic environment: high ambient noise, hard reflective surfaces, an audience
+          with no fixed listening position. Speaker layout was the whole problem — placing and
+          aiming so the piece reads as spatial from anywhere, without bleeding into neighbouring
+          tenants.</p>
+          <p><strong>Handover.</strong> Commissioned on site, then handed over to run permanently
+          unattended — which sets the real requirement: it has to come up correctly every morning
+          with nobody technical present.</p>
           </div>
           <dl class="spec">
-            <div><dt>Actuation</dt><dd>Stepper motors · solenoids · pneumatics · closed-loop control</dd></div>
-            <div><dt>Loop design</dt><dd>Feedback stability · mechanical settling time · sensing-to-actuation latency budget</dd></div>
-            <div><dt>Audio</dt><dd>Modified RAVE pipeline · k-means · Max/MSP · Ambisonics</dd></div>
-            <div><dt>Venues</dt><dd>Taichung 2022 · C-LAB Taipei 2023 · NYCU 2024</dd></div>
-            <div><dt>Role</dt><dd>Solo — apparatus, actuator control, loop stability, all three versions</dd></div>
-            <div><dt>Doc</dt><dd><a href="https://youtu.be/YVT2q0_gJyA" target="_blank" rel="noopener">Video ↗</a></dd></div>
+            <div><dt>Client</dt><dd>SCOPE TECH</dd></div>
+            <div><dt>Venue</dt><dd>Shin Kong Mitsukoshi A9, Taipei</dd></div>
+            <div><dt>Scope</dt><dd>Multichannel spatial audio system design · speaker layout · retail AV integration · on-site commissioning</dd></div>
+            <div><dt>Status</dt><dd>Permanent · unattended daily operation</dd></div>
+            <div><dt>Note</dt><dd>Side project</dd></div>
+            <div><dt>Doc</dt><dd><a href="https://www.youtube.com/watch?v=3qMWraIEPbc" target="_blank" rel="noopener">Video ↗</a></dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 04 · BLENDER MCP BRIDGE ── -->
+<section class="panel" id="w-blender" data-sheet="04" data-total="04">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Side 04 / 04</span>
+      <span class="tag">Tooling · Socket bridge · Procedural pipeline</span>
+      <span class="yr">2024 — 2026</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="3600">
+          <div class="cslide on" data-cap="OSM geometry, rendered"><img src="images/works/09-blender-mcp/hero.jpg" alt="OpenStreetMap city geometry, rendered" loading="lazy"></div>
+          <div class="cslide" data-cap="The bridge, in-process"><img src="images/works/09-blender-mcp/bridge.jpg" alt="blender_bridge_server.py running inside Blender" loading="lazy"></div>
+          <div class="cslide" data-cap="Procedural render"><img src="images/works/09-blender-mcp/detail-6.jpg" alt="Procedural render" loading="lazy"></div>
+          <div class="cslide" data-cap="Geometry study"><img src="images/works/09-blender-mcp/detail-1.jpg" alt="Geometry study" loading="lazy"></div>
+          <div class="cslide" data-cap="Material study"><img src="images/works/09-blender-mcp/detail-7.jpg" alt="Material study" loading="lazy"></div>
+          <div class="cslide" data-cap="Displacement study"><img src="images/works/09-blender-mcp/detail-2.jpg" alt="Displacement study" loading="lazy"></div>
+          <div class="cslide" data-cap="Morphing surface"><img src="images/works/09-blender-mcp/detail-3.jpg" alt="Morphing surface" loading="lazy"></div>
+          <div class="cslide" data-cap="Scatter study"><img src="images/works/09-blender-mcp/detail-4.jpg" alt="Scatter study" loading="lazy"></div>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">OpenStreetMap geometry, built and rendered through the bridge</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Blender MCP</span></span>
+          <span class="ln"><span>Bridge</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">程序化場景管線 · 自建工具</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>A <strong>TCP socket server running inside Blender</strong>, so an external agent can build and modify scenes directly instead of me clicking through them.</span></li>
+          <li><b>02</b><span>Incoming scripts are queued and executed <strong>on Blender's main thread via <code>bpy.app.timers</code></strong> — touching the API from the socket thread crashes the process.</span></li>
+          <li><b>03</b><span>Used to pull <strong>OpenStreetMap</strong> city data into a scene and render it procedurally, plus geometry and material studies.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Blender MCP Bridge</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>The real problem is threading.</strong> Blender's Python API is not
+          thread-safe — call <code>bpy</code> from the socket's worker thread and the process
+          dies, sometimes several operations later. The server accepts on a daemon thread but
+          never touches the scene there: scripts go onto a lock-guarded queue that a
+          <code>bpy.app.timers</code> callback drains on the main thread. That one indirection
+          is the whole design.</p>
+          <p><strong>Why build it.</strong> The same reason I instrument anything — describe the
+          scene once and have it constructed repeatably, rather than rebuilding it by hand every
+          time I change my mind.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Transport</dt><dd>TCP socket, <code>127.0.0.1:65432</code>, length-framed JSON</dd></div>
+            <div><dt>Concurrency</dt><dd>Daemon accept thread · lock-guarded script queue · <code>bpy.app.timers</code> drain on the main thread</dd></div>
+            <div><dt>Scene data</dt><dd>OpenStreetMap import — footway, pedestrian and railway layers</dd></div>
+            <div><dt>Render</dt><dd>Blender 5.2 LTS · Cycles · GPU compute</dd></div>
+            <div><dt>Role</dt><dd>Solo — server, protocol, scene pipeline</dd></div>
           </dl>
         </div>
       </div>
@@ -1834,27 +1569,6 @@ footer {
 </div><!-- /#deck -->
 
 <!-- ══════════════════ CONTACT ══════════════════ -->
-<section class="sec contact" id="contact">
-  <div class="sec-head">
-    <h2>04 — Contact</h2>
-    <span class="mono">Available immediately</span>
-  </div>
-
-  <h2 class="big" data-reveal="up">Based in Taichung. Available immediately.</h2>
-  <a href="mailto:bernie5@dataraw.tech" class="mail" data-reveal="up" data-reveal-delay="0.1" data-cursor-legend="MAIL">bernie5@dataraw.tech</a>
-
-  <dl class="contact-grid" data-reveal="up" data-reveal-delay="0.2" data-reveal-stagger="0.05">
-    <div><dt>Phone</dt><dd>+886 983 717 444</dd></div>
-    <div><dt>Based</dt><dd>Taiwan</dd></div>
-    <div><dt>Profiles</dt><dd>
-      <a href="https://www.linkedin.com/in/tao-yun-huang-9953b5322" target="_blank" rel="noopener">LinkedIn</a> ·
-      <a href="https://github.com/huangtaoyun5" target="_blank" rel="noopener">GitHub</a>
-    </dd></div>
-    <div><dt>Documents</dt><dd>
-      <a href="cv.html">CV</a>
-    </dd></div>
-  </dl>
-</section>
 
 <footer>
   <span>© 2026 · Tao Yun Huang</span>

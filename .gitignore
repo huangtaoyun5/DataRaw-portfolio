@@ -7,7 +7,19 @@
 images/_archive/
 
 # Superseded CVs exported before the July 2026 education correction — they state a
-# B.Eng. and a B.A. that were never awarded. Archived to job_application\archive\.
+# B.Eng. and a B.A. that were never awarded. Archived to job_application\09_勿用\.
 # Never let these back onto the public site.
 Tao_Yun_Huang_CV.pdf
 Tao_Yun_Huang_CV_Hardware_Engineer.pdf
+
+# Browser "Save as PDF" from cv.html names the file after the page title, producing
+# "CV — Tao Yun Huang · <version>.pdf" every time. One such export (the 2026-07-26
+# Systems & Hardware one) still carried the B.Eng. and B.A. Drama that were never
+# awarded, and it sat in this folder untracked until 2026-08-14. Ignore the whole
+# shape so a stray re-export can never be committed by accident.
+# The only CV that belongs in this folder is Tao_Yun_Huang_CV_Customer_Engineer.pdf.
+CV —*.pdf
+
+# Local safety copies taken before a large edit (e.g. index.html.bak-20260824).
+# Useful on disk, never part of the site.
+*.bak-*
