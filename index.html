@@ -1253,9 +1253,175 @@ footer {
 }
 
 @media print {
-  .nav, .tblock, .cur, .detail { display: none !important; }
+  /* The deck is composed for a wide viewport; portrait A4 squeezes every sheet
+     into a column it was never drawn for. Landscape keeps the left-image /
+     right-text pairing intact. */
+  @page { size: A4 landscape; margin: 10mm; }
+
+  /* One printed page is 277 × 190 mm of usable box. Every rule below exists to
+     make the deck's screen geometry — viewport heights, sticky sheets, the
+     absolutely-positioned drawer — resolve to something that measures in mm,
+     because on paper an element sized against a viewport either claims a whole
+     sheet for two lines of text or spills a hairline onto the next one. */
+  html, body { height: auto !important; overflow: visible !important; }
+
+  /* Chrome resolves print media queries and vw units against the *portrait*
+     A4 page box (~718px) even after @page turns the sheet landscape — while
+     laying the content out at the real 1046px width. Every ≤960px rule above
+     therefore fires, stacking the cover, the capability matrix and every work
+     sheet into one column, which is what turned single pages into three. The
+     desktop grids have to be taken back explicitly. */
+  .cover-mid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, .62fr) minmax(0, .26fr) !important;
+    gap: 8mm !important;
+  }
+  .cover-mark { max-width: none !important; margin-left: 0 !important; }
+  .cover-bot { grid-template-columns: 1fr auto 1fr !important; gap: 8mm !important; }
+  .cover-bot .mid { text-align: center !important; }
+  .cover-bot .end { text-align: right !important; }
+
+  .mrow { grid-template-columns: 3.2rem minmax(0,12rem) minmax(0,1fr) !important; }
+  .mrow dd { grid-column: auto !important; }
+  .certs { grid-template-columns: minmax(0,.8fr) minmax(0,.95fr) minmax(0,1.1fr) !important; }
+
+  .reg-row { grid-template-columns: 2.6rem minmax(0,1fr) minmax(0,11rem) 4.2rem !important; }
+  .reg-row .r-tag { grid-column: auto !important; }
+  .reg-row .r-yr { grid-column: auto !important; text-align: right !important; }
+
+  /* On screen the picture leads and the text column is narrow. On paper the
+     text is what runs long, so the ratio flips: a wider info column costs the
+     points a line each, which is the difference between one page and two. */
+  .p-body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) !important;
+    gap: 8mm !important;
+  }
+  .frame { width: min(100%, calc(var(--mh) * var(--arw))) !important; }
+  .thesis-row { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; }
+
+  .nav, .tblock, .cur, .detail, .cbar, .drawer-tab,
+  .p-actions, .reg, .scroll-hint { display: none !important; }
   body::before { display: none; }
-  .panel { height: auto; page-break-inside: avoid; }
+
+  /* Reveal animations are scroll-triggered. Nothing scrolls in a print export,
+     so [data-reveal] stays at opacity 0 and the PDF comes out blank. Force the
+     end state, exactly as .motion-off does for reduced-motion users. */
+  [data-reveal] { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .ln > span { transform: none !important; }
+
+  /* ── cover: one page ──
+     On screen the name is sized in vw and the photo in vh, which on paper split
+     the cover across two sheets — name on the first, photo and contact on the
+     second. Both get absolute sizes so the whole block lands together. */
+  .cover {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    break-after: page;
+  }
+  .cover-name { font-size: 4.4rem !important; }
+  .cover-name .cn { margin-top: 1rem !important; }
+  .cover-mid { padding: 6mm 0 !important; align-items: center !important; }
+  .cover-mark img { max-height: 88mm !important; }
+  .cover-mark figcaption { margin-top: .5rem !important; }
+  .cover-bot { padding-top: 5mm !important; }
+
+  /* ── narrative sections: one page each ── */
+  .sec {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 0 !important;
+    display: block !important;
+    break-after: page;
+  }
+  .sec-head { margin-bottom: 5mm !important; }
+
+  #capability > div:last-child { height: auto !important; display: block !important; }
+  .certs { align-items: start !important; min-height: 0 !important; margin-top: .5rem !important; }
+  .cert-shots .frame { --mh: 42mm !important; }
+  .cert-note { margin-top: .5rem !important; }
+  .mrow { padding: .3rem 0 !important; }
+
+  .index-grid { align-items: start !important; }
+  .index-preview { max-height: 125mm !important; }
+
+  /* ── work sheets: one page each ──
+     .panel is a 165vh scroll track holding a sticky .sheet; neither concept
+     survives pagination. Flatten both, then size the frame in mm so the media,
+     the points and the detail prose share a single page instead of taking one
+     each with the rest of the sheet left white. */
+  /* No break-inside:avoid here — a sheet that ends up a few lines over one page
+     would be pushed whole onto the next, leaving the one before it blank. */
+  .panel { height: auto !important; break-before: page; }
+  .sheet {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    display: block !important;
+    background-image: none !important;
+  }
+  .sheet::after { display: none !important; }
+
+  .p-rail { padding-bottom: .5rem !important; }
+  .p-body { align-items: start !important; padding-top: 3mm !important; }
+  .p-media { height: auto !important; align-content: start !important; }
+  .p-caption { margin-top: .4rem !important; }
+
+  /* --mh is the frame's height budget and the width formula is derived from it,
+     so giving it a millimetre value sizes the box on both axes at once. */
+  .frame { --mh: 56mm !important; max-height: none !important; }
+
+  /* A sheet has to hold the rail, the picture, three points and the detail in
+     190 mm. Screen leading is generous by design; on paper the same block runs
+     about 200 px long, which is exactly enough to spill a second page. */
+  .p-title { font-size: 1.6rem !important; }
+  .p-cn { margin-top: .3rem !important; font-size: .85rem !important; }
+  .p-points { margin-top: .7rem !important; }
+  .p-points li {
+    grid-template-columns: 1.8rem 1fr !important;
+    padding: .26rem 0 !important;
+    font-size: .89rem !important;
+    line-height: 1.42 !important;
+  }
+  .carousel .cslide { position: static !important; }
+  .carousel .cslide:not(.on) { display: none !important; }
+  .carousel .ccap, .carousel .sound { display: none !important; }
+
+  /* The drawer is an off-canvas panel pinned to the right of the sheet. On
+     paper it becomes the bottom third of the same page: prose left, spec
+     table right, so the detail costs height once rather than twice. */
+  .drawer {
+    position: static !important;
+    width: auto !important;
+    transform: none !important;
+    display: block !important;
+  }
+  .drawer-body {
+    overflow: visible !important;
+    max-height: none !important;
+    border-left: 0 !important;
+    border-top: 1px solid var(--ink);
+    padding: 3mm 0 0 !important;
+    margin-top: 3mm;
+  }
+  .drawer-head { margin-bottom: 1.5mm !important; padding-bottom: .3rem !important; }
+  .detail-grid p { font-size: .82rem !important; line-height: 1.36 !important; margin-bottom: .3rem !important; max-width: none !important; }
+  .spec div { padding: .08rem 0 !important; }
+  .spec dt { font-size: .58rem !important; }
+  .spec dd { font-size: .82rem !important; line-height: 1.38 !important; }
+  .detail-grid,
+  .detail-grid.has-media {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 0 8mm !important;
+  }
+  .detail-grid > div:first-child { grid-column: 1 !important; grid-row: 1 !important; }
+  .detail-grid > .spec { grid-column: 2 !important; grid-row: 1 !important; margin-top: 0 !important; }
+  /* A narrower key column leaves the value enough room to stop wrapping, which
+     is where most of the spec table's height was going. */
+  .detail-grid > .spec div { grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr) !important; }
+  .detail-media { display: none !important; }
+
+  #contact { break-before: page; break-after: auto; }
 }
 </style>
 </head>
@@ -1355,7 +1521,7 @@ footer {
 
       <h4>Education</h4>
       <div class="rec-item">
-        <span class="role">M.F.A. Multimedia &amp; NM</span>
+        <span class="role">M.A. Multimedia &amp; NM</span>
         <span class="org">National Yang Ming Chiao Tung University, Hsinchu</span>
         <span class="when">2020 — 2024</span>
       </div>
@@ -1443,7 +1609,7 @@ footer {
 <section class="sec" id="index">
   <div class="sec-head">
     <h2>03 — Works</h2>
-    <span class="mono" id="workCount">05 sheets · 2022 — 2026</span>
+    <span class="mono" id="workCount">06 sheets · 2022 — 2026</span>
   </div>
 
   <div class="index-grid">
@@ -1457,24 +1623,30 @@ footer {
     </a>
     <a class="reg-row" href="#w-railway" data-cursor-legend="VIEW">
       <span class="r-n">02</span>
-      <span class="r-t">Diesel-Electric Workshop<span class="r-cn">柴電工場</span></span>
+      <span class="r-t">Diesel-Electric Workshop · Axis<span class="r-cn">柴電工場 · 滑台</span></span>
       <span class="r-tag">Motion control</span>
       <span class="r-yr">2025</span>
     </a>
-    <a class="reg-row" href="#w-ttxc" data-cursor-legend="VIEW">
+    <a class="reg-row" href="#w-crane" data-cursor-legend="VIEW">
       <span class="r-n">03</span>
+      <span class="r-t">Overhead-Crane Automation<span class="r-cn">電樞區天車自動化</span></span>
+      <span class="r-tag">Manual → automatic</span>
+      <span class="r-yr">2025</span>
+    </a>
+    <a class="reg-row" href="#w-ttxc" data-cursor-legend="VIEW">
+      <span class="r-n">04</span>
       <span class="r-t">Culture-Tech Exchange<span class="r-cn">文化科技交易所</span></span>
       <span class="r-tag">LINE OA · Live ops</span>
       <span class="r-yr">2025</span>
     </a>
     <a class="reg-row" href="#w-moda" data-cursor-legend="VIEW">
-      <span class="r-n">04</span>
+      <span class="r-n">05</span>
       <span class="r-t">AI Living Lab<span class="r-cn">資訊月</span></span>
       <span class="r-tag">Sensor integration</span>
       <span class="r-yr">2025</span>
     </a>
     <a class="reg-row" href="#w-threshold" data-cursor-legend="VIEW">
-      <span class="r-n">05</span>
+      <span class="r-n">06</span>
       <span class="r-t">Threshold<span class="r-cn">闁 · 三部曲</span></span>
       <span class="r-tag">Electromechanical</span>
       <span class="r-yr">2022—24</span>
@@ -1490,6 +1662,7 @@ footer {
     <div class="index-preview" id="indexPreview">
       <div class="slot on" data-key="w-cv"><img src="images/works/01-cv-synth/hero.jpg" alt="" loading="lazy"></div>
       <div class="slot" data-key="w-railway"><img src="images/works/02-railway/hero.jpg" alt="" loading="lazy"></div>
+      <div class="slot" data-key="w-crane"><img src="images/works/02b-railway-crane/hero.jpg" alt="" loading="lazy"></div>
       <div class="slot" data-key="w-ttxc"><img src="images/works/03-ttxc/hero.jpg" alt="" loading="lazy"></div>
       <div class="slot" data-key="w-moda"><img src="images/works/05-ai-living-lab/hero.jpg" alt="" loading="lazy"></div>
       <div class="slot" data-key="w-threshold"><img src="images/works/07-threshold/v2.jpg" alt="" loading="lazy"></div>
@@ -1504,10 +1677,10 @@ footer {
 <!-- ══════════════════ DECK ══════════════════ -->
 <div id="deck">
 <!-- ── 01 · 13-VOICE CV SYNTHESIZER ── -->
-<section class="panel" id="w-cv" data-sheet="01" data-total="05">
+<section class="panel" id="w-cv" data-sheet="01" data-total="06">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 01 / 05</span>
+      <span class="idx">Sheet 01 / 06</span>
       <span class="tag">Analog hardware · Component-level diagnosis · Solo build</span>
       <span class="yr">2023</span>
     </div>
@@ -1571,10 +1744,10 @@ footer {
 </section>
 
 <!-- ── 02 · DIESEL-ELECTRIC WORKSHOP ── -->
-<section class="panel" id="w-railway" data-sheet="02" data-total="05">
+<section class="panel" id="w-railway" data-sheet="02" data-total="06">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 02 / 05</span>
+      <span class="idx">Sheet 02 / 06</span>
       <span class="tag">Long-travel motion · Absolute positioning · Under maintenance</span>
       <span class="yr">2025</span>
     </div>
@@ -1582,10 +1755,10 @@ footer {
     <div class="p-body">
       <div class="p-media">
         <div class="frame carousel" data-carousel="4200">
-          <div class="cslide on" data-cap="Carriage in travel · S212"><img src="images/works/02-railway/hero.jpg" alt="Transparent-screen carriage travelling along locomotive S212, internals registered to the machine behind" loading="lazy"></div>
+          <div class="cslide on" data-cap="Screen registered to the locomotive behind"><img src="images/works/02-railway/stage-alignment.jpg" alt="Transparent screen on the carriage, its cross-section registered to locomotive S212 behind it" loading="lazy"></div>
+          <div class="cslide" data-cap="Carriage in travel · S212"><img src="images/works/02-railway/hero.jpg" alt="Transparent-screen carriage travelling along locomotive S212" loading="lazy"></div>
           <div class="cslide" data-cap="20 m linear axis · CAD"><img src="images/works/02-railway/mechanism.webp" alt="Linear axis assembly — base, carriage and cable carrier" loading="lazy"></div>
-          <div class="cslide" data-cap="Armature · crane axis"><img src="images/works/02-railway/detail-1.jpg" alt="Armature on the overhead crane axis" loading="lazy"></div>
-          <div class="cslide" data-cap="Workshop floor"><img src="images/works/02-railway/detail-2.jpg" alt="Workshop floor in service" loading="lazy"></div>
+          <div class="cslide" data-cap="Cross-section on the glass"><img src="images/works/02-railway/stage-detail.jpg" alt="Traction motor and main generator drawn on the transparent screen" loading="lazy"></div>
           <a class="sound" href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
           <span class="ccap"></span>
         </div>
@@ -1595,9 +1768,9 @@ footer {
       <div class="p-info">
         <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
           <span class="ln"><span>Diesel-Electric</span></span>
-          <span class="ln"><span>Workshop</span></span>
+          <span class="ln"><span>Workshop · Axis</span></span>
         </h2>
-        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">國家鐵道博物館 · 柴電工場</div>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">國家鐵道博物館 · 柴電工場 · S212 滑台</div>
 
         <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
           <li><b>01</b><span>A <strong>20 m single axis carrying 500 kg</strong> — six transparent screens on a servo carriage, owned from mechanical design through drive sizing to on-site commissioning.</span></li>
@@ -1627,10 +1800,9 @@ footer {
           </div>
           <dl class="spec">
             <div><dt>Client</dt><dd>National Railway Museum, Taipei · IF Plus Art</dd></div>
-            <div><dt>Axis</dt><dd>20 m single axis · 500 kg moving load</dd></div>
+            <div><dt>Axis</dt><dd>20 m single axis · 500 kg moving load · six transparent screens</dd></div>
             <div><dt>Drive</dt><dd>600 W AZX servo · 25:1 planetary · 43 N·m · AZXD-SED over EtherCAT</dd></div>
             <div><dt>Feedback</dt><dd>Battery-free absolute encoder · power-off brake</dd></div>
-            <div><dt>Also on site</dt><dd>60 kg armature on the overhead-crane axis</dd></div>
             <div><dt>Service</dt><dd>Permanent since 2025 · scheduled PM · remote monitoring</dd></div>
           </dl>
         </div>
@@ -1639,11 +1811,77 @@ footer {
   </div>
 </section>
 
-<!-- ── 03 · CULTURE-TECH EXCHANGE ── -->
-<section class="panel" id="w-ttxc" data-sheet="03" data-total="05">
+<!-- ── 03 · OVERHEAD-CRANE AUTOMATION ── -->
+<section class="panel" id="w-crane" data-sheet="03" data-total="06">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 03 / 05</span>
+      <span class="idx">Sheet 03 / 06</span>
+      <span class="tag">Manual to automatic · External closed loop · 60-point calibration</span>
+      <span class="yr">2025</span>
+    </div>
+
+    <div class="p-body">
+      <div class="p-media">
+        <div class="frame carousel" data-carousel="4200">
+          <div class="cslide on" data-cap="Armature on the crane axis"><img src="images/works/02b-railway-crane/hero.jpg" alt="Overhead crane holding a locomotive armature at a positioned station" loading="lazy"></div>
+          <div class="cslide" data-cap="Crane rails over the workshop"><img src="images/works/02b-railway-crane/detail-1.jpg" alt="Overhead crane rails spanning the workshop floor" loading="lazy"></div>
+          <div class="cslide" data-cap="Positioned station"><img src="images/works/02b-railway-crane/detail-2.jpg" alt="Armature positioned at a maintenance station" loading="lazy"></div>
+          <span class="ccap"></span>
+        </div>
+        <div class="p-caption">Same venue, different architecture · armature bay</div>
+      </div>
+
+      <div class="p-info">
+        <h2 class="p-title" data-reveal="lines" data-reveal-stagger="0.07">
+          <span class="ln"><span>Overhead-Crane</span></span>
+          <span class="ln"><span>Automation</span></span>
+        </h2>
+        <div class="p-cn" data-reveal="up" data-reveal-delay="0.2">柴電工場 · 電樞區天車自動化</div>
+
+        <ul class="p-points" data-reveal="up" data-reveal-delay="0.28" data-reveal-stagger="0.07">
+          <li><b>01</b><span>Converted a <strong>manually operated overhead crane into a fully automatic system</strong> — a <strong>60 kg armature</strong> moving above a public floor.</span></li>
+          <li><b>02</b><span>Different architecture from the axis next door — <strong>PLC logic control</strong>: point-to-point moves, arrival detection and interlocks, not a shaped velocity profile.</span></li>
+          <li><b>03</b><span>The real problem was <strong>backlash and pendulum swing</strong> — solved from the control side: <strong>S-curve ramps</strong>, <strong>creep speed on approach</strong>, and closing the loop on <strong>three laser range finders</strong> rather than motor feedback.</span></li>
+          <li><b>04</b><span><strong>60 taught points</strong> normalised into a lookup table — <strong>a reference you can re-verify later</strong>, not a one-off setup.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="drawer" data-drawer>
+      <button class="drawer-tab" type="button" aria-expanded="false"
+              data-cursor-legend="DETAIL"><span>Detail</span></button>
+      <div class="drawer-body" data-lenis-prevent>
+        <div class="drawer-head"><h3>Overhead-Crane Automation</h3><span class="k">Work detail</span></div>
+        <div class="detail-grid has-media">
+          <div>
+          <p><strong>Why it was hard.</strong> A manual crane isn't built for automatic control.
+          Once the system took over, the armature swung on start and stop and the laser readings
+          oscillated around the target — the system couldn't tell whether it had arrived.</p>
+          <p><strong>The fix came from the control side</strong>, since the existing hardware
+          couldn't change: S-curve ramps to absorb the swing energy, and creep speed near the
+          target.</p>
+          <p><strong>Where the feedback lives.</strong> Deriving end position from the motor
+          accumulates backlash and deflection. Three laser range finders move the feedback point
+          to where the mechanism actually is.</p>
+          </div>
+          <dl class="spec">
+            <div><dt>Client</dt><dd>National Railway Museum, Taipei · IF Plus Art</dd></div>
+            <div><dt>Load</dt><dd>60 kg armature · overhead crane, public floor below</dd></div>
+            <div><dt>Control</dt><dd>PLC logic · point-to-point · arrival detection &amp; interlocks</dd></div>
+            <div><dt>Metrology</dt><dd>Three laser range finders · 60-point lookup table</dd></div>
+            <div><dt>Safety</dt><dd>Physical travel limits set before positioning was attempted</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 04 · CULTURE-TECH EXCHANGE ── -->
+<section class="panel" id="w-ttxc" data-sheet="04" data-total="06">
+  <div class="sheet">
+    <div class="p-rail">
+      <span class="idx">Sheet 04 / 06</span>
       <span class="tag">LINE OA · Real-time network · Four-day live operation</span>
       <span class="yr">2025</span>
     </div>
@@ -1706,11 +1944,11 @@ footer {
   </div>
 </section>
 
-<!-- ── 04 · AI LIVING LAB ── -->
-<section class="panel" id="w-moda" data-sheet="04" data-total="05">
+<!-- ── 05 · AI LIVING LAB ── -->
+<section class="panel" id="w-moda" data-sheet="05" data-total="06">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 04 / 05</span>
+      <span class="idx">Sheet 05 / 06</span>
       <span class="tag">Sensor integration · Real-time inference · Public duty</span>
       <span class="yr">2025</span>
     </div>
@@ -1770,11 +2008,11 @@ footer {
   </div>
 </section>
 
-<!-- ── 05 · THRESHOLD ── -->
-<section class="panel" id="w-threshold" data-sheet="05" data-total="05">
+<!-- ── 06 · THRESHOLD ── -->
+<section class="panel" id="w-threshold" data-sheet="06" data-total="06">
   <div class="sheet">
     <div class="p-rail">
-      <span class="idx">Sheet 05 / 05</span>
+      <span class="idx">Sheet 06 / 06</span>
       <span class="tag">Electromechanical · Closed loop · Three versions</span>
       <span class="yr">2022 — 2024</span>
     </div>
@@ -2231,7 +2469,8 @@ footer {
     if (!list || !slots.length) return;
     var labels = {
     'w-cv': ['13-Voice CV Synthesizer', '2023 · Analog hardware'],
-    'w-railway': ['Diesel-Electric Workshop', '2025 · Railway Museum'],
+    'w-railway': ['Diesel-Electric Workshop · Axis', '2025 · Railway Museum'],
+    'w-crane': ['Overhead-Crane Automation', '2025 · Railway Museum'],
     'w-ttxc': ['Culture-Tech Exchange', '2025 · TAICCA · Kaohsiung'],
     'w-ros': ['River of Shadows', '2024 · Visual SLAM · NYCU'],
     'w-moda': ['AI Living Lab', '2025 · MODA · Taipei'],

@@ -372,7 +372,7 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Profile</div>
   <p class="cv-profile">
-    Hardware engineer trained in electrical engineering, with two and a half years taking
+    Hardware engineer trained in electrical engineering, with two years and five months taking
     electromechanical systems into deadline-fixed field deployments — government agencies, a national
     museum, major retail. Owned those systems end to end: schematic and
     hand-etched PCB, closed-loop motion control, on-site commissioning, and long-term maintenance of
@@ -395,8 +395,9 @@ body {
       gearhead sized against the load's torque and inertia budget, driven by an AZXD-SED over EtherCAT
       with battery-free absolute encoder feedback. Because effective inertia varies along the travel,
       position and velocity run over an inner torque loop, so a single set of gains holds end to end
-      without overshoot, oscillation, or settling error. Same architecture applied to a 60&nbsp;kg
-      armature on an overhead-crane axis.</li>
+      without overshoot, oscillation, or settling error. A separate bay in the same venue took the
+      opposite approach — PLC logic control for point-to-point positioning — where a manually
+      operated overhead crane was converted to fully automatic operation.</li>
     <li><strong>Multi-axis synchronization.</strong> Aligned mechanical motion with display, audio, and
       lighting subsystems on a shared timing reference, compensating following error and pipeline
       latency so independently clocked systems held step through continuous daily operation.</li>
@@ -427,9 +428,26 @@ body {
       system: playback is indexed to absolute encoder position rather than to a clock, so the overlay
       stays registered to the locomotive behind it and error cannot accumulate — which in turn set the
       requirement for battery-free multi-turn absolute feedback and a power-off-activated brake.
-      Also on site: a 60&nbsp;kg locomotive armature on the overhead-crane axis. Permanent install,
-      maintained on a scheduled PM cycle since handover.
+      Permanent install, maintained on a scheduled PM cycle since handover.
       <div class="comm-role">Mechanical design · drive sizing · closed-loop tuning over varying inertia · EtherCAT integration · commissioning</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Overhead-Crane Automation</div>
+      <div class="comm-sub">Manual to automatic · external closed loop</div>
+      <div class="comm-client">National Railway Museum, Taipei · 2025</div>
+    </div>
+    <div class="comm-right">
+      Converted a manually operated overhead crane into a fully automatic system carrying a
+      60&nbsp;kg armature. PLC logic control rather than a servo bus, because the requirement is
+      point-to-point positioning with arrival detection and interlocks. Backlash and pendulum swing
+      made the end position oscillate, so the fix came from the control side — S-curve ramps, creep
+      speed on approach, and final convergence against three laser range finders rather than motor
+      feedback. Sixty taught points normalised into a lookup table so the calibration can be
+      re-verified rather than repeated from scratch.
+      <div class="comm-role">Automation conversion · PLC logic · external closed loop · calibration procedure</div>
     </div>
   </div>
 
@@ -507,7 +525,7 @@ body {
     <div class="comm-left">
       <div class="comm-title">Research Assistant</div>
       <div class="comm-sub">Contract · NSTC-funded</div>
-      <div class="comm-client">Institute of Music, NYCU<br>Apr 2022 – Jan 2023</div>
+      <div class="comm-client">National Yang Ming Chiao Tung University<br>Apr 2022 – Jan 2023</div>
     </div>
     <div class="comm-right">
       Proposal drafting and laboratory build-out on a government-funded project, within an
@@ -621,9 +639,8 @@ body {
 
   <div class="edu-row">
     <div class="edu-left">
-      <div class="edu-degree">M.F.A. Multimedia &amp; NM</div>
-      <div class="edu-school">National Yang Ming Chiao Tung University · 國立陽明交通大學 — Institute of
-        Multimedia NM. Research-methodology training: applying scientific method to
+      <div class="edu-degree">M.A. Multimedia &amp; NM</div>
+      <div class="edu-school">National Yang Ming Chiao Tung University · 國立陽明交通大學 — research-methodology training: applying scientific method to
         human–machine collaboration. Thesis centered on machine-learning system design and implementation detail.</div>
     </div>
     <div class="edu-year">2020 — 2024</div>

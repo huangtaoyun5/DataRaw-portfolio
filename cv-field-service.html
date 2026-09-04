@@ -331,7 +331,7 @@ body {
 <div class="cv-section">
   <div class="cv-section-title">Profile</div>
   <p class="cv-profile">
-    Hardware engineer trained in electrical engineering, with two and a half years across two
+    Hardware engineer trained in electrical engineering, with two years and five months across two
     production studios delivering systems into the field — deadline-fixed public deployments for
     government agencies, a national museum, and major retail, where the equipment had to run on
     opening day with no second attempt. Owned installed systems end to
@@ -384,7 +384,7 @@ body {
       500&nbsp;kg moving load from drive sizing through on-site commissioning. Effective inertia
       changes along the travel, so closed-loop position and velocity run over an inner torque loop —
       one set of gains holding end to end, without overshoot, oscillation, or settling error at the
-      end positions. Same approach applied to a 60&nbsp;kg armature on an overhead-crane axis.</li>
+      end positions. Separately, converted a manually operated overhead crane carrying a 60&nbsp;kg armature into a fully automatic system.</li>
     <li><strong>Actuation &amp; timing.</strong> Integrated solenoid valves and pneumatic actuators
       with embedded control, and synchronized mechanical motion with display and audio subsystems on
       a shared timing reference through continuous daily operation.</li>
@@ -409,9 +409,27 @@ body {
       with battery-free absolute encoder feedback and a power-off-activated brake that holds on
       E-stop rather than coasting. Playback is indexed to encoder position rather than to a clock,
       so the glass stays registered to the locomotive behind it and the error cannot accumulate.
-      Also on site: a 60&nbsp;kg locomotive armature on the overhead-crane axis. On a scheduled PM
-      cycle since handover, with on-site fault isolation and remote monitoring.
+      On a scheduled PM cycle since handover, with on-site fault isolation and remote monitoring.
       <div class="comm-role">Drive sizing · closed-loop tuning over varying inertia · commissioning · preventive maintenance &amp; troubleshooting</div>
+    </div>
+  </div>
+
+  <div class="comm-row">
+    <div class="comm-left">
+      <div class="comm-title">Overhead-Crane Automation</div>
+      <div class="comm-sub">Manual to automatic · external closed loop · 60-point calibration</div>
+      <div class="comm-client">National Railway Museum, Taipei · 2025</div>
+    </div>
+    <div class="comm-right">
+      Converted a manually operated overhead crane into a fully automatic system carrying a
+      60&nbsp;kg armature above a public floor. A different architecture from the axis next door —
+      PLC logic control, because this bay needs point-to-point moves, arrival detection and
+      interlocks rather than a shaped velocity profile. The real problem was backlash and pendulum
+      swing on start and stop: solved from the control side with S-curve ramps, creep speed on
+      approach, and closing the loop on three laser range finders instead of motor feedback.
+      Sixty points measured on site and normalised into a lookup table — a reference that can be
+      re-verified later, not a one-off setup.
+      <div class="comm-role">Automation conversion · PLC logic · laser-based external closed loop · calibration procedure</div>
     </div>
   </div>
 
@@ -494,7 +512,7 @@ body {
     <div class="comm-left">
       <div class="comm-title">Research Assistant</div>
       <div class="comm-sub">Contract · NSTC-funded project</div>
-      <div class="comm-client">Institute of Music, NYCU<br>Apr 2022 – Jan 2023</div>
+      <div class="comm-client">National Yang Ming Chiao Tung University<br>Apr 2022 – Jan 2023</div>
     </div>
     <div class="comm-right">
       Technical support on a government-funded research project: proposal drafting and laboratory
@@ -580,9 +598,8 @@ body {
 
   <div class="edu-row">
     <div class="edu-left">
-      <div class="edu-degree">M.F.A. Multimedia &amp; NM</div>
-      <div class="edu-school">National Yang Ming Chiao Tung University · 國立陽明交通大學 — Institute of
-        Multimedia NM. Research-methodology training: applying scientific method to
+      <div class="edu-degree">M.A. Multimedia &amp; NM</div>
+      <div class="edu-school">National Yang Ming Chiao Tung University · 國立陽明交通大學 — research-methodology training: applying scientific method to
         human–machine collaboration. Thesis centered on machine-learning system design and implementation.</div>
     </div>
     <div class="edu-year">2020 — 2024</div>

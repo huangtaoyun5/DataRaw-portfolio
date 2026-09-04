@@ -1,5 +1,102 @@
 # Changelog — dataraw.tech
 
+## 2026-09-04 · 柴電工場拆成兩個 Sheet（滑台／天車自動化）
+
+**觸發：** 電樞區「把手動天車改成全自動」本身就是一個完整的案子——
+自動化改造＋外部閉迴路＋60 點校正基準，
+先前被埋在 Sheet 02 的一句 `Also on site` 裡，浪費了。
+
+### 主線從 5 個 Sheet 變 6 個
+
+| Sheet | 內容 |
+|---|---|
+| 02 | **Diesel-Electric Workshop · Axis** — S212 滑台（20 m／500 kg／EtherCAT 伺服） |
+| **03（新）** | **Overhead-Crane Automation** — 電樞區天車（手動改全自動／PLC／三雷射／60 教點） |
+
+**兩頁刻意形成對照：同一個場館、兩種架構。**
+滑台要**連續平順的長行程**，所以用伺服＋EtherCAT，軌跡由主站塑形；
+天車要**點對點到位判斷與互鎖**，所以用 PLC 邏輯控制。
+**不是哪一套比較好，是哪一套適合當下要解的問題**——這個對照本身就是選型判斷的證據。
+
+**連帶改的：**
+- `data-sheet` 重編 `01–06`、`data-total` 全部改 `06`、`workCount` → `06 sheets`
+- 索引頁新增一列 `#w-crane`，後面三列編號順延
+- `#indexPreview` 新增 `w-crane` 的 slot、JS 的 `labels` 補一筆
+- **三份 CV 頁**跟著拆：柴電那條 `comm-row` 拿掉 `Also on site: 60 kg armature`，
+  另開一條 `Overhead-Crane Automation`
+- ⚠️ `cv-general.html` 原本寫 `Same architecture applied to a 60 kg armature`——
+  **那是錯的，天車根本是不同架構**，已改成 `A separate bay ... took the opposite approach`
+
+### 素材：從館方影片抽幀
+
+`03_ASML\鐵道博物館 柴電工場..._1080p.mp4`，用 `cv2` 依秒數抽 1920×1080 幀：
+- **6–46 秒是電樞區** → `images/works/02b-railway-crane/`（hero 25s 天車吊掛電樞、
+  detail-1 12s 天車軌道全景、detail-2 40s）
+- **52–76 秒是滑軌區** → 補進 `images/works/02-railway/`
+  （`stage-alignment.jpg` 74s ＝ **透明螢幕與後方 S212 實車的剖面對齊**，
+  這張是「影片索引編碼器位置」最好的視覺證明，已設為該頁首圖）
+
+### 🔴 列印分頁：多一頁之後又溢出，這次的解法值得記
+
+多一個 Sheet 之後，**天車那頁比別頁多約 80 字元就溢出成兩頁**（孤兒頁只有一行）。
+
+**試過但無效的：** 把 `.frame --mh` 從 56mm 縮到 53mm。
+**原因：`.p-body` 是左右並排的 grid，圖縮小不會讓文字往上**——
+文字欄的高度是由文字本身決定的。**縮圖只會讓左邊留白變多。**
+
+**有效的是收 drawer 的散文行高：**
+`.detail-grid p` 由 `.84rem / 1.4` 改為 `.82rem / 1.36`，段距 `.35rem → .3rem`。
+**一次就從 12 頁（含孤兒）變成 11 頁，每個 Sheet 剛好一頁。**
+
+💡 **教訓：並排 grid 裡，垂直空間不足時要動的是文字，不是圖。**
+
+## 2026-08-26 · 簡報站可以印成 A4 橫式作品集（26 頁 → 10 頁）
+
+**觸發：** 要附一份 portfolio PDF 給美光。直接列印 `index.html` 出來是 26 頁，
+文字重疊、圖片變空框、還有整頁空白。
+
+### 1. 根因：列印時手機版樣式全部生效
+
+Chrome 列印的**媒體查詢與 `vw` 單位是拿 A4「直式」頁寬（約 718px）去比對的**，
+即使 `@page` 已經把紙轉成橫式、實際排版寬度是 1046px。
+於是 `@media (max-width: 960px)` 整塊照樣命中 —— 封面的姓名與照片被拆成上下兩列、
+每張作品的圖與文字也被拆開，一頁的東西變成兩三頁。
+
+修法是在 `@media print` 裡把被蓋掉的桌機格線**明確搶回來**
+（`.cover-mid` / `.cover-bot` / `.certs` / `.mrow` / `.reg-row` / `.p-body` / `.thesis-row`）。
+**以後在 ≤960px 區塊加任何 `grid-template-columns`，都要順手在列印區塊補一條對應的
+`!important`，否則列印版會靜靜地退回單欄。**
+
+### 2. 螢幕幾何攤平
+
+- `.panel`（165vh 捲動軌）與 `.sheet`（sticky + `height:100svh` + `overflow:hidden`）
+  在分頁時都沒有意義 → 全部 `static` / `auto` / `visible`
+- `.drawer` 從右側抽屜變成同一頁下方的區塊，prose 左、spec 右
+- `.frame` 的 `--mh` 給**公釐值**（作品 56mm、證照 42mm）。
+  `--mh` 同時決定寬度公式 `min(100%, --mh × --arw)`，一個值就把兩軸都定了。
+  ⚠️ 不要改成 `--mh: none`：`calc(none × 1.7778)` 整條宣告失效，
+  框會塌成 0 高、圖片（`height:100%`）跟著消失。
+- `[data-reveal]` 強制 `opacity:1`（捲動觸發的動畫在列印時永遠不會播，
+  不強制就整份空白）
+
+### 3. 分頁點與密度
+
+`.cover` / `.sec` 各 `break-after: page`，`.panel` `break-before: page`。
+**`.panel` 不加 `break-inside: avoid`** —— 只超出幾行的整塊會被推到下一頁，
+反而在前一頁留一片空白。
+行高、內距、字級在列印時整體收緊（`.p-points`、`.spec`、`.detail-grid p`），
+`.p-body` 欄寬比例翻轉成 `1fr / 1.15fr`：紙上跑得長的是文字不是圖。
+
+**結果：10 頁** —— 封面 / Profile / Capability / 作品索引 / 五張作品各一頁 / 封底，
+沒有空白頁，也沒有只剩兩三行的孤兒頁。
+
+### 4. 學歷字串
+
+三份 CV 頁的 Education 欄拿掉 **Institute of Music**（不精確），
+研究助理那列的委託單位也一併統一成校名。學位維持 `M.A. Multimedia & NM`。
+
+---
+
 ## 2026-08-24 · 簡報站改為工程主線＋side projects 獨立頁
 
 **觸發：** ASML 一面回饋「學經歷比較特別，工程面要更明顯、藝術成分要降低」，
