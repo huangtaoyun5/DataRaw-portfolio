@@ -1756,7 +1756,6 @@ footer {
       <div class="p-media">
         <div class="frame carousel" data-carousel="4200">
           <div class="cslide on" data-cap="Screen registered to the locomotive behind"><img src="images/works/02-railway/stage-alignment.jpg" alt="Transparent screen on the carriage, its cross-section registered to locomotive S212 behind it" loading="lazy"></div>
-          <div class="cslide" data-cap="Carriage in travel · S212"><img src="images/works/02-railway/hero.jpg" alt="Transparent-screen carriage travelling along locomotive S212" loading="lazy"></div>
           <div class="cslide" data-cap="20 m linear axis · CAD"><img src="images/works/02-railway/mechanism.webp" alt="Linear axis assembly — base, carriage and cable carrier" loading="lazy"></div>
           <div class="cslide" data-cap="Cross-section on the glass"><img src="images/works/02-railway/stage-detail.jpg" alt="Traction motor and main generator drawn on the transparent screen" loading="lazy"></div>
           <a class="sound" href="https://www.youtube.com/watch?v=36CL4jkMAT0" target="_blank" rel="noopener" data-cursor-legend="PLAY">Watch ↗</a>
@@ -2453,8 +2452,20 @@ footer {
     function start() { if (!timer) timer = setInterval(function () { go(i + 1); }, every); }
     function stop() { clearInterval(timer); timer = null; }
 
+    /* Runs only when it is both on screen and not being looked at closely.
+       Two flags, one gate — so leaving the pointer never restarts a carousel
+       that has already scrolled away. */
+    var onScreen = false, held = false;
+    function sync() { (onScreen && !held) ? start() : stop(); }
+    function hold(v) { held = v; sync(); }
+
+    car.addEventListener('mouseenter', function () { hold(true); });
+    car.addEventListener('mouseleave', function () { hold(false); });
+    car.addEventListener('focusin',    function () { hold(true); });
+    car.addEventListener('focusout',   function () { hold(false); });
+
     new IntersectionObserver(function (es) {
-      es.forEach(function (e) { e.isIntersecting ? start() : stop(); });
+      es.forEach(function (e) { onScreen = e.isIntersecting; sync(); });
     }, { threshold: 0.25 }).observe(car);
 
     go(0);
