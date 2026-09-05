@@ -2452,17 +2452,22 @@ footer {
     function start() { if (!timer) timer = setInterval(function () { go(i + 1); }, every); }
     function stop() { clearInterval(timer); timer = null; }
 
-    /* Runs only when it is both on screen and not being looked at closely.
-       Two flags, one gate — so leaving the pointer never restarts a carousel
-       that has already scrolled away. */
+    /* Runs only when it is both on screen and not being held. Two flags and
+       one gate — restarting on mouseleave alone would revive a carousel that
+       had already scrolled away. */
     var onScreen = false, held = false;
     function sync() { (onScreen && !held) ? start() : stop(); }
     function hold(v) { held = v; sync(); }
 
-    car.addEventListener('mouseenter', function () { hold(true); });
-    car.addEventListener('mouseleave', function () { hold(false); });
-    car.addEventListener('focusin',    function () { hold(true); });
-    car.addEventListener('focusout',   function () { hold(false); });
+    /* Hover only where hovering means something. A tap emits a compatibility
+       mouseenter and the element keeps :hover until you tap elsewhere, which
+       would strand a paused carousel on a phone. */
+    if (window.matchMedia('(hover: hover)').matches) {
+      car.addEventListener('mouseenter', function () { hold(true); });
+      car.addEventListener('mouseleave', function () { hold(false); });
+    }
+    car.addEventListener('focusin',  function () { hold(true); });
+    car.addEventListener('focusout', function () { hold(false); });
 
     new IntersectionObserver(function (es) {
       es.forEach(function (e) { onScreen = e.isIntersecting; sync(); });

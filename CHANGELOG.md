@@ -20,12 +20,13 @@ var onScreen = false, held = false;
 function sync() { (onScreen && !held) ? start() : stop(); }
 ```
 
-- `mouseenter` / `mouseleave` — 滑鼠暫停
+- `mouseenter` / `mouseleave` — 滑鼠暫停，**但外面包了
+  `matchMedia('(hover: hover)')`，只在真的能 hover 的裝置上掛**
 - `focusin` / `focusout` — **鍵盤 Tab 到下面那排圓點時也會停**，
-  不然焦點還在按鈕上、圖卻自己跳掉
-- ⚠️ **刻意用 `mouseenter` 而不是 `pointerenter`**——
-  pointer 事件在觸控裝置上點一下就進入 hover 且不會離開，
-  手機上會變成**永久暫停**
+  不然焦點還在按鈕上、圖卻自己跳掉（這個不分裝置都要掛）
+- ⚠️ **為什麼要擋觸控：** 手機點一下會發出相容性的 `mouseenter`，
+  而且 `:hover` 會**留到你點別的地方為止**——
+  等於在手機上點過圖，輪播就停在那裡不動了
 
 **五個輪播全部生效**（認證、電路板、滑軌、天車、LINE OA），共用同一段 `[data-carousel]` 初始化。
 
